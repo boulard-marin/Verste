@@ -28,8 +28,8 @@ export function HeroScene() {
       </div>
 
       <div className="gutter mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-end pt-28 pb-[max(4.5rem,11vh)]">
-        <p className="label enter text-fg-2" style={delay(200)}>
-          <span lang="ru">Верста</span> · 1&#8239;067&nbsp;m · l&apos;ancienne mesure des routes russes
+        <p className="label enter text-fg-2" style={delay(100)}>
+          Travel planner · {site.descriptor}
         </p>
 
         <h1
@@ -40,7 +40,7 @@ export function HeroScene() {
           <MorphWord ru="ВЕРСТА" fr="VERSTE" />
         </h1>
 
-        <p className="enter mt-6 font-display-italic text-quote italic md:mt-8" style={delay(1500)}>
+        <p className="enter mt-6 font-display-italic text-quote italic md:mt-8" style={delay(600)}>
           {site.heroLines.map((part) => (
             <span key={part} className="block">
               {part}
@@ -48,7 +48,7 @@ export function HeroScene() {
           ))}
         </p>
 
-        <div className="enter mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4" style={delay(1800)}>
+        <div className="enter mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4" style={delay(850)}>
           <Track event="hero_cta_click" props={{ cta: "build", from: "hero" }}>
             <ButtonLink href={ctas.build.href}>{ctas.build.label}</ButtonLink>
           </Track>
@@ -69,7 +69,7 @@ export function HeroScene() {
       <PhotoBadge
         kind={heroMedia.kind}
         caption={heroMedia.caption}
-        className="absolute right-4 bottom-5 hidden max-w-[34rem] md:right-6 md:flex xl:right-12"
+        className="absolute top-20 right-4 left-4 max-w-[34rem] md:top-auto md:right-6 md:bottom-5 md:left-auto xl:right-12"
       />
     </section>
   );

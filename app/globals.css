@@ -286,7 +286,7 @@
 /* Hero entrance for secondary lines */
 @media (prefers-reduced-motion: no-preference) {
   .enter {
-    animation: enter var(--duration-cinematic) var(--ease-verste) both;
+    animation: enter 1000ms var(--ease-verste) both;
     animation-delay: var(--delay, 0ms);
   }
 }

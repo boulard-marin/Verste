@@ -188,15 +188,27 @@ function draw(canvas: HTMLCanvasElement, pts: Pt[]) {
   canvas.height = sharp.height;
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
+
+  // Haze is blurred on a quarter-resolution copy, then scaled up: same look,
+  // a sixteenth of the pixels to filter (keeps the main thread free on phones).
+  const q = 4;
+  const small = document.createElement("canvas");
+  small.width = Math.ceil(sharp.width / q);
+  small.height = Math.ceil(sharp.height / q);
+  const sm = small.getContext("2d");
   ctx.globalCompositeOperation = "lighter";
-  // Two haze passes (wide sodium glow, then a tighter bloom), then the sharp specks
-  ctx.filter = `blur(${Math.round(22 * dpr)}px)`;
-  ctx.globalAlpha = 0.75;
-  ctx.drawImage(sharp, 0, 0);
-  ctx.filter = `blur(${Math.round(5 * dpr)}px)`;
-  ctx.globalAlpha = 0.7;
-  ctx.drawImage(sharp, 0, 0);
-  ctx.filter = "none";
+  ctx.imageSmoothingEnabled = true;
+  if (sm) {
+    sm.filter = `blur(${Math.max(2, Math.round((20 * dpr) / q))}px)`;
+    sm.drawImage(sharp, 0, 0, small.width, small.height);
+    ctx.globalAlpha = 0.8;
+    ctx.drawImage(small, 0, 0, canvas.width, canvas.height);
+    sm.filter = `blur(${Math.max(1, Math.round((5 * dpr) / q))}px)`;
+    sm.clearRect(0, 0, small.width, small.height);
+    sm.drawImage(sharp, 0, 0, small.width, small.height);
+    ctx.globalAlpha = 0.6;
+    ctx.drawImage(small, 0, 0, canvas.width, canvas.height);
+  }
   ctx.globalAlpha = 1;
   ctx.drawImage(sharp, 0, 0);
 }

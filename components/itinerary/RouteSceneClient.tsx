@@ -38,6 +38,8 @@ export function RouteSceneClient({ map, baseSrc, note }: { map: RouteMapData; ba
   const stageRef = useRef<HTMLDivElement>(null);
   const legRefs = useRef<(SVGPathElement | null)[]>([]);
   const lengths = useRef<number[]>([]);
+  // Cached layout sizes: read on resize, never during scroll
+  const sizes = useRef({ stage: 0, frame: 0 });
   const live = useRef(false);
   const completed = useRef(false);
 
@@ -77,20 +79,25 @@ export function RouteSceneClient({ map, baseSrc, note }: { map: RouteMapData; ba
     tipX.set(point.x);
     tipY.set(point.y);
 
-    const stage = stageRef.current;
     const frame = frameRef.current;
-    if (!stage || !frame) return;
-    const overflow = (stage.offsetWidth - frame.clientWidth) / 2;
+    if (frame) frame.dataset.arrived = v > 0.85 ? "true" : "false";
+
+    const { stage, frame: frameWidth } = sizes.current;
+    const overflow = (stage - frameWidth) / 2;
     if (overflow <= 1) {
       panX.set(0);
       return;
     }
-    const tipPx = (point.x / map.width) * stage.offsetWidth;
+    const tipPx = (point.x / map.width) * stage;
     const anchor = 0.36; // share of the frame width where the traveller sits
-    const target = frame.clientWidth * (anchor - 0.5) + stage.offsetWidth / 2 - tipPx;
+    const target = frameWidth * (anchor - 0.5) + stage / 2 - tipPx;
     panX.set(Math.max(-overflow, Math.min(overflow, target)));
-    frame.dataset.arrived = v > 0.85 ? "true" : "false";
   }, [p, map.width, panX, tipX, tipY]);
+
+  const measure = useCallback(() => {
+    sizes.current = { stage: stageRef.current?.offsetWidth ?? 0, frame: frameRef.current?.clientWidth ?? 0 };
+    update();
+  }, [update]);
 
   useEffect(() => {
     if (reduced) {
@@ -100,10 +107,17 @@ export function RouteSceneClient({ map, baseSrc, note }: { map: RouteMapData; ba
       live.current = true;
       p.set(scrollYProgress.get());
     }
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, [reduced, p, scrollYProgress, update]);
+    frameRef.current?.style.setProperty("--scene-bg", sceneBg.get());
+    measure();
+    const observer = new ResizeObserver(measure);
+    if (frameRef.current) observer.observe(frameRef.current);
+    return () => observer.disconnect();
+  }, [reduced, p, scrollYProgress, sceneBg, measure]);
+
+  // The scene colour is shared with the scrims through a CSS variable
+  useMotionValueEvent(sceneBg, "change", (color) => {
+    frameRef.current?.style.setProperty("--scene-bg", color);
+  });
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     if (live.current) p.set(v);
@@ -125,7 +139,7 @@ export function RouteSceneClient({ map, baseSrc, note }: { map: RouteMapData; ba
       id="trajet"
       data-surface="night"
       aria-labelledby="trajet-title"
-      className="relative h-[430vh] bg-night still:h-auto"
+      className="relative h-[380vh] bg-night still:h-auto"
     >
       <h2 id="trajet-title" className="sr-only">
         Le trajet : Paris, Istanbul, Moscou
@@ -134,12 +148,13 @@ export function RouteSceneClient({ map, baseSrc, note }: { map: RouteMapData; ba
       <m.div
         ref={frameRef}
         data-arrived="true"
-        style={{ "--scene-bg": sceneBg, backgroundColor: sceneBg } as never}
-        className="group/frame sticky top-0 h-[100svh] overflow-hidden still:relative still:h-[max(100svh,44rem)]"
+        style={{ backgroundColor: sceneBg }}
+        className="group/frame sticky [--scene-bg:#0b1a33] top-0 h-[100svh] overflow-hidden still:relative still:h-[max(100svh,44rem)]"
       >
         {/* Map stage: covers the frame like object-fit: cover, pans on narrow screens */}
         <m.div
           ref={stageRef}
+          aria-hidden="true"
           style={{ x: reduced ? panX : panSpring }}
           className="absolute top-1/2 left-1/2 aspect-[4/3] w-[max(100%,calc(100svh*4/3))] [translate:-50%_-66%] md:[translate:-50%_-58%]"
         >
@@ -282,7 +297,7 @@ export function RouteSceneClient({ map, baseSrc, note }: { map: RouteMapData; ba
         />
 
         {/* Narrative + counter */}
-        <div className="gutter absolute inset-x-0 bottom-0 mx-auto flex max-w-[1440px] flex-col gap-6 pb-[max(2.25rem,6vh)] md:flex-row md:items-end md:justify-between md:gap-12">
+        <div className="gutter absolute inset-x-0 bottom-0 mx-auto flex max-w-[1440px] flex-col gap-6 pb-[max(2.25rem,6vh)] lg:flex-row lg:items-end lg:justify-between lg:gap-12">
           <div className="grid max-w-[36rem]">
             <Beat p={p} range={[-1, -0.5, 0.13, 0.17]}>
               <p className="label text-route">
@@ -320,16 +335,16 @@ export function RouteSceneClient({ map, baseSrc, note }: { map: RouteMapData; ba
             </Beat>
           </div>
 
-          <div className="order-first flex items-baseline gap-x-4 gap-y-2 max-md:flex-wrap md:order-none md:block md:text-right">
-            <p className="label text-fg-2 max-md:order-last max-md:basis-full">
-              <span className="md:hidden">À vol d&apos;oiseau · une escale parmi d&apos;autres</span>
-              <span className="max-md:hidden">Distance parcourue</span>
+          <div className="order-first flex items-baseline gap-x-4 gap-y-2 max-lg:flex-wrap lg:order-none lg:block lg:text-right">
+            <p className="label text-fg-2 max-lg:order-last max-lg:basis-full">
+              <span className="lg:hidden">À vol d&apos;oiseau · une escale parmi d&apos;autres</span>
+              <span className="max-lg:hidden">Distance parcourue</span>
             </p>
-            <p className="font-mono text-[clamp(2rem,5vw,4.5rem)] leading-none tabular text-fg md:mt-2">
+            <p className="font-mono text-[clamp(2rem,5vw,4.5rem)] leading-none tabular text-fg lg:mt-2">
               <m.span>{kmText}</m.span>
               <span className="ml-2 text-[0.38em] text-fg-2">km</span>
             </p>
-            <p className="mt-3 hidden max-w-[22rem] text-[0.8rem] leading-snug text-fg-2 md:ml-auto md:block">{note}</p>
+            <p className="mt-3 hidden max-w-[22rem] text-[0.8rem] leading-snug text-fg-2 lg:ml-auto lg:block">{note}</p>
           </div>
         </div>
       </m.div>

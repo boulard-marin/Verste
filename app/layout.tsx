@@ -4,6 +4,7 @@ import { Geist, Geist_Mono, Noto_Serif_Display } from "next/font/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 import { site } from "@/data/site";
 
 import "./globals.css";
@@ -76,9 +77,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Aller au contenu
         </a>
         <SmoothScroll />
-        <SiteHeader />
-        <main id="contenu">{children}</main>
-        <SiteFooter />
+        <MotionProvider>
+          <SiteHeader />
+          <main id="contenu">{children}</main>
+          <SiteFooter />
+        </MotionProvider>
       </body>
     </html>
   );
