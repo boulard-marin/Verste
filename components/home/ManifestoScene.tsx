@@ -1,4 +1,4 @@
-import { VerstPost } from "@/components/brand/VerstPost";
+import { SceneMarker } from "@/components/brand/SceneMarker";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { site } from "@/data/site";
 
@@ -10,15 +10,7 @@ export function ManifestoScene() {
     <section id="manifeste" data-surface="midnight" aria-labelledby="manifeste-title" className="bg-surface text-fg">
       <div className="gutter mx-auto grid max-w-[1440px] gap-y-14 py-[clamp(6rem,16vh,12rem)] md:grid-cols-12 md:gap-x-6">
         <div className="md:col-span-3">
-          <div className="flex items-center gap-4 md:sticky md:top-32">
-            <VerstPost />
-            <p className="label text-fg-2">
-              <span lang="ru" className="text-route">
-                Верста 02
-              </span>{" "}
-              · Manifeste
-            </p>
-          </div>
+          <SceneMarker index={2} label="Manifeste" className="md:sticky md:top-32" />
         </div>
 
         <div className="md:col-span-9 lg:col-span-8">
@@ -56,9 +48,18 @@ export function ManifestoScene() {
             </p>
           </div>
 
-          <p className="mt-14 text-[1.4rem] text-fg md:mt-20">
-            <Wordmark />
-          </p>
+          <div className="mt-14 flex flex-col gap-5 border-t border-line pt-8 md:mt-20 md:flex-row md:items-center md:gap-10">
+            <p className="text-[1.4rem] text-fg">
+              <Wordmark />
+            </p>
+            <p className="max-w-[46ch] text-[0.95rem] text-fg-2">
+              <span lang="ru" className="font-display text-fg">
+                Верста
+              </span>{" "}
+              : l&apos;ancienne mesure des routes russes, 1&#8239;067&nbsp;mètres. Sur les routes de l&apos;Empire, un
+              poteau rayé marquait chacune d&apos;elles. {site.signature}
+            </p>
+          </div>
         </div>
       </div>
     </section>

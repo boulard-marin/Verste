@@ -9,6 +9,7 @@ const sizes: Record<Size, string> = {
 /**
  * The striped verst post that lined imperial Russian roads, one per verste.
  * Five segments in the current text colour, capped with the route colour.
+ * It is `relative` itself: position it through a wrapper, not className.
  */
 export function VerstPost({ size = "md", className = "" }: { size?: Size; className?: string }) {
   return (

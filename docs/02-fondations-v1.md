@@ -442,3 +442,25 @@ Vérifiées le 29/09/2026 : registre npm (version, licence, dépendances pairs),
 | Console | aucune erreur | lint et TypeScript strict sans erreur |
 
 **Reste à faire sur cet incrément** : test Lighthouse sur un déploiement réel, vérification visuelle en mouvement réduit (non émulable dans l'outil de prévisualisation, validée par relecture du code).
+
+### Audit n° 1 · 29/09/2026
+
+Voir [03-audit.md](03-audit.md). Onze constats sur l'incrément 1, dont une régression critique (animations Motion non rendues sans `LazyMotion`), tous corrigés ou atténués.
+
+### Incréments 2 et 3 · 29/09/2026
+
+- **S04 Moscou** : МОСКВА / MOSCOU, motif abstrait du métro traversé par la ligne rouge, bandeau de données. Le budget indicatif reste « à compléter ».
+- **S05 La ligne continue** : cinq destinations triées par distance calculée depuis le kilomètre zéro, glissement horizontal épinglé sur desktop, défilement au doigt sur mobile.
+- **S06 Le problème** : six questions le long de la ligne verste, faits datés.
+- **S06 bis Nous préparons. Vous voyagez.** : ce que nous faisons, ce que vous gardez en main, rappel juridique.
+- **S07 Russie aujourd'hui** : tableau daté, chaque information typée *Officiel*, *Terrain* ou *Conseil Verste*, avec sa source.
+- **S08 Votre Russie** : première question du configurateur, quatre durées qui mènent à `/configurateur?duree=…`.
+- **S09 Le Carnet Verste** : contenu, aperçu d'une page hors ligne, modèle d'assistance sans WhatsApp.
+- **S10 Offres** : quatre offres à prix fixes (à valider), aucun badge ni compte à rebours.
+- **S11 Fondateur** : structure prête, visible seulement en développement tant que le contenu manque.
+- **S12 La Première Verste** : formulaire natif + Server Action validée par Zod, consentement explicite non coché. Tant que Resend n'est pas configuré, le formulaire dit honnêtement que l'envoi n'est pas actif.
+- **S13 Le départ** : la signature de marque et les deux derniers appels.
+- Composants ajoutés : `SceneMarker`, `SourceTag`, `Pending`, `SurfaceBridge`, `ViewTracker`, `MotionProvider`, `DestinationCard`, `DestinationsRail`, `MetroMotif`, `PricingCard`, `LeadForm`.
+- Navigation : Le trajet · Destinations · Russie aujourd'hui · Le Carnet · Offres.
+
+**Phase C terminée.** Prochaine étape : phase D, le configurateur (moteur de profil testé, quatre étapes, page « Votre Russie »).

@@ -16,7 +16,11 @@ export const site = {
   legalPromise: "Nous préparons. Vous réservez.",
   legalStatus:
     "Préparation de voyage et conseil. Vous réservez et payez vos prestations directement auprès des prestataires. Verste n'est pas une agence de voyages.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url:
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : "http://localhost:3000"),
   indexable: process.env.NEXT_PUBLIC_INDEXABLE === "true",
   /** Date at which the practical facts shown on the site were last checked. */
   verifiedAt: "2026-09-29",
@@ -27,11 +31,10 @@ export type NavItem = { label: string; href: string; ready: boolean };
 /** Final navigation. Items appear as soon as their scene or page exists. */
 export const nav: NavItem[] = [
   { label: "Le trajet", href: "/#trajet", ready: true },
-  { label: "Manifeste", href: "/#manifeste", ready: true },
-  { label: "Destinations", href: "/#destinations", ready: false },
-  { label: "Russie aujourd'hui", href: "/#russie-aujourdhui", ready: false },
-  { label: "Le Carnet", href: "/#carnet", ready: false },
-  { label: "Offres", href: "/#offres", ready: false },
+  { label: "Destinations", href: "/#destinations", ready: true },
+  { label: "Russie aujourd'hui", href: "/#russie-aujourdhui", ready: true },
+  { label: "Le Carnet", href: "/#carnet", ready: true },
+  { label: "Offres", href: "/#offres", ready: true },
 ];
 
 export const ctas = {
