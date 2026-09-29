@@ -145,6 +145,58 @@ function build() {
   return cache;
 }
 
+export type ItineraryMapData = {
+  width: number;
+  height: number;
+  land: string;
+  borders: string;
+  russia: string;
+  route: string;
+  points: { x: number; y: number }[];
+};
+
+/**
+ * Map for a configurator result: the projection is fitted to the proposed
+ * stops, so each itinerary gets its own framing. Rendered inline (one page,
+ * not indexed).
+ */
+export function getItineraryMap(stops: LonLat[]): ItineraryMapData {
+  const width = 1000;
+  const height = 640;
+  const topo = world as unknown as Countries;
+  const coordinates = stops.map((c) => [c[0], c[1]] as [number, number]);
+  const projection = geoConicConformal()
+    .parallels([45, 62])
+    .rotate([-(coordinates.reduce((s, c) => s + c[0], 0) / coordinates.length), 0])
+    .fitExtent(
+      [
+        [width * 0.14, height * 0.2],
+        [width * 0.86, height * 0.8],
+      ],
+      { type: "MultiPoint", coordinates },
+    )
+    .clipExtent([
+      [-10, -10],
+      [width + 10, height + 10],
+    ]);
+  const path = geoPath(projection).digits(1);
+  const countries = feature(topo, topo.objects.countries);
+  const russia = countries.features.find((f) => String(f.id) === RUSSIA_ID) as Feature<Geometry> | undefined;
+
+  return {
+    width,
+    height,
+    land: countries.features.map((f) => path(f) ?? "").join(""),
+    borders: path(mesh(topo, topo.objects.countries, (a, b) => a !== b)) ?? "",
+    russia: russia ? (path(russia) ?? "") : "",
+    route: path({ type: "LineString", coordinates }) ?? "",
+    points: coordinates.map((c) => {
+      const xy = projection(c) ?? [0, 0];
+      return { x: Math.round(xy[0] * 10) / 10, y: Math.round(xy[1] * 10) / 10 };
+    }),
+  };
+}
+
 export function getRouteMap(): RouteMapData {
   return build().data;
 }

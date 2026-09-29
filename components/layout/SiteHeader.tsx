@@ -2,6 +2,7 @@
 
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import { Wordmark } from "@/components/brand/Wordmark";
@@ -21,6 +22,9 @@ export function SiteHeader() {
     () => window.scrollY > 24,
     () => false,
   );
+  // Transparent only over the homepage hero; every other page starts on a light surface
+  const overHero = usePathname() === "/";
+  const solid = scrolled || !overHero;
   const [open, setOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -46,7 +50,7 @@ export function SiteHeader() {
     <header
       data-surface="night"
       className={`fixed inset-x-0 top-0 z-40 border-b transition-[background-color,border-color] duration-base ease-verste ${
-        scrolled ? "border-white/10 bg-night/80 backdrop-blur-md" : "border-transparent bg-transparent"
+        solid ? "border-white/10 bg-night/85 backdrop-blur-md" : "border-transparent bg-transparent"
       }`}
     >
       <div className="gutter mx-auto flex h-16 max-w-[1440px] items-center justify-between md:h-20">

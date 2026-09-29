@@ -335,3 +335,22 @@
     @slot;
   }
 }
+
+/* Itinerary line drawn once when the map appears (configurator result) */
+.route-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .route-draw {
+    animation: route-draw 2400ms var(--ease-cinematic) 300ms both;
+  }
+}
+@keyframes route-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
