@@ -1,0 +1,337 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   VERSTE — Design tokens
+   Primitives live in @theme. Semantic colours (fg, line, route…) come from
+   the surface a scene declares with data-surface, so they are @theme inline.
+   ========================================================================== */
+
+@theme {
+  /* Primitives */
+  --color-night: #0c0f14;
+  --color-midnight: #0b1a33;
+  --color-russian: #1d3b6e;
+  --color-steel: #5e7c9c;
+  --color-frost: #d5dfea;
+  --color-snow: #f4f6f9;
+  --color-ink: #0d1626;
+  --color-carmine: #c21a2e;
+  --color-carmine-signal: #e8485a;
+  --color-carmine-light: #ff6b78;
+
+  /* Type scale (fluid) */
+  --text-display-xl: clamp(4.5rem, 19vw, 15rem);
+  --text-display-xl--line-height: 0.84;
+  --text-display-l: clamp(3.25rem, 11vw, 9.5rem);
+  --text-display-l--line-height: 0.88;
+  --text-h1: clamp(2.5rem, 6vw, 5rem);
+  --text-h1--line-height: 0.98;
+  --text-h2: clamp(2rem, 4.4vw, 3.75rem);
+  --text-h2--line-height: 1.02;
+  --text-h3: clamp(1.5rem, 2.4vw, 2.125rem);
+  --text-h3--line-height: 1.12;
+  --text-quote: clamp(1.5rem, 3vw, 2.5rem);
+  --text-quote--line-height: 1.18;
+  --text-lead: clamp(1.125rem, 1.5vw, 1.375rem);
+  --text-lead--line-height: 1.5;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.65;
+  --text-label: 0.72rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.14em;
+
+  /* Motion */
+  --ease-verste: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-cinematic: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 160ms;
+  --duration-base: 320ms;
+  --duration-slow: 700ms;
+  --duration-cinematic: 1400ms;
+
+  /* Radius */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+}
+
+@theme inline {
+  /* Families (variables injected by next/font in app/layout.tsx) */
+  --font-display: var(--ff-display), "Noto Serif Display", Georgia, serif;
+  --font-display-italic: var(--ff-display-italic), var(--ff-display), "Noto Serif Display", Georgia, serif;
+  --font-sans: var(--ff-sans), "Geist", system-ui, sans-serif;
+  --font-mono: var(--ff-mono), "Geist Mono", ui-monospace, monospace;
+
+  /* Semantic colours, driven by the current surface */
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-line: var(--line);
+  --color-route: var(--route);
+  --color-on-route: var(--on-route);
+}
+
+/* --------------------------------------------------------------------------
+   Surfaces — every scene declares one. Contrasts documented in
+   docs/02-fondations-v1.md §4.1.
+   -------------------------------------------------------------------------- */
+
+:root,
+[data-surface="night"] {
+  --surface: var(--color-night);
+  --fg: #eef2f8;
+  --fg-2: #a9b8cc;
+  --line: rgb(213 223 234 / 0.12);
+  --route: var(--color-carmine-signal);
+  --on-route: #0c0f14;
+  color-scheme: dark;
+}
+
+[data-surface="midnight"] {
+  --surface: var(--color-midnight);
+  --fg: #eef2f8;
+  --fg-2: #a9b8cc;
+  --line: rgb(213 223 234 / 0.14);
+  --route: var(--color-carmine-signal);
+  --on-route: #0c0f14;
+  color-scheme: dark;
+}
+
+[data-surface="russian"] {
+  --surface: var(--color-russian);
+  --fg: #f4f6f9;
+  --fg-2: #c9d5e6;
+  --line: rgb(244 246 249 / 0.18);
+  --route: var(--color-carmine-light);
+  --on-route: #0c0f14;
+  color-scheme: dark;
+}
+
+[data-surface="frost"] {
+  --surface: var(--color-frost);
+  --fg: #0d1626;
+  --fg-2: #3f506a;
+  --line: rgb(11 26 51 / 0.14);
+  --route: var(--color-carmine);
+  --on-route: #ffffff;
+  color-scheme: light;
+}
+
+[data-surface="snow"] {
+  --surface: var(--color-snow);
+  --fg: #0d1626;
+  --fg-2: #45566e;
+  --line: rgb(11 26 51 / 0.12);
+  --route: var(--color-carmine);
+  --on-route: #ffffff;
+  color-scheme: light;
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+
+@layer base {
+  html {
+    background: var(--color-night);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-night);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--route);
+    color: var(--on-route);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--route);
+    outline-offset: 3px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Utilities
+   -------------------------------------------------------------------------- */
+
+/* Condensed display width (Noto Serif Display wdth axis) */
+@utility font-cond {
+  font-stretch: 62.5%;
+}
+@utility font-semicond {
+  font-stretch: 78%;
+}
+
+/* Mono label: coordinates, distances, eyebrows */
+@utility label {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  line-height: var(--text-label--line-height);
+  letter-spacing: var(--text-label--letter-spacing);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Page gutter: 16 / 24 / 48 px */
+@utility gutter {
+  padding-inline: 1rem;
+  @media (width >= 48rem) {
+    padding-inline: 1.5rem;
+  }
+  @media (width >= 80rem) {
+    padding-inline: 3rem;
+  }
+}
+
+/* Film grain, used on night scenes */
+@utility grain {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Motion — CSS-only where possible. Resting state is always the final state:
+   nothing depends on JavaScript or on a supported feature to be readable.
+   -------------------------------------------------------------------------- */
+
+/* Scroll-driven reveal (progressive enhancement) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-reveal {
+      animation: verste-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 38%;
+    }
+  }
+}
+
+@keyframes verste-reveal {
+  from {
+    opacity: 0.12;
+    transform: translateY(0.35em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ВЕРСТА → VERSTE: the Cyrillic layer fades out letter by letter */
+@media (prefers-reduced-motion: no-preference) {
+  .morph-ru {
+    animation: morph-out 900ms var(--ease-cinematic) both;
+    animation-delay: calc(700ms + var(--i) * 110ms);
+  }
+  .morph-fr {
+    animation: morph-in 900ms var(--ease-cinematic) both;
+    animation-delay: calc(700ms + var(--i) * 110ms);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .morph-ru {
+    opacity: 0;
+  }
+}
+
+@keyframes morph-out {
+  from {
+    opacity: 1;
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    filter: blur(10px);
+  }
+}
+@keyframes morph-in {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Hero entrance for secondary lines */
+@media (prefers-reduced-motion: no-preference) {
+  .enter {
+    animation: enter var(--duration-cinematic) var(--ease-verste) both;
+    animation-delay: var(--delay, 0ms);
+  }
+}
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The verste line growing out of the hero */
+@media (prefers-reduced-motion: no-preference) {
+  .line-grow {
+    transform-origin: top;
+    animation: line-grow 2200ms var(--ease-cinematic) 1600ms both;
+  }
+  .lights-drift {
+    animation: lights-drift 48s ease-in-out infinite alternate;
+  }
+}
+@keyframes line-grow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes lights-drift {
+  from {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.06) translate3d(-1%, 1.5%, 0);
+  }
+}
+
+/* Scenes that animate on scroll fall back to their resting layout when motion
+   is reduced or scripting is unavailable. */
+@custom-variant still {
+  @media (prefers-reduced-motion: reduce), (scripting: none) {
+    @slot;
+  }
+}

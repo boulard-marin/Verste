@@ -1,0 +1,1262 @@
+<title>Dossier fondateur Russie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,300..800;1,62.5..100,300..700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Forum&family=Onest:wght@400;600&display=swap">
+<style>
+/* Layout: long-form decision dossier. A carmine "verste line" runs down the left gutter with striped posts at each phase; content max 1120px, prose ~68ch. The page itself travels from night (cover) to snow (body). */
+:root{
+  /* Brand constants (specimens, cover, plates: identical in both themes) */
+  --nuit:#0C0F14; --minuit:#0B1A33; --neva:#1D3B6E; --acier:#5E7C9C; --givre:#D5DFEA; --neige:#F4F6F9; --carmin:#C21A2E; --carmin-signal:#E8485A;
+  /* Theme tokens (light) */
+  --bg:#F4F6F9; --panel:#E8EDF3; --panel-2:#DDE5EE; --fg:#0D1626; --muted:#4A5B73; --rule:#C6D0DC; --accent:#C21A2E; --on-accent:#FFFFFF; --ink:#1D3B6E;
+  --f-display:"Noto Serif Display","Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --f-ui:"Geist","Onest",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"Geist Mono",ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+  --maxw:1120px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#0A1120; --panel:#101A2C; --panel-2:#16223A; --fg:#E6ECF4; --muted:#9AAAC0; --rule:#24324A; --accent:#E8485A; --on-accent:#0A1120; --ink:#A9C1EA; color-scheme:dark }
+}
+:root[data-theme="dark"]{ --bg:#0A1120; --panel:#101A2C; --panel-2:#16223A; --fg:#E6ECF4; --muted:#9AAAC0; --rule:#24324A; --accent:#E8485A; --on-accent:#0A1120; --ink:#A9C1EA; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-ui);font-size:1.0625rem;line-height:1.62;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:var(--ink);text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+h1,h2,h3,h4{text-wrap:balance;margin:0}
+p{margin:0}
+.mono{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* ---------- Km counter ---------- */
+.counter{position:fixed;z-index:20;top:calc(env(safe-area-inset-top,0px) + 12px);right:12px;display:flex;gap:10px;align-items:center;padding:7px 11px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--rule);font-family:var(--f-mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;color:var(--fg)}
+.counter b{font-weight:500;color:var(--accent);font-variant-numeric:tabular-nums;min-width:5.2ch;text-align:right}
+.counter .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+
+/* ---------- Cover ---------- */
+.cover{background:radial-gradient(120% 70% at 80% 110%,rgba(29,59,110,.9),transparent 60%),radial-gradient(60% 40% at 15% 100%,rgba(232,72,90,.14),transparent 70%),linear-gradient(180deg,var(--nuit) 0%,var(--minuit) 100%);color:var(--neige);padding-inline:16px;padding-block:88px 72px;position:relative;overflow:hidden}
+.cover::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.cover-in{max-width:var(--maxw);margin-inline:auto;position:relative;z-index:1;display:grid;gap:28px}
+.cover .eyebrow{color:#9FB3CF}
+.morph{position:relative;display:inline-block;font-family:var(--f-display);font-stretch:62.5%;font-variation-settings:"wdth" 62.5;font-weight:500;font-size:clamp(5rem,19vw,14rem);line-height:.86;letter-spacing:.015em;margin:0}
+.morph .w{display:inline-block;white-space:nowrap}
+.morph .w-ru{position:absolute;left:0;top:0}
+.morph .w span{display:inline-block;transition:opacity .7s ease,filter .7s ease,transform .7s ease;transition-delay:calc(var(--i) * 95ms)}
+.morph .w-ru span{opacity:0;filter:blur(8px);transform:translateY(-.04em)}
+.morph.is-ru .w-ru span{opacity:1;filter:none;transform:none}
+.morph.is-ru .w-fr span{opacity:0;filter:blur(8px);transform:translateY(.05em)}
+.morph.no-t .w span{transition:none}
+.cover-tag{font-family:var(--f-display);font-style:italic;font-weight:400;font-size:clamp(1.5rem,3.6vw,2.6rem);line-height:1.15;color:#E9EEF6}
+.cover-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:32px;align-items:end}
+.cover-lede{max-width:58ch;color:#C9D5E6}
+.cover-meta{display:grid;gap:6px;justify-items:start;color:#9FB3CF;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+.cover-meta .red{color:var(--carmin-signal)}
+.replay{appearance:none;background:transparent;border:1px solid rgba(213,223,234,.35);color:#D5DFEA;font:inherit;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;cursor:pointer}
+.replay:hover{border-color:var(--carmin-signal);color:#fff}
+.cover-line{position:absolute;left:0;right:0;bottom:22px;height:1px;background:linear-gradient(90deg,transparent,var(--carmin-signal) 20%,var(--carmin-signal) 80%,transparent);opacity:.8}
+
+/* ---------- Main + verste rail ---------- */
+main{position:relative;max-width:var(--maxw);margin-inline:auto;padding-inline:16px;padding-block:24px 96px}
+.rail{display:none}
+@media (min-width:980px){
+  main{padding-left:96px}
+  .rail{display:block;position:absolute;left:40px;top:0;bottom:0;width:2px;background:var(--rule)}
+  .rail-fill{position:absolute;inset:0;background:var(--accent);transform-origin:top;transform:scaleY(0)}
+}
+
+/* TOC */
+.toc{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule);margin-block:40px 8px}
+.toc a{display:flex;gap:10px;align-items:baseline;padding:12px 14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);text-decoration:none;color:var(--fg);font-size:.95rem}
+.toc a span{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);letter-spacing:.08em}
+.toc a:hover{background:var(--panel);color:var(--fg)}
+
+/* Sections */
+section.phase{padding-block:72px 8px;scroll-margin-top:24px}
+.sec-head{position:relative;display:grid;gap:10px;margin-bottom:32px;max-width:860px}
+.post{display:inline-block;width:8px;height:42px;border:1.5px solid var(--fg);background:repeating-linear-gradient(to bottom,var(--fg) 0 8px,var(--bg) 8px 16px);position:relative}
+.post::before{content:"";position:absolute;left:-1.5px;right:-1.5px;top:-5px;height:3px;background:var(--accent)}
+.post-row{display:flex;gap:12px;align-items:center}
+@media (min-width:980px){
+  .post-row .post{position:absolute;left:-60px;top:2px}
+  .post-row{padding-left:0}
+}
+.eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.eyebrow .ru{color:var(--accent)}
+h2{font-family:var(--f-display);font-weight:500;font-size:clamp(2.1rem,5vw,3.6rem);line-height:1.02;letter-spacing:-.005em}
+h2 .cond{font-stretch:70%;font-variation-settings:"wdth" 70}
+h3{font-family:var(--f-display);font-weight:500;font-size:clamp(1.4rem,2.6vw,1.9rem);line-height:1.12;margin-top:48px;margin-bottom:14px}
+h4{font-family:var(--f-ui);font-weight:600;font-size:1rem;margin-bottom:6px}
+.lede{font-size:1.2rem;line-height:1.55;color:var(--muted);max-width:66ch}
+.prose{display:grid;gap:14px;max-width:68ch}
+.prose p{color:var(--fg)}
+.small{font-size:.9rem;color:var(--muted)}
+.note{font-size:.88rem;color:var(--muted);max-width:72ch;margin-top:12px}
+
+/* Summary table */
+.summary{display:grid;border-top:2px solid var(--fg)}
+.summary .row{display:grid;grid-template-columns:200px minmax(0,1fr);gap:24px;padding:16px 0;border-bottom:1px solid var(--rule)}
+.summary .k{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding-top:4px}
+.summary .v strong{font-family:var(--f-display);font-weight:500;font-size:1.35rem;display:block;line-height:1.2;margin-bottom:4px}
+.truths{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:36px}
+.truths > div{background:var(--bg);padding:20px;display:grid;gap:8px;align-content:start}
+.truths .n{font-family:var(--f-mono);font-size:.7rem;color:var(--accent);letter-spacing:.12em}
+
+/* Timetable (terrain facts) */
+.board{background:var(--nuit);color:#DCE4EE;padding:6px 0;font-family:var(--f-mono);font-size:.82rem;margin-top:8px}
+.board .r{display:grid;grid-template-columns:120px minmax(0,1fr) 150px;gap:18px;padding:12px 18px;border-bottom:1px solid rgba(213,223,234,.1)}
+.board .r:last-child{border-bottom:0}
+.board .c1{color:var(--carmin-signal);letter-spacing:.1em;text-transform:uppercase;font-size:.72rem;padding-top:2px}
+.board .c3{color:#8EA3C0;font-size:.72rem;text-align:right;padding-top:2px}
+.board .c2{line-height:1.55}
+.board-cap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--minuit);color:#9FB3CF;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;padding:10px 18px}
+
+/* Generic lists & cards */
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.persona{border-top:2px solid var(--fg);padding-top:14px;display:grid;gap:8px;align-content:start}
+.persona .tag{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.persona dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 10px;margin:4px 0 0;font-size:.9rem}
+.persona dt{color:var(--muted)}
+.persona dd{margin:0}
+
+.issues{list-style:none;padding:0;margin:0;display:grid;border-top:1px solid var(--rule);counter-reset:iss}
+.issues > li{display:grid;grid-template-columns:56px minmax(0,1fr);gap:18px;padding:22px 0;border-bottom:1px solid var(--rule);counter-increment:iss}
+.issues > li::before{content:counter(iss,decimal-leading-zero);font-family:var(--f-display);font-stretch:62.5%;font-variation-settings:"wdth" 62.5;font-size:2.4rem;line-height:1;color:var(--accent)}
+.issues h4{font-family:var(--f-display);font-weight:500;font-size:1.35rem;margin-bottom:8px}
+.issues .cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;font-size:.95rem}
+.issues .lab{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+.issues .sev{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;margin-left:8px;color:var(--muted);vertical-align:middle}
+
+/* Tables */
+.tw{overflow-x:auto;margin-top:8px;border-top:2px solid var(--fg)}
+table.t{width:100%;border-collapse:collapse;font-size:.92rem}
+.t th{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;padding:12px 14px;border-bottom:1px solid var(--rule);vertical-align:bottom;white-space:nowrap}
+.t td{padding:13px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+.t td:first-child{white-space:nowrap}
+.t .name{font-family:var(--f-display);font-weight:500;font-size:1.12rem}
+.t .sub{display:block;font-size:.8rem;color:var(--muted)}
+.t.wide{min-width:880px}
+.t.mid{min-width:680px}
+.t tr.group td{background:var(--panel);font-family:var(--f-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:9px 14px}
+.t .ru{font-family:var(--f-display);font-size:1.15rem}
+
+.pill{display:inline-block;font-family:var(--f-mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;border:1px solid currentColor;white-space:nowrap;line-height:1.4}
+.p-rec{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.p-fin{color:var(--ink)}
+.p-res{color:var(--muted)}
+.p-out{color:var(--muted);border-style:dashed}
+.p-trap{color:var(--accent);border-style:double;border-width:3px;padding:1px 6px}
+.p-v2{color:var(--ink);border-style:dashed}
+
+/* Wordmark lockup */
+.lockup{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:24px}
+.lockup > div{padding:36px 28px;display:grid;gap:18px;align-content:center}
+.lk-dark{background:var(--minuit);color:var(--neige)}
+.lk-light{background:var(--neige);color:var(--minuit)}
+.wordmark{display:flex;align-items:center;gap:18px}
+.wordmark .wm{font-family:var(--f-display);font-stretch:62.5%;font-variation-settings:"wdth" 62.5;font-weight:500;font-size:clamp(3rem,8vw,5.4rem);letter-spacing:.14em;line-height:.9}
+.wm-post{width:12px;height:62px;border:2px solid currentColor;background:repeating-linear-gradient(to bottom,currentColor 0 10px,transparent 10px 20px);position:relative;flex:none}
+.wm-post::before{content:"";position:absolute;left:-2px;right:-2px;top:-7px;height:4px;background:var(--carmin-signal)}
+.lk-light .wm-post::before{background:var(--carmin)}
+.lk-cap{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;opacity:.75}
+.poem{font-family:var(--f-display);font-size:1.25rem;line-height:1.45}
+.poem .ru-p{font-style:normal}
+.poem .fr-p{font-style:italic;opacity:.85;margin-top:10px}
+.lk-dark .poem .fr-p{color:#C9D5E6}
+
+.heroes{list-style:none;margin:0;padding:0;display:grid;border-top:1px solid var(--rule)}
+.heroes li{display:grid;grid-template-columns:minmax(0,1fr) 200px;gap:16px;padding:14px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.heroes .h{font-family:var(--f-display);font-size:1.3rem;line-height:1.25}
+.heroes .h small{display:block;font-family:var(--f-mono);font-size:.64rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-bottom:2px}
+.heroes .use{font-size:.85rem;color:var(--muted)}
+.heroes li.pick .h{color:var(--accent)}
+
+/* Palette */
+.swatches{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.sw{display:grid;gap:8px;align-content:start}
+.sw .chip{aspect-ratio:4/3;max-width:100%;border:1px solid var(--rule);display:flex;align-items:flex-end;padding:10px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.06em}
+.sw b{font-weight:600;font-size:.95rem}
+.sw span{font-size:.84rem;color:var(--muted);line-height:1.45}
+.ratio{display:flex;height:34px;margin-top:22px;border:1px solid var(--rule)}
+.ratio > div{display:flex;align-items:center;padding-inline:8px;font-family:var(--f-mono);font-size:.64rem;letter-spacing:.06em;white-space:nowrap;overflow:hidden}
+.journey{margin-top:28px;border:1px solid var(--rule)}
+.journey .bar{height:120px;background:linear-gradient(90deg,var(--nuit) 0%,var(--minuit) 22%,var(--neva) 45%,#3E5F86 58%,var(--acier) 70%,var(--givre) 86%,var(--neige) 100%);position:relative}
+.journey .bar::after{content:"";position:absolute;left:0;right:0;top:60%;height:2px;background:linear-gradient(90deg,transparent 0%,transparent 40%,var(--carmin-signal) 48%,var(--carmin) 100%)}
+.journey .acts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--rule)}
+.journey .acts div{padding:12px;border-right:1px solid var(--rule);display:grid;gap:4px;align-content:start}
+.journey .acts div:last-child{border-right:0}
+.journey .acts b{font-family:var(--f-display);font-weight:500;font-size:1.05rem}
+.journey .acts span{font-size:.8rem;color:var(--muted);line-height:1.4}
+
+/* Type specimen */
+.spec{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.spec > div{background:var(--bg);padding:28px;display:grid;gap:14px;align-content:start}
+.spec .big{font-family:var(--f-display);font-stretch:62.5%;font-variation-settings:"wdth" 62.5;font-weight:500;font-size:clamp(3.2rem,9vw,6.5rem);line-height:.9}
+.spec .big .ru{color:var(--accent)}
+.spec .it{font-family:var(--f-display);font-style:italic;font-size:1.7rem;line-height:1.2}
+.spec .body{font-family:var(--f-ui);font-size:1rem;color:var(--muted)}
+.spec .tt{font-family:var(--f-mono);font-size:.8rem;border-top:1px solid var(--rule);padding-top:12px;display:grid;gap:6px}
+.spec .tt .row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.spec .lbl{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* Direction plates (fixed brand colours on purpose) */
+.plates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.plate-card{display:grid;gap:12px;align-content:start}
+.plate{aspect-ratio:4/5;max-width:100%;position:relative;overflow:hidden;border:1px solid var(--rule)}
+.plate-card h4{font-family:var(--f-display);font-weight:500;font-size:1.3rem;margin:4px 0 0}
+.plate-card .pc{font-size:.88rem;display:grid;gap:6px}
+.plate-card .pc b{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;color:var(--muted);margin-right:6px}
+.pa{background:radial-gradient(70% 45% at 72% 85%,rgba(232,72,90,.22),transparent 70%),radial-gradient(90% 60% at 20% 100%,rgba(94,124,156,.45),transparent 70%),linear-gradient(180deg,#0C0F14,#0B1A33);color:#F4F6F9}
+.pa::before,.pa::after{content:"";position:absolute;left:0;right:0;height:9%;background:#000;z-index:2}
+.pa::before{top:0}.pa::after{bottom:0}
+.pa .in{position:absolute;inset:12% 8% 12% 8%;display:flex;flex-direction:column;justify-content:flex-end;gap:10px}
+.pa .cap{font-family:"Geist Mono",monospace;font-size:.6rem;letter-spacing:.14em;color:#9FB3CF}
+.pa .ttl{font-family:"Noto Serif Display",serif;font-stretch:62.5%;font-variation-settings:"wdth" 62.5;font-size:clamp(2.8rem,6.4vw,4.6rem);line-height:.85;letter-spacing:.02em}
+.pa .sub{font-family:"Noto Serif Display",serif;font-style:italic;font-size:.95rem;color:#D5DFEA}
+.pa .cta{align-self:flex-start;margin-top:6px;background:#E8485A;color:#0C0F14;font-family:"Geist",sans-serif;font-size:.7rem;font-weight:600;padding:7px 11px}
+.pb{background:#F4F6F9;color:#1D3B6E}
+.pb .ln{position:absolute;left:14%;top:0;bottom:0;width:2px;background:#C21A2E}
+.pb .pst{position:absolute;left:calc(14% - 3px);width:8px;height:26px;border:1.5px solid #0C0F14;background:repeating-linear-gradient(to bottom,#0C0F14 0 5px,#F4F6F9 5px 10px)}
+.pb .in{position:absolute;inset:9% 8% 8% 22%;display:flex;flex-direction:column;gap:10px}
+.pb .cap{font-family:"Geist Mono",monospace;font-size:.58rem;letter-spacing:.14em;color:#5E7C9C}
+.pb .ttl{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:clamp(1.8rem,3.6vw,2.6rem);line-height:.98}
+.pb .ttl i{color:#C21A2E}
+.pb .tt{margin-top:auto;font-family:"Geist Mono",monospace;font-size:.6rem;color:#0C0F14;display:grid;gap:5px;border-top:1px solid #C6D0DC;padding-top:8px}
+.pb .tt div{display:flex;justify-content:space-between;gap:6px}
+.pc-plate{display:grid;grid-template-columns:1fr 1fr}
+.pc-plate .cold{background:linear-gradient(180deg,#F4F6F9,#D5DFEA);color:#1D3B6E;padding:12% 10%;display:flex;flex-direction:column;justify-content:space-between}
+.pc-plate .warm{background:radial-gradient(80% 60% at 50% 70%,#B8732E,#6E1520 70%,#2A0B10);color:#F7E6D0;padding:12% 10%;display:flex;flex-direction:column;justify-content:space-between}
+.pc-plate .deg{font-family:"Onest",sans-serif;font-weight:600;font-size:clamp(1.4rem,3vw,2.1rem);line-height:1}
+.pc-plate .lab{font-family:"Onest",sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.pc-plate .ttl{position:absolute;left:0;right:0;top:44%;text-align:center;font-family:"Forum",serif;font-size:clamp(1.8rem,4.2vw,3rem);letter-spacing:.2em;color:#fff;mix-blend-mode:difference}
+.rejected{margin-top:20px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start;padding:16px 18px;border:1px dashed var(--rule)}
+.reco{margin-top:28px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:28px;align-items:stretch}
+.reco-plate{min-height:420px;position:relative;border:1px solid var(--rule);background:linear-gradient(180deg,#0C0F14 0%,#0B1A33 24%,#1D3B6E 46%,#5E7C9C 66%,#D5DFEA 84%,#F4F6F9 100%);overflow:hidden}
+.reco-plate .ln{position:absolute;left:34px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,rgba(232,72,90,.25),#E8485A 40%,#C21A2E)}
+.reco-plate .st{position:absolute;left:29px;width:12px;height:30px;border:1.5px solid #0C0F14;background:repeating-linear-gradient(to bottom,#0C0F14 0 6px,#F4F6F9 6px 12px)}
+.reco-plate .lb{position:absolute;left:60px;font-family:"Geist Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase}
+.reco-plate .lb b{display:block;font-family:"Noto Serif Display",serif;font-size:1.05rem;letter-spacing:0;text-transform:none;font-weight:500}
+
+/* Signature diagram */
+.sig{border:1px solid var(--rule);background:var(--panel);padding:20px;overflow-x:auto}
+.sig svg{display:block;width:100%;min-width:640px;height:auto}
+.sig text{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;fill:var(--fg)}
+.sig .muted{fill:var(--muted)}
+.sig .acc{fill:var(--accent)}
+
+/* Wireframes */
+.wfs{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);gap:24px;align-items:start}
+.wf{border:1px solid var(--rule);background:var(--panel);padding:10px;display:grid;gap:6px}
+.wf .cap{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:2px 2px 6px}
+.b{border:1px solid rgba(94,124,156,.5);padding:8px 10px;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.04em;line-height:1.45;display:grid;gap:3px;align-content:start}
+.b b{font-family:var(--f-ui);font-size:.78rem;font-weight:600;letter-spacing:0}
+.b.a1{background:#0C0F14;color:#DCE4EE;min-height:150px}
+.b.a2{background:#0B1A33;color:#DCE4EE;min-height:70px}
+.b.a2b{background:#132A52;color:#DCE4EE;min-height:96px}
+.b.a3{background:#1D3B6E;color:#EAF0F8;min-height:88px}
+.b.a3r{background:#1D3B6E;color:#EAF0F8;min-height:70px;border-left:3px solid #E8485A}
+.b.a4{background:#5E7C9C;color:#0C0F14;min-height:88px}
+.b.a4b{background:#A9BCD0;color:#0C0F14;min-height:70px}
+.b.a5{background:#D5DFEA;color:#0B1A33;min-height:70px}
+.b.a5b{background:#F4F6F9;color:#0B1A33;min-height:110px}
+.b .row{display:flex;gap:4px;flex-wrap:wrap}
+.b .row i{font-style:normal;border:1px solid currentColor;opacity:.75;padding:1px 5px}
+.wf-mob .b{min-height:0}
+.cfg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:8px}
+.cfg .f{border:1px solid var(--rule);background:var(--bg);padding:12px;display:grid;gap:8px;align-content:start;font-size:.82rem}
+.cfg .f .st{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.cfg .f .q{font-family:var(--f-display);font-size:1.05rem;line-height:1.2}
+.cfg .f .opt{border:1px solid var(--rule);padding:5px 7px;font-size:.76rem;display:flex;justify-content:space-between;gap:6px}
+.cfg .f .opt.on{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+.cfg .prog{display:flex;gap:3px}
+.cfg .prog span{flex:1;height:6px;border:1px solid var(--fg);background:repeating-linear-gradient(90deg,var(--fg) 0 4px,transparent 4px 8px);opacity:.25}
+.cfg .prog span.on{opacity:1}
+
+/* Copy deck */
+.copy{display:grid;border-top:2px solid var(--fg)}
+.copy .blk{display:grid;grid-template-columns:170px minmax(0,1fr);gap:24px;padding:26px 0;border-bottom:1px solid var(--rule)}
+.copy .where{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:grid;gap:4px;align-content:start}
+.copy .where b{color:var(--accent);font-weight:500}
+.copy .txt{display:grid;gap:10px;max-width:70ch}
+.copy .ov{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.copy .hl{font-family:var(--f-display);font-weight:500;font-size:clamp(1.6rem,3.4vw,2.4rem);line-height:1.08}
+.copy .hl.huge{font-stretch:62.5%;font-variation-settings:"wdth" 62.5;font-size:clamp(2.6rem,6vw,4rem);letter-spacing:.02em}
+.copy .it{font-family:var(--f-display);font-style:italic;font-size:1.35rem;line-height:1.3}
+.copy .cta-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-block;font-family:var(--f-ui);font-size:.85rem;font-weight:600;padding:9px 14px;border:1px solid var(--fg);color:var(--fg);text-decoration:none}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.frics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px}
+.frics div{padding:8px 0;border-bottom:1px solid var(--rule);font-size:.95rem}
+.frics b{font-weight:600;margin-right:6px}
+.legal{font-size:.82rem;color:var(--muted);border-left:2px solid var(--accent);padding-left:12px}
+
+.guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;counter-reset:g}
+.guide .gcol{display:grid;gap:4px;align-content:start}
+.guide h4{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:500;border-bottom:1px solid var(--rule);padding-bottom:6px;margin-top:14px}
+.guide ol{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+.guide li{counter-increment:g;display:grid;grid-template-columns:28px minmax(0,1fr);font-size:.9rem}
+.guide li::before{content:counter(g,decimal-leading-zero);font-family:var(--f-mono);font-size:.72rem;color:var(--muted);padding-top:2px}
+
+.say{appearance:none;border:1px solid var(--rule);background:transparent;color:var(--fg);font-family:var(--f-mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;padding:5px 9px;cursor:pointer;white-space:nowrap}
+.say:hover{border-color:var(--accent);color:var(--accent)}
+.say[disabled]{opacity:.4;cursor:not-allowed}
+
+/* Architecture */
+pre.tree{font-family:var(--f-mono);font-size:.78rem;line-height:1.6;background:var(--panel);border:1px solid var(--rule);padding:18px 20px;overflow-x:auto;margin:8px 0 0;color:var(--fg)}
+pre.tree .c{color:var(--muted)}
+pre.tree .k{color:var(--accent)}
+.budget{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.budget > div{background:var(--bg);padding:18px;display:grid;gap:4px;align-content:start}
+.budget .v{font-family:var(--f-display);font-stretch:62.5%;font-variation-settings:"wdth" 62.5;font-size:2.6rem;line-height:1;font-variant-numeric:tabular-nums}
+.budget .l{font-size:.84rem;color:var(--muted)}
+
+.decide{list-style:none;padding:0;margin:0;display:grid;gap:0;border-top:2px solid var(--fg);counter-reset:d}
+.decide li{counter-increment:d;display:grid;grid-template-columns:48px minmax(0,1fr);gap:14px;padding:18px 0;border-bottom:1px solid var(--rule)}
+.decide li::before{content:counter(d);font-family:var(--f-display);font-size:1.9rem;line-height:1;color:var(--accent)}
+.decide b{font-family:var(--f-display);font-weight:500;font-size:1.2rem;display:block;margin-bottom:4px}
+
+.sources{columns:2;column-gap:32px;font-size:.86rem;padding-left:18px}
+.sources li{margin-bottom:6px;break-inside:avoid}
+footer{max-width:var(--maxw);margin-inline:auto;padding-inline:16px;padding-block:40px 64px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+@media (max-width:900px){
+  .cover-grid,.lockup,.spec,.reco,.wfs{grid-template-columns:minmax(0,1fr)}
+  .truths,.plates{grid-template-columns:minmax(0,1fr)}
+  .grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .swatches{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .budget{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cfg{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .guide{grid-template-columns:minmax(0,1fr)}
+  .journey .acts{grid-template-columns:repeat(5,minmax(120px,1fr));overflow-x:auto}
+  .plate{aspect-ratio:4/3}
+}
+@media (max-width:640px){
+  .summary .row,.copy .blk{grid-template-columns:minmax(0,1fr);gap:6px}
+  .grid-2,.grid-4,.issues .cols,.frics{grid-template-columns:minmax(0,1fr)}
+  .board .r{grid-template-columns:minmax(0,1fr);gap:4px}
+  .board .c3{text-align:left}
+  .heroes li{grid-template-columns:minmax(0,1fr);gap:4px}
+  .issues > li{grid-template-columns:40px minmax(0,1fr);gap:12px}
+  .sources{columns:1}
+  .counter .lbl{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .morph .w span{transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+
+<div class="counter" aria-hidden="true"><span class="dot"></span><span class="lbl" id="kmLabel">Paris → Istanbul</span><b id="km">0</b><span>km</span></div>
+
+<header class="cover">
+  <div class="cover-in">
+    <p class="eyebrow mono">Dossier fondateur · Phases 1 à 9 · 29 septembre 2026</p>
+    <h1 class="morph" id="morph" aria-label="Russie">
+      <span class="w w-fr" aria-hidden="true"><span style="--i:0">R</span><span style="--i:1">U</span><span style="--i:2">S</span><span style="--i:3">S</span><span style="--i:4">I</span><span style="--i:5">E</span></span>
+      <span class="w w-ru" aria-hidden="true" lang="ru"><span style="--i:0">Р</span><span style="--i:1">О</span><span style="--i:2">С</span><span style="--i:3">С</span><span style="--i:4">И</span><span style="--i:5">Я</span></span>
+    </h1>
+    <div class="cover-grid">
+      <div style="display:grid;gap:18px">
+        <p class="cover-tag">Le pays que vous croyez connaître.</p>
+        <p class="cover-lede">Stratégie, nom, direction artistique, recherche technique et architecture pour une activité indépendante de préparation de voyages en Russie. Ce document sert à décider. Le code commence quand le nom et la direction sont validés.</p>
+      </div>
+      <div class="cover-meta">
+        <span>Kilomètre zéro · Moscou</span>
+        <span class="tnum">55°45′20″ N · 37°37′04″ E</span>
+        <span class="red">РОССИЯ → RUSSIE : six lettres dans chaque alphabet</span>
+        <button class="replay" id="replay" type="button">Rejouer la transition</button>
+      </div>
+    </div>
+  </div>
+  <div class="cover-line"></div>
+</header>
+
+<main id="top">
+  <div class="rail" aria-hidden="true"><div class="rail-fill" id="railFill"></div></div>
+
+  <nav class="toc" aria-label="Sommaire">
+    <a href="#synthese"><span>00</span>Synthèse</a>
+    <a href="#phase-1"><span>01</span>Analyse stratégique</a>
+    <a href="#phase-2"><span>02</span>Nom et identité</a>
+    <a href="#phase-3"><span>03</span>Direction artistique</a>
+    <a href="#phase-4"><span>04</span>Bibliothèques</a>
+    <a href="#phase-5"><span>05</span>Arborescence</a>
+    <a href="#phase-6"><span>06</span>Parcours</a>
+    <a href="#phase-7"><span>07</span>Wireframes</a>
+    <a href="#phase-8"><span>08</span>Textes</a>
+    <a href="#phase-9"><span>09</span>Architecture</a>
+    <a href="#suite"><span>10+</span>Suite et décisions</a>
+    <a href="#sources"><span>—</span>Sources</a>
+  </nav>
+
+  <!-- ========== SYNTHÈSE ========== -->
+  <section class="phase" id="synthese">
+    <div class="sec-head">
+      <div class="post-row"><span class="post" aria-hidden="true"></span><p class="eyebrow"><span class="ru" lang="ru">Верста 00</span> · Synthèse</p></div>
+      <h2>La recommandation en une page</h2>
+      <p class="lede">Chaque choix est détaillé plus bas avec son pourquoi, le problème qu'il règle, son effet sur l'expérience et son coût technique.</p>
+    </div>
+    <div class="summary">
+      <div class="row"><div class="k">Nom</div><div class="v"><strong>VERSTE</strong>L'ancienne unité de distance russe (верста, environ 1,07 km), présente dans les dictionnaires français. Un seul mot lisible dans les deux langues, qui parle de route et de distance.</div></div>
+      <div class="row"><div class="k">Promesse</div><div class="v"><strong>« Le pays que vous croyez connaître. »</strong>Elle joue sur l'idée reçue sans prendre parti, et donne envie d'aller vérifier. Signature de marque : « La Russie, verste après verste. »</div></div>
+      <div class="row"><div class="k">Positionnement</div><div class="v"><strong>Préparation de voyage indépendante</strong>Le client voyage par lui-même, avec les clés d'un ami qui connaît le terrain. Pas d'agence, pas de forfait, pas de commission sur les réservations.</div></div>
+      <div class="row"><div class="k">Direction artistique</div><div class="v"><strong>De la nuit à l'aube</strong>Le scroll se lit comme un trajet de nuit. On part dans le charbon et le bleu minuit, on arrive dans le blanc de la neige. Le carmin ne sert qu'à tracer la route et à signaler l'action principale.</div></div>
+      <div class="row"><div class="k">Signature</div><div class="v"><strong>La ligne verste</strong>Un trait carmin continu, jalonné de poteaux rayés noir et blanc comme les bornes des routes impériales, avec un compteur kilométrique. Le trajet réel Paris → Istanbul → Moscou fait environ 3 995 km.</div></div>
+      <div class="row"><div class="k">Stack</div><div class="v"><strong>Next.js 16 · React 19 · Tailwind 4 · Motion</strong>Lenis, shadcn/Radix, nuqs, contenus MDX typés, Resend, Stripe Checkout, Vercel. Supabase, Drizzle et le carnet hors-ligne arrivent en V2.</div></div>
+      <div class="row"><div class="k">Lancement</div><div class="v"><strong>MVP en six sprints</strong>Accueil, quatre itinéraires, configurateur, hub « Les Clés », guide gratuit, offres, contact et pages légales. L'espace client vient ensuite.</div></div>
+    </div>
+
+    <div class="truths">
+      <div><span class="n">CE QUE LE BRIEF NE DIT PAS · 1</span><h4>Le Quai d'Orsay déconseille formellement tout voyage en Russie</h4><p class="small">Fiche mise à jour le 10 septembre 2026 : risque de détention arbitraire, frappes de drones sur la région de Moscou. La marque doit l'assumer ouvertement. C'est ce qui rendra le reste crédible.</p></div>
+      <div><span class="n">CE QUE LE BRIEF NE DIT PAS · 2</span><h4>WhatsApp est bloqué, Telegram restreint, l'Internet mobile coupé par endroits</h4><p class="small">Le « support WhatsApp » prévu dans les offres ne peut pas fonctionner sur place. Le carnet de voyage doit marcher sans réseau.</p></div>
+      <div><span class="n">CE QUE LE BRIEF NE DIT PAS · 3</span><h4>L'eVisa couvre désormais 30 jours de séjour</h4><p class="small">Depuis août 2025 : 30 jours sur place, 120 jours de validité. Les quatre formats (7 à 28 jours) tiennent tous dans un eVisa. C'est un argument de simplicité à mettre en avant.</p></div>
+    </div>
+  </section>
+
+  <!-- ========== PHASE 1 ========== -->
+  <section class="phase" id="phase-1">
+    <div class="sec-head">
+      <div class="post-row"><span class="post" aria-hidden="true"></span><p class="eyebrow"><span class="ru" lang="ru">Верста 01</span> · Phase 1</p></div>
+      <h2>Analyse stratégique</h2>
+      <p class="lede">Le client n'achète pas un itinéraire, il en trouve partout gratuitement. Il achète la fin d'une incertitude précise : pourrai-je payer, me connecter, me déplacer, me faire comprendre, et rentrer sans problème&#8239;?</p>
+    </div>
+
+    <div class="prose">
+      <p>En 2026, la Russie cumule pour un voyageur français des frictions qui n'existent presque nulle part ailleurs : aucun vol direct, cartes bancaires inutilisables, messageries bloquées, Internet mobile parfois coupé. Chacune est une bonne raison de payer quelqu'un qui connaît le terrain. Le site doit donc tenir deux rôles à la fois. Il rend le pays désirable, et il rend ces frictions lisibles et surmontables.</p>
+      <p><strong>Le besoin à servir :</strong> « Aidez-moi à partir en Russie sans me mettre en difficulté, et à en revenir avec autre chose que des cartes postales. »</p>
+    </div>
+
+    <h3>Réalité terrain au 29 septembre 2026</h3>
+    <div class="board-cap"><span>Départs · informations vérifiées</span><span>Source principale · statut</span></div>
+    <div class="board" role="table" aria-label="Données terrain">
+      <div class="r" role="row"><span class="c1" role="cell">Visa</span><span class="c2" role="cell">eVisa unifié ouvert aux Français : séjour jusqu'à 30 jours (jours d'arrivée et de départ inclus), validité 120 jours, traitement en 4 jours environ. Entrée et sortie uniquement par les points de passage listés.</span><span class="c3" role="cell">evisa.kdmid.ru · officiel</span></div>
+      <div class="r" role="row"><span class="c1" role="cell">Vols</span><span class="c2" role="cell">Aucun vol direct UE–Russie depuis 2022. Correspondances par Istanbul, Belgrade, Erevan ou Dubaï, 7 à 12 heures de trajet.</span><span class="c3" role="cell">compagnies · presse</span></div>
+      <div class="r" role="row"><span class="c1" role="cell">Argent</span><span class="c2" role="cell">Visa, Mastercard, Maestro, Apple Pay et Google Pay ne fonctionnent pas. Espèces en euros ou dollars, carte Mir obtenable en aéroport, UnionPay partiellement accepté. Déclaration en douane au-delà de 10 000 $.</span><span class="c3" role="cell">guides pratiques 2026</span></div>
+      <div class="r" role="row"><span class="c1" role="cell">Internet</span><span class="c2" role="cell">WhatsApp bloqué depuis le 12 février 2026, Telegram restreint depuis le printemps. YouTube, Instagram, Signal et Viber bloqués. Données et SMS coupés 24 h pour toute SIM étrangère à l'arrivée. Coupures mobiles et listes blanches (Saint-Pétersbourg, juillet 2026).</span><span class="c3" role="cell">OONI · Mediazona</span></div>
+      <div class="r" role="row"><span class="c1" role="cell">Sécurité</span><span class="c2" role="cell">Voyage formellement déconseillé sur tout le territoire. Régions frontalières de l'Ukraine à éviter absolument.</span><span class="c3" role="cell">France Diplomatie · 10/09/2026</span></div>
+    </div>
+    <p class="note">Ces données bougent vite. Chaque page pratique du site affichera sa date de vérification et ses sources, et signalera quand elle doit être revue.</p>
+
+    <h3>Quatre profils de voyageurs</h3>
+    <div class="grid-4">
+      <div class="persona"><span class="tag">Profil 1</span><h4>Le curieux exigeant</h4><p class="small">30–55 ans, a beaucoup voyagé, cherche un pays que son entourage n'a pas fait.</p><dl><dt>Frein</dt><dd>La logistique et le regard des autres</dd><dt>Déclic</dt><dd>La preuve que c'est faisable</dd><dt>Offre</dt><dd>Immersion, 14 jours</dd></dl></div>
+      <div class="persona"><span class="tag">Profil 2</span><h4>Le pratiquant</h4><p class="small">Lutte, sambo, judo, MMA. Veut s'entraîner dans un vrai club russe.</p><dl><dt>Frein</dt><dd>Trouver un club, parler au coach</dd><dt>Déclic</dt><dd>Une mise en relation concrète</dd><dt>Offre</dt><dd>Immersion + module sport</dd></dl></div>
+      <div class="persona"><span class="tag">Profil 3</span><h4>Le lien familial</h4><p class="small">Conjoint ou amis russes, racines familiales. Connaît la culture.</p><dl><dt>Frein</dt><dd>Les règles qui ont changé</dd><dt>Déclic</dt><dd>Une méthode à jour</dd><dt>Offre</dt><dd>Découverte ou conciergerie seule</dd></dl></div>
+      <div class="persona"><span class="tag">Profil 4</span><h4>Le revenant</h4><p class="small">Venu avant 2022, veut revoir le pays et comprendre ce qui a changé.</p><dl><dt>Frein</dt><dd>L'inconnu administratif</dd><dt>Déclic</dt><dd>Un comparatif avant / maintenant</dd><dt>Offre</dt><dd>Découverte, 7 jours</dd></dl></div>
+    </div>
+
+    <h3>Paysage concurrentiel</h3>
+    <div class="tw"><table class="t mid">
+      <thead><tr><th>Acteur</th><th>Modèle</th><th>Force</th><th>Faille exploitable</th></tr></thead>
+      <tbody>
+        <tr><td><span class="name">Tsar Voyages</span><span class="sub">agence franco-russe, depuis 2004</span></td><td>Agence locale, circuits et sur-mesure</td><td>Expérience, équipes sur place, visas</td><td>Logique de catalogue, image classique, voyage organisé plutôt qu'autonome</td></tr>
+        <tr><td><span class="name">Agences généralistes</span><span class="sub">ex. Amplitudes</span></td><td>Catalogue multi-destinations</td><td>Notoriété, confiance</td><td>La Russie est marginale chez elles, peu d'information terrain récente</td></tr>
+        <tr><td><span class="name">Sites anglophones</span><span class="sub">Russiable, gw2ru…</span></td><td>Contenu gratuit, affiliation</td><td>Information à jour, bon référencement</td><td>En anglais, aucun accompagnement, fiabilité variable</td></tr>
+        <tr><td><span class="name">Blogs francophones</span><span class="sub">récits, guides indépendants</span></td><td>Témoignage</td><td>Authenticité</td><td>Contenu dispersé, pas de méthode ni de produit</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note"><strong>Espace libre :</strong> une méthode, un produit et des informations vérifiées et datées, en français, pour quelqu'un qui veut voyager seul. Personne n'occupe cette place aujourd'hui. Les grands médias ont par ailleurs cessé de produire du contenu pratique sur la Russie, ce qui ouvre des requêtes à forte intention (« eVisa Russie 30 jours », « payer en Russie 2026 »).</p>
+
+    <h3>Les faiblesses du brief, par ordre de gravité</h3>
+    <ol class="issues">
+      <li><div><h4>Le contexte est absent <span class="sev">Critique</span></h4><div class="cols"><p><span class="lab">Problème</span>Le brief parle de désir et d'immersion sans jamais mentionner la guerre, l'avis formel du Quai d'Orsay ni le risque de détention arbitraire pour les ressortissants de pays jugés « inamicaux ». Beaucoup d'assurances voyage excluent les pays formellement déconseillés.</p><p><span class="lab">Décision</span>La transparence devient un trait de la marque : une page « Partir en connaissance de cause », un rappel sobre avant paiement avec case à cocher, des liens vers France Diplomatie et Ariane, et une vraie section assurance. Un ami de terrain dit la vérité, et c'est pour ça qu'on le croit.</p></div></div></li>
+      <li><div><h4>Le support WhatsApp ne peut pas être tenu <span class="sev">Critique</span></h4><div class="cols"><p><span class="lab">Problème</span>WhatsApp est bloqué depuis février 2026, Telegram restreint, et l'Internet mobile subit coupures et listes blanches. Une promesse d'assistance sur place fondée sur ces outils sera rompue.</p><p><span class="lab">Décision</span>Le canal d'assistance est fixé avant le départ selon la connectivité du moment. Surtout, le carnet devient une application web installable qui fonctionne hors-ligne : adresses en cyrillique à montrer au chauffeur, phrases, plans, réservations, numéros utiles. C'est un argument premium concret.</p></div></div></li>
+      <li><div><h4>La frontière entre conseil et agence est floue <span class="sev">Élevée</span></h4><div class="cols"><p><span class="lab">Problème</span>Réserver ou encaisser pour le compte du client fait entrer dans le Code du tourisme : immatriculation Atout France, garantie financière, responsabilité de plein droit. L'offre « Conciergerie » frôle cette limite.</p><p><span class="lab">Décision</span>Une règle unique, écrite partout : « Nous préparons, vous réservez. » La conciergerie devient une réservation accompagnée en visio, où le client paie lui-même. Aucun argent destiné à un prestataire ne passe par vous.</p></div></div></li>
+      <li><div><h4>Le paiement en ligne n'est pas acquis <span class="sev">Élevée</span></h4><div class="cols"><p><span class="lab">Problème</span>Stripe classe les services de réservation de voyage à haut risque et interdit certains services vers des personnes situées en Russie. Une prestation de conseil vendue à des clients en France devrait passer, mais rien ne le garantit.</p><p><span class="lab">Décision</span>Stripe Checkout pour vos honoraires uniquement, après accord écrit du support Stripe sur la description exacte de l'activité. Virement SEPA avec facture en secours. Lemon Squeezy est écarté.</p></div></div></li>
+      <li><div><h4>Toute la direction artistique repose sur des images qui n'existent pas encore <span class="sev">Élevée</span></h4><div class="cols"><p><span class="lab">Problème</span>Le brief exclut à raison les banques d'images. Sans photos de terrain, le site perd son âme.</p><p><span class="lab">Décision</span>Une liste de plans précise (phase 3) et des emplacements d'images assumés, dessinés dans la charte, en attendant les vraies prises de vue. Première question : avez-vous vos propres photos et vidéos&#8239;?</p></div></div></li>
+      <li><div><h4>Il n'y a pas encore de preuve sociale <span class="sev">Moyenne</span></h4><div class="cols"><p><span class="lab">Problème</span>Une activité qui démarre n'a ni avis ni statistiques.</p><p><span class="lab">Décision</span>Montrer la compétence à la place : votre histoire, vos voyages, un carnet exemple, le guide gratuit, une méthode publique et datée. Le site le dit simplement : « Aucun avis inventé ici. Nous publierons ceux de nos premiers voyageurs, avec leur accord. »</p></div></div></li>
+      <li><div><h4>Le périmètre est trop large pour un lancement <span class="sev">Moyenne</span></h4><div class="cols"><p><span class="lab">Problème</span>Plus de vingt routes, un espace client, un CMS, des paiements : plusieurs mois avant la première vente.</p><p><span class="lab">Décision</span>Un MVP en six sprints. L'espace client arrive en V2 ; au début, le carnet est livré en PDF.</p></div></div></li>
+      <li><div><h4>Les budgets estimés vieillissent vite <span class="sev">Moyenne</span></h4><div class="cols"><p><span class="lab">Problème</span>Rouble volatil, prix en hausse : un chiffre précis sera faux dans trois mois.</p><p><span class="lab">Décision</span>Des fourchettes, une date de mise à jour visible et la mention « indicatif », calibrées sur vos propres dépenses de terrain.</p></div></div></li>
+      <li><div><h4>Le module Sport / Lutte touche une région sensible <span class="sev">Moyenne</span></h4><div class="cols"><p><span class="lab">Problème</span>Le Daghestan, capitale mondiale de la lutte, est dans le Caucase du Nord, historiquement la zone la plus déconseillée.</p><p><span class="lab">Décision</span>Ancrer le sport à Moscou, Saint-Pétersbourg et Kazan (clubs de sambo et de lutte) et ne pas vendre le Caucase.</p></div></div></li>
+    </ol>
+  </section>
+
+  <!-- ========== PHASE 2 ========== -->
+  <section class="phase" id="phase-2">
+    <div class="sec-head">
+      <div class="post-row"><span class="post" aria-hidden="true"></span><p class="eyebrow"><span class="ru" lang="ru">Верста 02</span> · Phase 2</p></div>
+      <h2>Nom et identité de marque</h2>
+      <p class="lede">Dix-sept pistes examinées. Critères : évoquer la Russie et le voyage, se prononcer sans effort en français, pouvoir être déposé, et ne traîner aucune connotation dangereuse. Plusieurs noms séduisants sont des pièges.</p>
+    </div>
+
+    <div class="tw"><table class="t wide">
+      <thead><tr><th>Nom</th><th>Origine</th><th>Ce qui fonctionne</th><th>Ce qui bloque</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td><span class="name">Verste</span><span class="sub" lang="ru">верста</span></td><td>Unité de distance (≈ 1,07 km), dans le Larousse</td><td>Bilingue, court, parle de route et d'immensité, récit chez Pouchkine</td><td>Mot rare, il faut le raconter</td><td><span class="pill p-rec">Recommandé</span></td></tr>
+        <tr><td><span class="name">Prostor</span><span class="sub" lang="ru">простор</span></td><td>L'étendue, l'espace libre</td><td>Immensité et liberté, sonne bien en français</td><td>prostor.fr déjà enregistré, sens à expliquer</td><td><span class="pill p-fin">Finaliste</span></td></tr>
+        <tr><td><span class="name">Zaria</span><span class="sub" lang="ru">заря</span></td><td>L'aube</td><td>Colle à la direction « de la nuit à l'aube »</td><td>zaria.fr enregistré, nombreux homonymes</td><td><span class="pill p-fin">Finaliste</span></td></tr>
+        <tr><td><span class="name">Kilomètre Zéro</span></td><td>Point de départ de toutes les routes russes, à Moscou</td><td>Récit parfait : Paris a aussi son point zéro, devant Notre-Dame</td><td>Trop générique pour être protégé</td><td><span class="pill p-res">Concept de campagne</span></td></tr>
+        <tr><td><span class="name">Vokzal</span><span class="sub" lang="ru">вокзал</span></td><td>La gare ; le mot vient de Vauxhall, à Londres</td><td>Anecdote formidable</td><td>Sonorité dure</td><td><span class="pill p-res">Article de journal</span></td></tr>
+        <tr><td><span class="name">Neva</span></td><td>Le fleuve de Saint-Pétersbourg</td><td>Élégant</td><td>Enferme la marque dans une ville</td><td><span class="pill p-out">Écarté</span></td></tr>
+        <tr><td><span class="name">Traverses</span></td><td>Rails et raccourcis</td><td>Double sens ferroviaire</td><td>N'évoque pas la Russie</td><td><span class="pill p-out">Écarté</span></td></tr>
+        <tr><td><span class="name">Okno</span><span class="sub" lang="ru">окно</span></td><td>La fenêtre (« fenêtre sur l'Europe »)</td><td>Court, historique</td><td>Se lit « OK, no » ; okno.fr enregistré</td><td><span class="pill p-out">Écarté</span></td></tr>
+        <tr><td><span class="name">Dal'</span><span class="sub" lang="ru">даль</span></td><td>Le lointain</td><td>Poétique</td><td>Confusion avec « dalle »</td><td><span class="pill p-out">Écarté</span></td></tr>
+        <tr><td><span class="name">Troïka</span></td><td>Attelage à trois chevaux</td><td>Immédiatement russe</td><td>Cliché, saturé</td><td><span class="pill p-out">Écarté</span></td></tr>
+        <tr><td><span class="name">Matriochka, Samovar</span></td><td>Objets folkloriques</td><td>Reconnaissables</td><td>Kitsch, contraire au brief</td><td><span class="pill p-out">Écarté</span></td></tr>
+        <tr><td><span class="name">Sputnik</span><span class="sub" lang="ru">спутник</span></td><td>Le compagnon de route</td><td>Sens idéal pour un accompagnateur</td><td>Nom du média d'État russe interdit de diffusion dans l'UE, d'un vaccin, d'un satellite</td><td><span class="pill p-trap">Piège</span></td></tr>
+        <tr><td><span class="name">L'Autre Russie</span></td><td>—</td><td>Séduisant</td><td>Nom d'un parti politique russe interdit</td><td><span class="pill p-trap">Piège</span></td></tr>
+        <tr><td><span class="name">Mir</span><span class="sub" lang="ru">мир</span></td><td>Le monde, la paix</td><td>Double sens</td><td>Nom du système de paiement national : confusion totale dans le dossier Argent</td><td><span class="pill p-trap">Piège</span></td></tr>
+        <tr><td><span class="name">Maïak</span><span class="sub" lang="ru">маяк</span></td><td>Le phare</td><td>Métaphore du guide</td><td>Associé à la catastrophe nucléaire de Maïak (1957)</td><td><span class="pill p-trap">Piège</span></td></tr>
+        <tr><td><span class="name">Poutnik</span><span class="sub" lang="ru">путник</span></td><td>Le voyageur</td><td>Sens juste</td><td>Homophonie malheureuse en français</td><td><span class="pill p-trap">Piège</span></td></tr>
+        <tr><td><span class="name">Iskra, Pravda</span></td><td>Titres de presse soviétiques</td><td>Connus</td><td>Connotation de propagande</td><td><span class="pill p-trap">Piège</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Pourquoi Verste</h3>
+    <div class="lockup">
+      <div class="lk-dark">
+        <div class="wordmark"><span class="wm-post" aria-hidden="true"></span><span class="wm">VERSTE</span></div>
+        <p class="lk-cap">Voyages en Russie, préparés sur mesure</p>
+        <p class="lk-cap" lang="ru">Верста · [vɛʁst] · 1 067 m</p>
+      </div>
+      <div class="lk-light">
+        <div class="poem">
+          <p class="ru-p" lang="ru">Ни огня, ни чёрной хаты,<br>Глушь и снег… Навстречу мне<br>Только вёрсты полосаты<br>Попадаются одне.</p>
+          <p class="fr-p">Pas un feu, pas une isba,<br>Neige et désert… Seules à ma rencontre<br>Surgissent, une à une,<br>Les verstes rayées.</p>
+        </div>
+        <p class="lk-cap">Pouchkine, « La Route d'hiver », 1826 · domaine public · traduction de travail</p>
+      </div>
+    </div>
+    <div class="prose" style="margin-top:22px">
+      <p>Au XIXe siècle, les routes russes étaient jalonnées de poteaux rayés noir et blanc, un par verste. Dans l'immensité enneigée, c'était la seule preuve qu'on avançait. Pouchkine en a fait une image célèbre. Votre métier est exactement celui-là : poser des repères dans un pays trop grand pour être lu seul.</p>
+      <p>Le mot existe en français et en russe, il se prononce en une syllabe, et il fournit directement l'élément signature (le poteau rayé) sans emprunter à aucune identité existante.</p>
+      <p class="small"><strong>Disponibilité :</strong> aucun enregistrement trouvé pour verste.fr ni verste.travel au 29/09/2026 (RDAP) ; verste.com est pris. À confirmer chez un registrar, puis recherche d'antériorité et dépôt INPI en classes 39 (conseil en voyages) et 41 (publications, formation).</p>
+    </div>
+
+    <h3>Titres d'accueil explorés</h3>
+    <ul class="heroes">
+      <li class="pick"><span class="h"><small>Recommandé · hero</small>RUSSIE · Le pays que vous croyez connaître.</span><span class="use">Crée l'envie d'aller vérifier, sans cliché ni prise de position.</span></li>
+      <li><span class="h"><small>Acte V · départ</small>Il n'y a plus de vol direct. Il y a toujours un chemin.</span><span class="use">Transforme une contrainte réelle en récit. Titre de la dernière section.</span></li>
+      <li><span class="h"><small>Acte III · immersion</small>Vous n'avez pas besoin de tout savoir. Seulement par où entrer.</span><span class="use">Reprend l'intention du brief, pour le hub pratique.</span></li>
+      <li><span class="h"><small>Variante hero</small>Entrez dans le pays. Pas dans un catalogue.</span><span class="use">Efficace, mais oppose au lieu de promettre.</span></li>
+      <li><span class="h"><small>Variante</small>Tout commence au kilomètre zéro.</span><span class="use">Bon pour une campagne ou la page itinéraires.</span></li>
+      <li><span class="h"><small>Variante</small>La Russie commence là où les guides s'arrêtent.</span><span class="use">Pour le manifeste ou le guide gratuit.</span></li>
+      <li><span class="h"><small>Brief</small>Russie, au-delà des frontières</span><span class="use">Écarté : peut se lire comme un propos politique.</span></li>
+      <li><span class="h"><small>Brief</small>Russie, entre légende et réalité</span><span class="use">Écarté : générique, ton documentaire.</span></li>
+    </ul>
+  </section>
+
+  <!-- ========== PHASE 3 ========== -->
+  <section class="phase" id="phase-3">
+    <div class="sec-head">
+      <div class="post-row"><span class="post" aria-hidden="true"></span><p class="eyebrow"><span class="ru" lang="ru">Верста 03</span> · Phase 3</p></div>
+      <h2>Direction artistique</h2>
+      <p class="lede">Trois directions possibles, une quatrième écartée, puis la recommandation : la première au départ du scroll, la deuxième à l'arrivée. La couleur raconte l'heure qui passe pendant le voyage.</p>
+    </div>
+
+    <div class="plates">
+      <div class="plate-card">
+        <div class="plate pa" role="img" aria-label="Maquette direction A : hero nocturne en bandes cinéma">
+          <div class="in"><span class="cap">МОСКВА · 23:47 · −8 °C</span><span class="ttl">RUSSIE</span><span class="sub">Le pays que vous croyez connaître.</span><span class="cta">Construire mon voyage</span></div>
+        </div>
+        <span class="eyebrow">Direction A</span>
+        <h4>Nuit blanche</h4>
+        <div class="pc"><p><b>Esprit</b>Cinéma nocturne : bandes noires, grain, lumières de ville, carmin comme feux de signalisation.</p><p><b>Pour</b>Émotion immédiate, très cinématographique.</p><p><b>Contre</b>Glisse vers le « dark luxury » générique, exige d'excellentes photos de nuit, fatigue la lecture des pages pratiques.</p></div>
+      </div>
+      <div class="plate-card">
+        <div class="plate pb" role="img" aria-label="Maquette direction B : carnet cartographique blanc, ligne rouge et horaires">
+          <div class="ln"></div><div class="pst" style="top:18%"></div><div class="pst" style="top:48%"></div><div class="pst" style="top:78%"></div>
+          <div class="in"><span class="cap">ВЕРСТА 02 · KM 412</span><span class="ttl">Moscou <i>→</i><br>Nijni Novgorod</span><span class="cap">Là où l'Oka rejoint la Volga</span>
+            <div class="tt"><div><span>Kourski → Moskovski</span><span>3 h 55</span></div><div><span>Lastotchka · 2e classe</span><span>exemple</span></div><div><span>55°45′ N → 56°19′ N</span><span>412 km</span></div></div>
+          </div>
+        </div>
+        <span class="eyebrow">Direction B</span>
+        <h4>Carnet de verstes</h4>
+        <div class="pc"><p><b>Esprit</b>Cartographie et papier : blanc neige, encre bleue, ligne rouge, horaires en chasse fixe.</p><p><b>Pour</b>Unique dans le voyage, clair, rassurant, idéal pour la logistique et le configurateur.</p><p><b>Contre</b>Moins spectaculaire à l'ouverture, risque d'effet « papeterie ».</p></div>
+      </div>
+      <div class="plate-card">
+        <div class="plate pc-plate" role="img" aria-label="Maquette direction C : moitié froide enneigée, moitié chaude intérieure">
+          <div class="cold"><span class="lab">Dehors</span><span class="deg">−21 °C</span></div>
+          <div class="warm"><span class="lab">Dedans</span><span class="deg">+22 °C</span></div>
+          <span class="ttl">RUSSIE</span>
+        </div>
+        <span class="eyebrow">Direction C</span>
+        <h4>Froid / Chaleur</h4>
+        <div class="pc"><p><b>Esprit</b>Thermique : extérieurs de givre et d'acier, intérieurs carmin et lumière de lampe.</p><p><b>Pour</b>Raconte le contraste central : le froid dehors, l'hospitalité dedans.</p><p><b>Contre</b>L'ambre dilue la palette du drapeau, exécution complexe, lisibilité inégale.</p></div>
+      </div>
+    </div>
+    <div class="rejected">
+      <span class="pill p-out">Écartée</span>
+      <p class="small"><strong>Direction D, avant-garde constructiviste.</strong> Diagonales, aplats rouges, typographie de choc à la Rodtchenko. Visuellement forte, mais elle se lit immédiatement comme de la propagande soviétique, ce que le brief interdit, et dans le contexte actuel c'est un risque d'image sérieux.</p>
+    </div>
+
+    <h3>Recommandation : de la nuit à l'aube</h3>
+    <div class="reco">
+      <div class="reco-plate" role="img" aria-label="Le parcours chromatique du site, de la nuit au blanc de neige, traversé par la ligne rouge">
+        <div class="ln"></div>
+        <div class="st" style="top:9%"></div><span class="lb" style="top:8%;color:#9FB3CF"><b style="color:#F4F6F9">I · L'appel</b>Nuit · Paris, 22:40</span>
+        <div class="st" style="top:28%"></div><span class="lb" style="top:27%;color:#9FB3CF"><b style="color:#F4F6F9">II · La découverte</b>Minuit · au-dessus de la mer Noire</span>
+        <div class="st" style="top:47%"></div><span class="lb" style="top:46%;color:#C9D5E6"><b style="color:#F4F6F9">III · L'immersion</b>Neva · le carmin apparaît</span>
+        <div class="st" style="top:66%"></div><span class="lb" style="top:65%;color:#0B1A33"><b style="color:#0B1A33">IV · Votre Russie</b>Acier · on choisit</span>
+        <div class="st" style="top:85%"></div><span class="lb" style="top:84%;color:#1D3B6E"><b style="color:#0B1A33">V · Le départ</b>Neige · Moscou, 06:10</span>
+      </div>
+      <div class="prose">
+        <p><strong>Pourquoi.</strong> Le brief décrit un film en cinq actes qui passe de la nuit à la lumière. Plutôt que de choisir entre l'émotion de A et la clarté de B, on les place là où chacune sert : A pour donner envie en ouverture, B pour rassurer et convertir à la fin.</p>
+        <p><strong>Problème réglé.</strong> Les sites de voyage premium sombres sont beaux mais pénibles à lire quand il faut expliquer un visa ou un budget. Ici, plus le contenu devient pratique, plus la page s'éclaire.</p>
+        <p><strong>Effet sur l'expérience.</strong> Le visiteur a physiquement la sensation d'un trajet : il part de nuit et arrive au matin. Sans rien lire, il comprend qu'il avance vers un départ.</p>
+        <p><strong>Coût technique.</strong> Faible. Une interpolation de la couleur de fond par section, en CSS et avec une petite fonction de scroll. Rien de lourd à charger.</p>
+        <p><strong>Ce que C apporte quand même.</strong> La chaleur passe par les photos (cuisines, restaurants, lumière intérieure) et non par la palette.</p>
+      </div>
+    </div>
+
+    <h3>Palette</h3>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#0C0F14;color:#F4F6F9">#0C0F14</div><b>Nuit</b><span>Acte I, vidéo, navigation. Un charbon teinté de bleu, jamais un noir pur.</span></div>
+      <div class="sw"><div class="chip" style="background:#0B1A33;color:#F4F6F9">#0B1A33</div><b>Minuit</b><span>Actes I–II. Moscou de nuit, les fonds profonds.</span></div>
+      <div class="sw"><div class="chip" style="background:#1D3B6E;color:#F4F6F9">#1D3B6E</div><b>Bleu Neva</b><span>La couleur émotionnelle principale. Acte II, titres sur fond clair.</span></div>
+      <div class="sw"><div class="chip" style="background:#5E7C9C;color:#0C0F14">#5E7C9C</div><b>Bleu acier</b><span>Textes secondaires sur fond sombre, cartes, pictogrammes.</span></div>
+      <div class="sw"><div class="chip" style="background:#D5DFEA;color:#0B1A33">#D5DFEA</div><b>Givre</b><span>Filets, fonds clairs teintés, Acte IV.</span></div>
+      <div class="sw"><div class="chip" style="background:#F4F6F9;color:#0B1A33">#F4F6F9</div><b>Neige</b><span>Acte V, espace négatif. Un blanc froid, à l'opposé du crème habituel.</span></div>
+      <div class="sw"><div class="chip" style="background:#C21A2E;color:#FFFFFF">#C21A2E</div><b>Carmin</b><span>La route, l'action principale, le focus clavier sur fond clair. Contraste 5,6:1 sur Neige.</span></div>
+      <div class="sw"><div class="chip" style="background:#E8485A;color:#0C0F14">#E8485A</div><b>Carmin signal</b><span>Le même rôle sur fond sombre, pour tenir le contraste AA (4,6:1 sur Minuit).</span></div>
+    </div>
+    <div class="ratio" aria-label="Répartition des surfaces">
+      <div style="flex:22;background:#0C0F14;color:#9FB3CF">Nuit</div>
+      <div style="flex:16;background:#0B1A33;color:#9FB3CF">Minuit</div>
+      <div style="flex:20;background:#1D3B6E;color:#D5DFEA">Neva</div>
+      <div style="flex:10;background:#5E7C9C;color:#0C0F14">Acier</div>
+      <div style="flex:10;background:#D5DFEA;color:#0B1A33">Givre</div>
+      <div style="flex:18;background:#F4F6F9;color:#0B1A33">Neige</div>
+      <div style="flex:4;background:#C21A2E;color:#fff" title="Carmin">4 %</div>
+    </div>
+    <p class="note"><strong>Règle des 5 % :</strong> le carmin ne couvre jamais plus de 5 % d'un écran et ne sert jamais de fond. Il reste la route, le bouton principal et le focus. C'est ce qui l'empêche de devenir un cliché de drapeau.</p>
+
+    <h3>Typographie</h3>
+    <div class="spec">
+      <div>
+        <span class="lbl">Titres · Noto Serif Display, largeur 62,5 %, graisse 500</span>
+        <div class="big">RUSSIE <span class="ru" lang="ru">РОССИЯ</span></div>
+        <span class="lbl">Accents éditoriaux · même famille, italique</span>
+        <p class="it">Là où l'Oka se jette dans la Volga.</p>
+        <span class="lbl">Interface et texte · Geist</span>
+        <p class="body">Vos cartes bancaires ne fonctionneront pas en Russie. Voici comment payer un taxi, un musée et un dîner dès le premier soir.</p>
+        <div class="tt"><span class="lbl">Données · Geist Mono</span>
+          <div class="row"><span lang="ru">МОСКВА → САНКТ-ПЕТЕРБУРГ</span><span>SAPSAN</span></div>
+          <div class="row"><span>Leningradski → Moskovski</span><span class="tnum">≈ 4 h · exemple</span></div>
+        </div>
+      </div>
+      <div>
+        <p><strong>Contrainte décisive : le cyrillique.</strong> L'identité affiche chaque lieu dans les deux alphabets (Москва · Moscou). Instrument Serif, suggérée dans le brief, n'a que le latin : elle est écartée pour cette raison.</p>
+        <p><strong>Noto Serif Display</strong> a un axe de largeur (62,5 à 100 %), des graisses de 100 à 900, une italique et un cyrillique complet. En capitales condensées, elle donne les titres monumentaux ; en italique, le ton de magazine.</p>
+        <p><strong>Geist et Geist Mono</strong> couvrent le cyrillique, se lisent bien en petit et apportent l'esprit « produit numérique ». La chasse fixe sert à tout ce qui se mesure : horaires, coordonnées, distances, prix, dates de vérification. C'est le registre des indicateurs de gare.</p>
+        <p class="small">Vérifié sur Google Fonts le 29/09/2026. Alternatives avec cyrillique : Cormorant Garamond + Manrope (plus classique), Forum + Onest (plus lapidaire). Toutes gratuites, servies par next/font sans décalage de mise en page.</p>
+      </div>
+    </div>
+
+    <h3>L'élément signature : la ligne verste</h3>
+    <div class="sig">
+      <svg viewBox="0 0 900 230" role="img" aria-label="Schéma de la ligne verste : un trait rouge ponctué de poteaux rayés et d'un compteur kilométrique">
+        <defs><pattern id="stripes" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(90)"><rect width="5" height="10" fill="currentColor"/></pattern></defs>
+        <line x1="40" y1="120" x2="860" y2="120" stroke="var(--accent)" stroke-width="2"/>
+        <g style="color:var(--fg)">
+          <g transform="translate(80,96)"><rect width="8" height="48" fill="var(--panel)" stroke="var(--fg)" stroke-width="1.5"/><rect x="0" y="0" width="8" height="8" fill="var(--fg)"/><rect x="0" y="16" width="8" height="8" fill="var(--fg)"/><rect x="0" y="32" width="8" height="8" fill="var(--fg)"/><rect x="-1" y="-6" width="10" height="3" fill="var(--accent)"/></g>
+          <g transform="translate(300,96)"><rect width="8" height="48" fill="var(--panel)" stroke="var(--fg)" stroke-width="1.5"/><rect x="0" y="0" width="8" height="8" fill="var(--fg)"/><rect x="0" y="16" width="8" height="8" fill="var(--fg)"/><rect x="0" y="32" width="8" height="8" fill="var(--fg)"/><rect x="-1" y="-6" width="10" height="3" fill="var(--accent)"/></g>
+          <g transform="translate(520,96)"><rect width="8" height="48" fill="var(--panel)" stroke="var(--fg)" stroke-width="1.5"/><rect x="0" y="0" width="8" height="8" fill="var(--fg)"/><rect x="0" y="16" width="8" height="8" fill="var(--fg)"/><rect x="0" y="32" width="8" height="8" fill="var(--fg)"/><rect x="-1" y="-6" width="10" height="3" fill="var(--accent)"/></g>
+        </g>
+        <circle cx="300" cy="120" r="0" fill="none"/>
+        <text x="72" y="80">ВЕРСТА 01</text><text x="72" y="170" class="muted">PARIS · KM 0</text>
+        <text x="292" y="80">ВЕРСТА 02</text><text x="292" y="170" class="muted">ISTANBUL · KM 2 240</text><text x="292" y="186" class="muted">escale</text>
+        <text x="512" y="80">ВЕРСТА 03</text><text x="512" y="170" class="muted">МОСКВА · KM 3 995</text>
+        <rect x="660" y="96" width="200" height="48" fill="var(--bg)" stroke="var(--rule)"/>
+        <circle cx="676" cy="120" r="3" fill="var(--accent)"/>
+        <text x="688" y="116">PARIS → МОСКВА</text><text x="688" y="133" class="acc">3 995 KM</text>
+        <text x="40" y="26" class="muted">TRAIT 1,5 PX CARMIN · DESSINÉ AU SCROLL · GOUTTIÈRE GAUCHE</text>
+        <text x="40" y="44" class="muted">POTEAU 8 × 48 PX · 5 SEGMENTS NOIR / BLANC · CAPUCHON CARMIN</text>
+        <text x="660" y="170" class="muted">COMPTEUR FIXE · COIN SUPÉRIEUR</text>
+        <text x="660" y="186" class="muted">ITINÉRAIRE RÉEL, ESCALE COMPRISE</text>
+      </svg>
+    </div>
+    <div class="grid-2" style="margin-top:20px">
+      <div class="prose"><p><strong>Comment ça vit.</strong> Le trait descend le long de la page et se dessine à mesure qu'on défile, comme sur cette page. Un poteau marque chaque section, avec son numéro de verste et son kilomètre. Le compteur, en haut à droite, suit le vrai trajet Paris → Istanbul → Moscou.</p></div>
+      <div class="prose"><p><strong>Déclinaisons.</strong> Logo (poteau + mot), favicon, barre de progression du configurateur en segments rayés, séparateurs, tracé d'itinéraire sur la carte, page 404 (« Vous avez quitté la route »), en-têtes du carnet PDF, images de partage.</p></div>
+    </div>
+
+    <h3>Photographie</h3>
+    <div class="grid-2">
+      <div class="prose"><h4>À faire</h4><p class="small">Lumière naturelle, étalonnage froid et neutre, grain léger la nuit. Personnes de dos ou en situation, avec accord si elles sont reconnaissables. Détails qui ne mentent pas : ticket de métro, menu en cyrillique, verre de thé dans son porte-gobelet de train, vapeur, mains. Transports en mouvement. Saisons marquées.</p></div>
+      <div class="prose"><h4>À éviter</h4><p class="small">La place Rouge en carte postale au grand angle. Symboles soviétiques et militaires. Filtres rouges. Drones : interdits et dangereux dans le contexte actuel. Photos d'infrastructures sensibles. Images générées par IA. Visages identifiables sans autorisation écrite.</p></div>
+    </div>
+    <div class="tw" style="margin-top:22px"><table class="t mid">
+      <thead><tr><th>Section</th><th>Plans à produire</th><th>Identité visuelle</th></tr></thead>
+      <tbody>
+        <tr><td><span class="name">Hero</span><span class="sub">vidéo 8–12 s, en boucle, sans son</span></td><td>Quai de gare de nuit, vapeur, train qui entre. Alternative : Moscou de nuit depuis Zariadié, ou le métro à l'aube.</td><td>Nuit, minuit, lumières</td></tr>
+        <tr><td><span class="name">Moscou</span><span class="sub" lang="ru">Москва</span></td><td>Tours de Moskva-City face aux murs du Kremlin, métro, rues en hiver, marché Danilovski.</td><td>Bleu minuit, rythme dense, motif des lignes de métro</td></tr>
+        <tr><td><span class="name">Saint-Pétersbourg</span><span class="sub" lang="ru">Санкт-Петербург</span></td><td>Nuits blanches, ponts levés, cours intérieures, Neva gelée.</td><td>Givre et bleu perle, rythme lent, italique</td></tr>
+        <tr><td><span class="name">Nijni Novgorod</span><span class="sub" lang="ru">Нижний Новгород</span></td><td>Confluence Volga–Oka, escalier Tchkalov, téléphérique au-dessus du fleuve, kremlin de brique.</td><td>Bleu Volga et brique, deux lignes qui se rejoignent</td></tr>
+        <tr><td><span class="name">Anneau d'or</span><span class="sub" lang="ru">Золотое кольцо</span></td><td>Souzdal sous la neige, bois sculpté, coupoles, champs.</td><td>Neige et bois, motif de la boucle</td></tr>
+        <tr><td><span class="name">Sport</span></td><td>Salle de sambo, tapis, bandes, entraînement, avec l'accord du club.</td><td>Acier, lumière de néon</td></tr>
+        <tr><td><span class="name">Gastronomie</span></td><td>Pelmeni, marchés, intérieurs chauds, tables partagées.</td><td>La chaleur de la direction C</td></tr>
+        <tr><td><span class="name">Départ</span><span class="sub">Acte V</span></td><td>Aube sur la neige, fenêtre de train au lever du jour.</td><td>Neige, bleu pâle</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Motion : chaque animation raconte quelque chose</h3>
+    <div class="tw"><table class="t wide">
+      <thead><tr><th>Moment</th><th>Ce que ça raconte</th><th>Technique</th><th>Mouvement réduit</th></tr></thead>
+      <tbody>
+        <tr><td><span class="name">РОССИЯ → RUSSIE</span></td><td>Nous rendons le pays lisible. C'est la promesse du service en une image.</td><td>Fondu lettre à lettre, 1,2 s, une seule fois (voir la couverture)</td><td>RUSSIE affiché directement</td></tr>
+        <tr><td><span class="name">Ligne verste</span></td><td>Vous avancez dans le voyage.</td><td>Tracé SVG lié au scroll (useScroll, pathLength)</td><td>Ligne entière, fixe</td></tr>
+        <tr><td><span class="name">Compteur</span></td><td>La distance réelle parcourue, escale comprise.</td><td>Valeur dérivée de la progression</td><td>Valeur finale</td></tr>
+        <tr><td><span class="name">Destinations</span></td><td>Regarder défiler le pays par la fenêtre du train.</td><td>Défilement horizontal épinglé sur desktop ; carrousel au doigt sur mobile</td><td>Grille simple</td></tr>
+        <tr><td><span class="name">Carte</span></td><td>Le trajet vrai : Paris → Istanbul → Moscou → Nijni → Saint-Pétersbourg.</td><td>Tracé progressif d'un chemin SVG précalculé</td><td>Trajet déjà dessiné</td></tr>
+        <tr><td><span class="name">Configurateur</span></td><td>Chaque choix change le voyage proposé.</td><td>Transitions de mise en page, fondu d'image selon le profil</td><td>Changement instantané</td></tr>
+        <tr><td><span class="name">Fond</span></td><td>L'heure qui passe : nuit, puis aube.</td><td>Interpolation de couleur par acte</td><td>Couleur par section, sans transition</td></tr>
+        <tr><td><span class="name">Bouton principal</span></td><td>Une invitation discrète.</td><td>Effet magnétique léger, souris uniquement</td><td>Désactivé</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- ========== PHASE 4 ========== -->
+  <section class="phase" id="phase-4">
+    <div class="sec-head">
+      <div class="post-row"><span class="post" aria-hidden="true"></span><p class="eyebrow"><span class="ru" lang="ru">Верста 04</span> · Phase 4</p></div>
+      <h2>Bibliothèques retenues et écartées</h2>
+      <p class="lede">Versions et licences relevées sur le registre npm, popularité et activité sur l'API GitHub, le 29 septembre 2026. Une dépendance n'entre que si elle règle un besoin précis du parcours.</p>
+    </div>
+
+    <div class="tw"><table class="t wide">
+      <thead><tr><th>Bibliothèque</th><th>Rôle et justification</th><th>Maturité</th><th>Licence · coût</th><th>Poids</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr class="group"><td colspan="6">Socle</td></tr>
+        <tr><td><span class="name"><a href="https://github.com/vercel/next.js">Next.js</a></span><span class="sub">vercel/next.js · 16.3.7</span></td><td>Framework. Composants serveur pour limiter le JavaScript, pages statiques, métadonnées SEO, images optimisées, déploiement Vercel natif.</td><td class="tnum">★ 142,9 k · actif</td><td>MIT · gratuit</td><td>Base</td><td><span class="pill p-rec">Retenu</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/tailwindlabs/tailwindcss">Tailwind CSS</a></span><span class="sub">tailwindlabs/tailwindcss · 4.3.3</span></td><td>Les jetons de la charte deviennent des variables <code>@theme</code>. Aucun coût à l'exécution.</td><td class="tnum">★ 97,7 k · actif</td><td>MIT · gratuit</td><td>0 Ko JS</td><td><span class="pill p-rec">Retenu</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/vercel/geist-font">Geist</a></span><span class="sub">vercel/geist-font · 1.7.2</span></td><td>Polices d'interface et de données, cyrillique inclus, auto-hébergées.</td><td class="tnum">★ 3,6 k · actif</td><td>OFL · gratuit</td><td>Sous-ensembles</td><td><span class="pill p-rec">Retenu</span></td></tr>
+        <tr class="group"><td colspan="6">Mouvement</td></tr>
+        <tr><td><span class="name"><a href="https://github.com/motiondivision/motion">Motion</a></span><span class="sub">motiondivision/motion · 13.4.6</span></td><td>Moteur d'animation unique : scroll, tracés SVG, transitions du configurateur, mouvement réduit géré nativement.</td><td class="tnum">★ 33,8 k · actif</td><td>MIT · gratuit</td><td>≈ 5 Ko avec LazyMotion</td><td><span class="pill p-rec">Retenu</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/darkroomengineering/lenis">Lenis</a></span><span class="sub">darkroomengineering/lenis · 1.3.26</span></td><td>Défilement fluide qui rend régulières les animations liées au scroll. Coupé sur tactile et en mouvement réduit.</td><td class="tnum">★ 16,1 k · actif</td><td>MIT · gratuit</td><td>≈ 3 Ko</td><td><span class="pill p-rec">Retenu</span></td></tr>
+        <tr class="group"><td colspan="6">Interface</td></tr>
+        <tr><td><span class="name"><a href="https://github.com/shadcn-ui/ui">shadcn/ui</a> + <a href="https://github.com/radix-ui/primitives">Radix</a></span><span class="sub">radix-ui 1.6.7</span></td><td>Radios, onglets, dialogues, accordéons accessibles au clavier. Le code est copié dans le projet et entièrement restylé, pour éviter l'effet gabarit SaaS.</td><td class="tnum">★ 124,8 k / 19,3 k</td><td>MIT · gratuit</td><td>Par composant</td><td><span class="pill p-rec">Retenu</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/lucide-icons/lucide">Lucide</a></span><span class="sub">lucide-react 1.48</span></td><td>Pictogrammes d'interface. Les éléments de marque restent dessinés sur mesure.</td><td class="tnum">★ 24,8 k · actif</td><td>ISC · gratuit</td><td>Tree-shaké</td><td><span class="pill p-rec">Retenu</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/davidjerleke/embla-carousel">Embla Carousel</a></span><span class="sub">8.6.0</span></td><td>Destinations au doigt sur mobile, galeries. Physique naturelle, accessible.</td><td class="tnum">★ 8,4 k · actif</td><td>MIT · gratuit</td><td>≈ 7 Ko</td><td><span class="pill p-rec">Retenu</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/47ng/nuqs">nuqs</a></span><span class="sub">2.10.1</span></td><td>État du configurateur dans l'URL : profil partageable, bouton retour fonctionnel, résultat rendu côté serveur.</td><td class="tnum">★ 10,9 k · actif</td><td>MIT · gratuit</td><td>≈ 5 Ko</td><td><span class="pill p-rec">Retenu</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/react-hook-form/react-hook-form">React Hook Form</a> + <a href="https://github.com/colinhacks/zod">Zod</a></span><span class="sub">7.89 · 4.6.5</span></td><td>Formulaires (guide, contact, cadrage) validés avec le même schéma côté client et côté serveur.</td><td class="tnum">★ 44,9 k / 44 k</td><td>MIT · gratuit</td><td>≈ 12 Ko</td><td><span class="pill p-rec">Retenu</span></td></tr>
+        <tr class="group"><td colspan="6">Cartes et contenu</td></tr>
+        <tr><td><span class="name"><a href="https://github.com/d3/d3-geo">d3-geo</a> + <a href="https://github.com/topojson/topojson-client">topojson</a></span><span class="sub">3.1.1 · 3.1.0</span></td><td>Carte de Russie et itinéraires calculés au build en SVG statique, projection conique adaptée à un pays aussi large. Rien n'est envoyé au navigateur. Stables car terminées.</td><td class="tnum">★ 1,1 k · stable</td><td>ISC · gratuit</td><td>0 Ko client</td><td><span class="pill p-rec">Retenu</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/sdorra/content-collections">content-collections</a></span><span class="sub">0.15.3</span></td><td>Contenus MDX typés dans Git (date de vérification, sources, degré de volatilité). Pas de CMS à payer ni à maintenir.</td><td class="tnum">★ 1,2 k · actif</td><td>MIT · gratuit</td><td>0 Ko client</td><td><span class="pill p-rec">Retenu</span></td></tr>
+        <tr class="group"><td colspan="6">Services</td></tr>
+        <tr><td><span class="name"><a href="https://github.com/resend/react-email">Resend + React Email</a></span><span class="sub">resend 6.30</span></td><td>Envoi du guide, séquence d'accueil, confirmations.</td><td class="tnum">★ 19,8 k · actif</td><td>MIT · offre gratuite pour démarrer</td><td>Serveur</td><td><span class="pill p-rec">Retenu</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/stripe/stripe-node">Stripe</a></span><span class="sub">stripe 22.6.2</span></td><td>Paiement hébergé : aucune donnée de carte chez vous. Honoraires uniquement.</td><td class="tnum">★ 4,5 k · actif</td><td>MIT · commission par paiement</td><td>Serveur</td><td><span class="pill p-fin">Sous réserve</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/vercel/analytics">Vercel Analytics</a></span><span class="sub">2.0.1 + Speed Insights 2.0.0</span></td><td>Audience sans cookie et Core Web Vitals mesurés chez les vrais visiteurs.</td><td class="tnum">officiel Vercel</td><td>MIT / Apache-2.0</td><td>≈ 1 Ko</td><td><span class="pill p-rec">Retenu</span></td></tr>
+        <tr class="group"><td colspan="6">Plus tard</td></tr>
+        <tr><td><span class="name"><a href="https://github.com/supabase/supabase">Supabase</a> + <a href="https://github.com/drizzle-team/drizzle-orm">Drizzle</a></span><span class="sub">2.117 · 0.45.3</span></td><td>Espace client : connexion par lien magique, voyages, réservations, documents. Drizzle plutôt que Prisma : plus léger en serverless.</td><td class="tnum">★ 110,9 k / 35,9 k</td><td>Apache-2.0 · offre gratuite puis payante</td><td>Serveur</td><td><span class="pill p-v2">V2</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/serwist/serwist">Serwist</a></span><span class="sub">@serwist/next 9.5.12</span></td><td>Carnet de voyage installable et utilisable sans réseau.</td><td class="tnum">★ 1,5 k · actif</td><td>MIT · gratuit</td><td>Service worker</td><td><span class="pill p-v2">V2</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/maplibre/maplibre-gl-js">MapLibre</a> + <a href="https://github.com/visgl/react-map-gl">react-map-gl</a></span><span class="sub">6.11.2 · 8.1.3</span></td><td>Carte zoomable dans l'espace client, chargée à la demande uniquement.</td><td class="tnum">★ 11,8 k / 8,5 k</td><td>BSD-3 / MIT · tuiles à héberger</td><td>≈ 200 Ko+</td><td><span class="pill p-v2">V2</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/shuding/cobe">cobe</a></span><span class="sub">2.0.1</span></td><td>Globe WebGL minuscule, si un moment « vue du ciel » est validé.</td><td class="tnum">★ 5,9 k · actif</td><td>MIT · gratuit</td><td>≈ 5 Ko</td><td><span class="pill p-res">Optionnel</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/PostHog/posthog-js">PostHog</a></span><span class="sub">1.434</span></td><td>Entonnoir du configurateur, hébergement UE, mode sans cookie.</td><td class="tnum">actif</td><td>MIT · offre gratuite</td><td>≈ 50 Ko</td><td><span class="pill p-v2">V1.1</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/sanity-io/sanity">Sanity</a></span><span class="sub">next-sanity 13.3</span></td><td>Seulement si vous voulez éditer sans passer par Git (depuis un téléphone par exemple).</td><td class="tnum">★ 6,3 k · actif</td><td>MIT · offre gratuite puis payante</td><td>Serveur</td><td><span class="pill p-res">Si besoin</span></td></tr>
+        <tr class="group"><td colspan="6">Écartés</td></tr>
+        <tr><td><span class="name"><a href="https://github.com/greensock/GSAP">GSAP</a></span><span class="sub">3.15</span></td><td>Excellent, mais doublon avec Motion. Deux moteurs d'animation, c'est du poids et de la maintenance en plus. Licence gratuite mais propriétaire.</td><td class="tnum">★ 28,7 k</td><td>« Standard no-charge »</td><td>≈ 25 Ko+</td><td><span class="pill p-out">Écarté</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/mrdoob/three.js">Three.js</a>, <a href="https://github.com/pmndrs/react-three-fiber">R3F</a>, <a href="https://github.com/pmndrs/drei">drei</a></span></td><td>Aucun moment du parcours n'exige de vraie 3D, et le coût sur mobile est élevé.</td><td class="tnum">★ 116 k / 32,6 k / 9,9 k</td><td>MIT</td><td>≈ 150 Ko+</td><td><span class="pill p-out">Écarté</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/payloadcms/payload">Payload CMS</a></span></td><td>Très bon, mais demande une base de données et de la maintenance. Surdimensionné pour un indépendant.</td><td class="tnum">★ 45 k</td><td>MIT</td><td>Serveur</td><td><span class="pill p-out">Écarté</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/timlrx/contentlayer2">Contentlayer2</a></span></td><td>Dernière publication en mai 2025, projet d'origine abandonné.</td><td class="tnum">★ 423 · à l'arrêt</td><td>MIT</td><td>—</td><td><span class="pill p-out">Écarté</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/pmndrs/zustand">Zustand</a></span></td><td>nuqs couvre le besoin, avec en plus une URL partageable.</td><td class="tnum">★ 58,8 k</td><td>MIT</td><td>—</td><td><span class="pill p-out">Écarté</span></td></tr>
+        <tr><td><span class="name"><a href="https://github.com/muxinc/next-video">next-video / Mux</a></span></td><td>Une boucle muette de dix secondes n'a pas besoin de streaming adaptatif payant.</td><td class="tnum">★ 1,2 k</td><td>MIT · Mux payant</td><td>—</td><td><span class="pill p-out">Écarté</span></td></tr>
+        <tr><td><span class="name">Lottie, Howler, SplitType, react-globe.gl, next-view-transitions</span></td><td>Pas d'animation vectorielle prévue ; <code>&lt;audio&gt;</code> natif suffit ; SplitType inactif depuis 2023 ; globe dépendant de three ; l'API View Transitions native suffit.</td><td class="tnum">—</td><td>MIT / ISC</td><td>—</td><td><span class="pill p-out">Écartés</span></td></tr>
+        <tr><td><span class="name">Lemon Squeezy</span></td><td>Pensé pour les produits numériques plutôt que les prestations, et désormais propriété de Stripe : même exposition au risque.</td><td class="tnum">—</td><td>Commission</td><td>—</td><td><span class="pill p-out">Écarté</span></td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Chaque besoin du brief, et sa réponse</h3>
+    <div class="tw"><table class="t mid">
+      <thead><tr><th>Besoin</th><th>Réponse</th></tr></thead>
+      <tbody>
+        <tr><td>Hero vidéo</td><td><code>&lt;video&gt;</code> natif, H.264 + AV1, image d'attente AVIF, bouton pause (exigé par WCAG au-delà de 5 s)</td></tr>
+        <tr><td>Scroll, parallaxe, récit interactif</td><td>Motion (<code>useScroll</code>, <code>useTransform</code>) + <code>position: sticky</code></td></tr>
+        <tr><td>Défilement fluide</td><td>Lenis, desktop uniquement</td></tr>
+        <tr><td>Transitions de pages et cinématiques</td><td>API View Transitions native, en amélioration progressive</td></tr>
+        <tr><td>Carte, itinéraire</td><td>d3-geo au build → SVG ; tracé animé par Motion ; données Natural Earth (domaine public)</td></tr>
+        <tr><td>Carte interactive, globe 3D</td><td>MapLibre en V2 dans l'espace client ; cobe en option ; pas de three.js</td></tr>
+        <tr><td>Chronologie jour par jour</td><td>Composant maison : liste sémantique posée sur la ligne verste</td></tr>
+        <tr><td>Configurateur</td><td>Radix (RadioGroup, ToggleGroup) + nuqs + transitions Motion</td></tr>
+        <tr><td>Carrousel, galerie</td><td>Embla ; agrandissement via Dialog Radix</td></tr>
+        <tr><td>Apparition du texte</td><td>Découpage en React + Motion</td></tr>
+        <tr><td>Curseur, boutons magnétiques</td><td>Une quarantaine de lignes avec <code>useSpring</code>, souris uniquement</td></tr>
+        <tr><td>Effets de fond, WebGL</td><td>Dégradés d'actes et grain en CSS ; WebGL écarté</td></tr>
+        <tr><td>Audio des phrases russes</td><td><code>&lt;audio&gt;</code> natif, enregistrements d'une voix native (≈ 20 Ko par phrase)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- ========== PHASE 5 ========== -->
+  <section class="phase" id="phase-5">
+    <div class="sec-head">
+      <div class="post-row"><span class="post" aria-hidden="true"></span><p class="eyebrow"><span class="ru" lang="ru">Верста 05</span> · Phase 5</p></div>
+      <h2>Arborescence</h2>
+      <p class="lede">Toutes les routes du brief, plus six ajouts nécessaires au référencement, à la conversion ou au cadre légal. Chaque route est rattachée à un lot de livraison.</p>
+    </div>
+<pre class="tree">/                                  Accueil en cinq actes                          <span class="k">MVP</span>
+/voyages                           Les quatre formats                             <span class="k">MVP</span>
+  /voyages/1-semaine               Découverte : Moscou + Saint-Pétersbourg        <span class="k">MVP</span>
+  /voyages/2-semaines              Immersion : + Nijni Novgorod, Anneau d'or      <span class="k">MVP</span>
+  /voyages/3-semaines              Grand format                                   <span class="k">MVP</span>
+  /voyages/4-semaines              Grand format étendu (≤ 30 jours eVisa)         <span class="k">MVP</span>
+/destinations/[ville]              <span class="c">+ ajout SEO · moscou, saint-petersbourg, nijni-novgorod,</span>  V1.1
+                                   <span class="c">anneau-d-or, kazan, baikal</span>
+/experiences                       Culture, sport, gastronomie, nuit, nature      <span class="k">MVP</span>
+  /experiences/[slug]              <span class="c">ex. lutte-sambo, gastronomie</span>                    V1.1
+/configurateur                     Quatre étapes                                  <span class="k">MVP</span>
+  /configurateur/resultat          Profil de voyage partageable (noindex)         <span class="k">MVP</span>
+/offres                            <span class="c">+ ajout · matrice des offres</span>                     <span class="k">MVP</span>
+/russie                            « Les Clés », le hub pratique                  <span class="k">MVP</span>
+  /russie/avant-de-partir          <span class="c">+ ajout · contexte, sécurité, assurance</span>           <span class="k">MVP</span>
+  /russie/visa                     eVisa pas à pas                                <span class="k">MVP</span>
+  /russie/paiements                Argent, espèces, carte Mir                     <span class="k">MVP</span>
+  /russie/internet                 Connexion, eSIM, messageries                   <span class="k">MVP</span>
+  /russie/transports               Trains, métro, taxis                           <span class="k">MVP</span>
+  /russie/langue                   Russe pratique, audio                          V1.1
+  /russie/applications             Yandex Go, cartes, traduction                  V1.1
+  /russie/hotels                   <span class="c">+ ajout · présent dans le hub du brief</span>           V1.1
+/guide-gratuit                     <span class="c">+ ajout · « Les 25 choses à savoir »</span>             <span class="k">MVP</span>
+/journal/[slug]                    <span class="c">+ ajout · contenu éditorial</span>                      V1.1
+/a-propos                          Votre histoire                                 <span class="k">MVP</span>
+/contact                           Appel de cadrage                               <span class="k">MVP</span>
+/espace-client                     Tableau de bord, carnet hors-ligne             V2
+/mentions-legales  /cgv  /conditions-de-prestation  /confidentialite  /cookies  <span class="k">MVP</span></pre>
+    <p class="note"><strong>Pourquoi ces ajouts.</strong> Les pages de villes captent « voyage Moscou » et « visiter Saint-Pétersbourg », absentes du brief. <code>/offres</code> donne une page à la matrice tarifaire. <code>/russie/avant-de-partir</code> porte la transparence sur le contexte. <code>/russie/hotels</code> figurait dans le hub mais pas dans les routes. <code>/guide-gratuit</code> est la page d'atterrissage du produit d'appel. <code>/journal</code> porte la stratégie éditoriale.</p>
+  </section>
+
+  <!-- ========== PHASE 6 ========== -->
+  <section class="phase" id="phase-6">
+    <div class="sec-head">
+      <div class="post-row"><span class="post" aria-hidden="true"></span><p class="eyebrow"><span class="ru" lang="ru">Верста 06</span> · Phase 6</p></div>
+      <h2>Parcours utilisateur</h2>
+      <p class="lede">Curiosité, émotion, projection, confiance, désir, personnalisation, conversion. Chaque acte répond à une question que le visiteur se pose à ce moment-là, et propose une seule action.</p>
+    </div>
+    <div class="tw"><table class="t wide">
+      <thead><tr><th>Acte</th><th>Émotion visée</th><th>Question du visiteur</th><th>Réponse du site</th><th>Action proposée</th></tr></thead>
+      <tbody>
+        <tr><td><span class="name">I · L'appel</span><span class="sub">hero</span></td><td>Curiosité</td><td>« C'est quoi, la Russie aujourd'hui&#8239;? »</td><td>Vidéo, РОССИЯ → RUSSIE, la promesse</td><td>Construire mon voyage · Découvrir</td></tr>
+        <tr><td><span class="name">II · La découverte</span><span class="sub">manifeste, destinations</span></td><td>Émotion, projection</td><td>« Qu'est-ce que je verrais, qui je croiserais&#8239;? »</td><td>Villes, visages, saisons, vie quotidienne</td><td>Explorer une ville</td></tr>
+        <tr><td><span class="name">III · L'immersion</span><span class="sub">problème, Les Clés</span></td><td>Confiance</td><td>« Est-ce faisable pour moi, et est-ce raisonnable&#8239;? »</td><td>Les frictions nommées, leurs solutions, les dates de vérification, le contexte assumé</td><td>Recevoir le guide gratuit</td></tr>
+        <tr><td><span class="name">IV · Votre Russie</span><span class="sub">configurateur</span></td><td>Désir, personnalisation</td><td>« À quoi ressemblerait mon voyage&#8239;? »</td><td>Un profil généré en quatre choix</td><td>Voir mon profil</td></tr>
+        <tr><td><span class="name">V · Le départ</span><span class="sub">offres, carte, appel</span></td><td>Décision</td><td>« Combien, et par quoi on commence&#8239;? »</td><td>Prix fixes, carte, carnet exemple</td><td>Construire mon voyage · Réserver un appel</td></tr>
+      </tbody>
+    </table></div>
+    <h3>Entonnoir</h3>
+    <div class="board" style="margin-top:0">
+      <div class="r"><span class="c1">Entrée</span><span class="c2">Page pratique trouvée sur Google (« eVisa Russie »), accueil, réseaux, bouche-à-oreille</span><span class="c3">Trafic</span></div>
+      <div class="r"><span class="c1">Étape 1</span><span class="c2">Guide gratuit contre une adresse e-mail</span><span class="c3">Micro-conversion</span></div>
+      <div class="r"><span class="c1">Étape 2</span><span class="c2">Cinq e-mails sur douze jours : J0 le guide · J2 les cinq erreurs qui coûtent cher · J5 une journée type à Moscou · J8 payer, se connecter, se déplacer · J12 votre profil de voyage</span><span class="c3">Confiance</span></div>
+      <div class="r"><span class="c1">Étape 3</span><span class="c2">Configurateur, puis appel de cadrage gratuit de 20 minutes</span><span class="c3">Qualification</span></div>
+      <div class="r"><span class="c1">Étape 4</span><span class="c2">Choix de l'offre, reconnaissance du contexte, paiement</span><span class="c3">Conversion</span></div>
+      <div class="r"><span class="c1">Étape 5</span><span class="c2">Carnet, préparation, départ, retour, demande de témoignage</span><span class="c3">Fidélité</span></div>
+    </div>
+    <p class="note">Aucun compte à rebours, aucune fausse rareté, aucune case précochée. La désinscription se fait en un clic et le prix est affiché avant l'appel.</p>
+  </section>
+
+  <!-- ========== PHASE 7 ========== -->
+  <section class="phase" id="phase-7">
+    <div class="sec-head">
+      <div class="post-row"><span class="post" aria-hidden="true"></span><p class="eyebrow"><span class="ru" lang="ru">Верста 07</span> · Phase 7</p></div>
+      <h2>Wireframes</h2>
+      <p class="lede">La page d'accueil en blocs, avec la couleur réelle de chaque acte : on voit la page passer de la nuit à la neige. À droite, l'adaptation mobile.</p>
+    </div>
+    <div class="wfs">
+      <div class="wf" aria-label="Wireframe desktop de l'accueil">
+        <span class="cap">Desktop · 1440 px</span>
+        <div class="b a1"><b>01 · Hero</b>Nav minimale (logo · Voyages · Les Clés · Configurateur · [Construire]) · vidéo plein écran · РОССИЯ → RUSSIE · promesse · 2 CTA · bouton pause · compteur km</div>
+        <div class="b a2"><b>02 · Manifeste</b>Colonne étroite, texte éditorial, une photo de détail qui glisse légèrement</div>
+        <div class="b a2b"><b>03 · Destinations</b>Défilement horizontal épinglé : Moscou · Saint-Pétersbourg · Nijni · Anneau d'or · Et plus loin<div class="row"><i>Москва</i><i>Санкт-Петербург</i><i>Нижний</i><i>Кольцо</i></div></div>
+        <div class="b a3r"><b>04 · Ce qui arrête la plupart des gens</b>Sept frictions en grille, sans dramatiser · le carmin apparaît</div>
+        <div class="b a3"><b>05 · Vous restez libre, nous vous donnons les clés</b>Trois piliers · mention « nous ne sommes pas une agence »</div>
+        <div class="b a4"><b>06 · Les Clés · Ключи</b>Sept dossiers avec badge « Vérifié le » · lien vers « Partir en connaissance de cause »</div>
+        <div class="b a4b"><b>07 · Votre Russie en quatre questions</b>Aperçu interactif de l'étape 1 du configurateur</div>
+        <div class="b a5"><b>08 · Offres</b>Quatre colonnes, prix fixes · 09 · Qui vous accompagne (votre histoire, « aucun avis inventé ici »)</div>
+        <div class="b a5b"><b>10 · Guide gratuit</b> · <b>11 · Départ</b>Carte : Paris → Istanbul → Moscou → Nijni → Saint-Pétersbourg · « Il n'y a plus de vol direct. Il y a toujours un chemin. » · [Construire mon voyage en Russie] · pied de page légal</div>
+      </div>
+      <div class="wf wf-mob" aria-label="Wireframe mobile de l'accueil">
+        <span class="cap">Mobile · 390 px</span>
+        <div class="b a1" style="min-height:120px"><b>Hero</b>Vidéo 720p ou image seule si économie de données · titre sur 1 ligne · CTA pleine largeur</div>
+        <div class="b a2"><b>Manifeste</b>Texte seul</div>
+        <div class="b a2b" style="min-height:70px"><b>Destinations</b>Carrousel au doigt, carte à 85 % de largeur</div>
+        <div class="b a3r"><b>Frictions</b>Liste dépliable</div>
+        <div class="b a3"><b>Solution</b>Piliers empilés</div>
+        <div class="b a4"><b>Les Clés</b>Liste compacte</div>
+        <div class="b a4b"><b>Configurateur</b>Plein écran, une question par écran</div>
+        <div class="b a5"><b>Offres</b>Onglets par format</div>
+        <div class="b a5b" style="min-height:80px"><b>Départ</b>Carte verticale · CTA fixe en bas d'écran</div>
+      </div>
+    </div>
+
+    <h3>Configurateur</h3>
+    <div class="cfg">
+      <div class="f"><span class="st">Étape 1 / 4</span><div class="prog"><span class="on"></span><span></span><span></span><span></span></div><span class="q">Combien de temps partez-vous&#8239;?</span><span class="opt">7 jours<span>2 villes</span></span><span class="opt on">14 jours<span>3–4 villes</span></span><span class="opt">21 jours<span>4–5</span></span><span class="opt">28 jours<span>≤ 30 j eVisa</span></span></div>
+      <div class="f"><span class="st">Étape 2 / 4</span><div class="prog"><span class="on"></span><span class="on"></span><span></span><span></span></div><span class="q">Qu'est-ce qui vous fait partir&#8239;?</span><span class="opt on">Culture</span><span class="opt on">Sport / Lutte</span><span class="opt">Gastronomie</span><span class="opt">Nature…</span><span class="small">L'image change à chaque choix</span></div>
+      <div class="f"><span class="st">Étape 3 / 4</span><div class="prog"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></div><span class="q">Et le russe&#8239;?</span><span class="opt">Pas un mot</span><span class="opt on">Quelques mots</span><span class="opt">Débutant</span><span class="opt">Conversation…</span></div>
+      <div class="f"><span class="st">Étape 4 / 4</span><div class="prog"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div><span class="q">Quel confort&#8239;?</span><span class="opt">Économique</span><span class="opt on">Confort</span><span class="opt">Premium</span></div>
+      <div class="f" style="border-color:var(--accent)"><span class="st">Résultat</span><span class="q">Votre profil de voyage</span><span class="small">Mini-carte du trajet · villes · rythme · expériences · budget indicatif sur place · préparation nécessaire (jauge rayée)</span><span class="opt on">Créer mon itinéraire personnalisé</span><span class="opt">Recevoir ce profil par e-mail</span></div>
+    </div>
+  </section>
+
+  <!-- ========== PHASE 8 ========== -->
+  <section class="phase" id="phase-8">
+    <div class="sec-head">
+      <div class="post-row"><span class="post" aria-hidden="true"></span><p class="eyebrow"><span class="ru" lang="ru">Верста 08</span> · Phase 8</p></div>
+      <h2>Textes</h2>
+      <p class="lede">La page d'accueil complète, les écrans du configurateur, la matrice des offres, le sommaire du guide gratuit et les dix phrases. Ton recherché : élégant, humain, un peu mystérieux, rassurant, précis.</p>
+    </div>
+
+    <div class="copy">
+      <div class="blk"><div class="where"><b>01</b>Hero</div><div class="txt">
+        <p class="ov">55°45′20″ N · 37°37′04″ E · Kilomètre zéro</p>
+        <p class="hl huge">РОССИЯ → RUSSIE</p>
+        <p class="it">Le pays que vous croyez connaître.</p>
+        <p>Des itinéraires sur mesure et toutes les clés pratiques pour voyager en Russie par vous-même : visa, argent, connexion, transports, langue.</p>
+        <div class="cta-row"><span class="btn pri">Construire mon voyage</span><span class="btn">Découvrir la Russie</span></div>
+      </div></div>
+
+      <div class="blk"><div class="where"><b>02</b>Manifeste</div><div class="txt">
+        <p class="hl">La Russie ne se découvre pas depuis un guide.</p>
+        <p>Elle se découvre dans un wagon de nuit, un verre de thé dans son porte-gobelet en métal. Dans une station de métro qui ressemble à un palais, à sept heures du matin, au milieu de gens qui vont travailler. Dans une cuisine où l'on vous ressert sans vous demander votre avis.</p>
+        <p>C'est un pays immense, contradictoire, souvent mal raconté. On croit le connaître par les nouvelles. On le connaît rarement par ses rues.</p>
+        <p>Verste existe pour ça : vous donner de quoi y entrer par vous-même, les yeux ouverts.</p>
+      </div></div>
+
+      <div class="blk"><div class="where"><b>03</b>Destinations</div><div class="txt">
+        <p class="hl">Onze fuseaux horaires. On commence par quatre villes.</p>
+        <p><strong>Moscou · <span lang="ru">Москва</span></strong> · La capitale qui ne dort pas vraiment. Des tours de verre face aux murs du Kremlin, un métro qui passe toutes les deux minutes, des nuits d'hiver plus longues que les journées.</p>
+        <p><strong>Saint-Pétersbourg · <span lang="ru">Санкт-Петербург</span></strong> · Une ville construite sur l'eau et pensée pour être regardée. En juin, le soleil se couche à peine. La nuit, les ponts se lèvent sur la Neva.</p>
+        <p><strong>Nijni Novgorod · <span lang="ru">Нижний Новгород</span></strong> · Là où l'Oka se jette dans la Volga. Un kremlin de brique sur la colline, un téléphérique au-dessus du fleuve, et presque aucun touriste étranger.</p>
+        <p><strong>L'Anneau d'or · <span lang="ru">Золотое кольцо</span></strong> · Souzdal, Vladimir, Iaroslavl. Des églises blanches, des maisons de bois, des champs sous la neige, à quelques heures de Moscou.</p>
+        <p><strong>Et plus loin</strong> · Kazan, le Baïkal, la Carélie. Pour ceux qui ont déjà franchi la première verste.</p>
+      </div></div>
+
+      <div class="blk"><div class="where"><b>04</b>Le problème</div><div class="txt">
+        <p class="ov">Ce qui arrête la plupart des gens</p>
+        <p class="hl">Le pays n'est pas si compliqué. Y entrer, si.</p>
+        <div class="frics">
+          <div><b>Visa</b>Un formulaire en ligne, des points d'entrée précis, des erreurs qui valent un refus.</div>
+          <div><b>Argent</b>Vos cartes ne fonctionneront ni en magasin, ni au distributeur.</div>
+          <div><b>Connexion</b>Plusieurs applications de votre quotidien y sont bloquées.</div>
+          <div><b>Langue</b>Peu d'anglais hors des centres, et un alphabet à apprivoiser.</div>
+          <div><b>Applications</b>Taxis, cartes, livraisons : les outils ne sont pas les vôtres.</div>
+          <div><b>Transports</b>Des trains excellents, des gares et des réservations à comprendre.</div>
+          <div><b>Codes locaux</b>Ce qui se fait, ce qui ne se fait pas, ce qu'il vaut mieux éviter.</div>
+        </div>
+        <p>Chacune de ces questions a une réponse. Aucune n'est évidente quand on est seul.</p>
+      </div></div>
+
+      <div class="blk"><div class="where"><b>05</b>La solution</div><div class="txt">
+        <p class="hl">Vous restez libre. Nous vous donnons les clés.</p>
+        <p>Verste ne vous vend pas de forfait et ne voyage pas à votre place. Nous préparons le voyage avec vous : un itinéraire pensé pour vous, une méthode pour chaque démarche, et des réponses concrètes aux questions qu'on ne se pose qu'une fois sur place.</p>
+        <p><strong>Un itinéraire à votre mesure.</strong> Villes, rythme, trains, quartiers, adresses.<br><strong>Les clés pratiques.</strong> Visa, argent, connexion, transports, langue. Pas à pas, vérifiées et datées.<br><strong>Un carnet qui marche sans réseau.</strong> Adresses en cyrillique, phrases utiles, réservations, numéros d'urgence.</p>
+        <p class="legal">Préparation de voyage et conseil. Vous réservez et payez vos prestations directement auprès des prestataires. Verste n'est pas une agence de voyages.</p>
+      </div></div>
+
+      <div class="blk"><div class="where"><b>06</b>Les Clés</div><div class="txt">
+        <p class="ov">Les Clés · <span lang="ru">Ключи</span></p>
+        <p class="hl">Vous n'avez pas besoin de tout savoir. Seulement par où entrer.</p>
+        <p>Sept dossiers pour comprendre comment fonctionne le pays avant d'y poser le pied. Chacun indique la date de sa dernière vérification et ses sources.</p>
+        <p class="small">Visa · Argent · Internet · Transports · Langue · Hôtels · Applications — et, à part : Partir en connaissance de cause.</p>
+      </div></div>
+
+      <div class="blk"><div class="where"><b>07</b>Configurateur</div><div class="txt">
+        <p class="hl">Votre Russie, en quatre questions.</p>
+        <p>Durée, envies, niveau de russe, budget. En deux minutes, un premier profil de voyage : villes, rythme, expériences, budget indicatif.</p>
+        <div class="cta-row"><span class="btn pri">Commencer</span></div>
+      </div></div>
+
+      <div class="blk"><div class="where"><b>09</b>Qui vous accompagne</div><div class="txt">
+        <p class="hl">[Votre histoire]</p>
+        <p class="small">Pourquoi la Russie, combien de séjours, ce que vous y faites, votre lien avec la lutte, votre niveau de russe. C'est la section qui fait la confiance : elle s'écrit avec vous.</p>
+        <p>Aucun avis inventé ici. Nous publierons ceux de nos premiers voyageurs à leur retour, avec leur accord.</p>
+      </div></div>
+
+      <div class="blk"><div class="where"><b>10</b>Guide gratuit</div><div class="txt">
+        <p class="hl">Les 25 choses à savoir avant de partir en Russie</p>
+        <p>Le guide qu'on aurait aimé lire avant son premier voyage. Gratuit, mis à jour chaque mois.</p>
+        <p class="small">[ votre@email.fr ] [Recevoir le guide] · Un e-mail avec le guide, puis quatre conseils pratiques sur douze jours. Désinscription en un clic.</p>
+      </div></div>
+
+      <div class="blk"><div class="where"><b>11</b>Départ</div><div class="txt">
+        <p class="ov">KM 3 995 · Paris → <span lang="ru">Стамбул</span> → <span lang="ru">Москва</span></p>
+        <p class="hl">Il n'y a plus de vol direct. Il y a toujours un chemin.</p>
+        <p>Votre voyage commence ici, bien avant l'aéroport.</p>
+        <div class="cta-row"><span class="btn pri">Construire mon voyage en Russie</span><span class="btn">Réserver un appel de cadrage (20 min, gratuit)</span></div>
+      </div></div>
+
+      <div class="blk"><div class="where"><b>—</b>Pied de page</div><div class="txt">
+        <p><strong>Verste</strong> · La Russie, verste après verste.</p>
+        <p class="legal">Les informations administratives évoluent souvent. Vérifiez-les toujours auprès des autorités compétentes (France Diplomatie, consulat de Russie). Le ministère de l'Europe et des Affaires étrangères déconseille actuellement tout voyage en Russie : consultez sa fiche avant toute décision.</p>
+      </div></div>
+    </div>
+
+    <h3>Écrans du configurateur</h3>
+    <div class="tw"><table class="t mid">
+      <thead><tr><th>Étape</th><th>Question</th><th>Choix et aide</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Combien de temps partez-vous&#8239;?</td><td>7 jours, l'essentiel : Moscou et Saint-Pétersbourg · 14 jours, le temps de sortir des capitales · 21 jours, le pays commence à se révéler · 28 jours, le grand voyage (dans la limite des 30 jours de l'eVisa)</td></tr>
+        <tr><td>2</td><td>Qu'est-ce qui vous fait partir&#8239;?</td><td>Culture · Histoire · Sport / Lutte · Gastronomie · Vie nocturne · Nature · Architecture · Immersion locale. « Choisissez-en autant que vous voulez. »</td></tr>
+        <tr><td>3</td><td>Et le russe&#8239;?</td><td>Pas un mot · Quelques mots · Débutant · Conversation simple · Intermédiaire. « Aucun niveau n'est requis. Cela change seulement la préparation que nous vous proposerons. »</td></tr>
+        <tr><td>4</td><td>Quel confort&#8239;?</td><td>Économique : hôtels simples, trains en 2e classe · Confort : bons hôtels centraux · Premium : adresses de caractère, 1re classe, tables choisies</td></tr>
+        <tr><td>Résultat</td><td>Votre profil de voyage</td><td>Villes recommandées · durée · rythme · expériences · budget indicatif sur place, hors vols (fourchette datée) · niveau de préparation. CTA : Créer mon itinéraire personnalisé</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Matrice des offres</h3>
+    <div class="tw"><table class="t wide">
+      <thead><tr><th></th><th>Découverte · 7 j</th><th>Immersion · 14 j</th><th>Grand format · 21–28 j</th><th>+ Conciergerie</th></tr></thead>
+      <tbody>
+        <tr><td>Itinéraire</td><td>Jour par jour, 2 villes</td><td>Jour par jour, 3–4 villes</td><td>Jour par jour, 4–6 villes, variantes</td><td>—</td></tr>
+        <tr><td>Hébergements</td><td>2 adresses par ville</td><td>3 adresses par ville, par budget</td><td>3 adresses + quartiers commentés</td><td>Réservation accompagnée en visio</td></tr>
+        <tr><td>Transports</td><td>Trains et transferts expliqués</td><td>+ réservation des trains pas à pas</td><td>+ trains de nuit, vols intérieurs</td><td>Réservation accompagnée</td></tr>
+        <tr><td>Recommandations</td><td>20 adresses</td><td>40 adresses</td><td>60 adresses et plus</td><td>Tables réservées avec vous</td></tr>
+        <tr><td>Applications</td><td>Kit d'installation</td><td>+ séance de configuration</td><td>+ séance de configuration</td><td>—</td></tr>
+        <tr><td>Argent</td><td>Méthode et budget espèces</td><td>+ plan de paiement jour par jour</td><td>+ plan de paiement jour par jour</td><td>—</td></tr>
+        <tr><td>Visa</td><td>Guide eVisa pas à pas</td><td>+ relecture de votre formulaire</td><td>+ relecture de votre formulaire</td><td>—</td></tr>
+        <tr><td>Langue</td><td>10 phrases + audio</td><td>50 phrases, fiches cyrillique</td><td>+ phrases par situation</td><td>—</td></tr>
+        <tr><td>Activités, sport</td><td>Suggestions</td><td>Sélection personnalisée, module sport en option</td><td>Programme complet</td><td>Mise en relation (clubs, guides)</td></tr>
+        <tr><td>Avant le départ</td><td>E-mail, 1 appel</td><td>E-mail, 2 appels</td><td>E-mail, 3 appels</td><td>Prioritaire</td></tr>
+        <tr><td>Pendant le voyage</td><td>—</td><td>E-mail, réponse sous 24 h</td><td>E-mail, réponse sous 12 h</td><td>Canal direct fixé avant le départ</td></tr>
+        <tr><td>Carnet</td><td>PDF</td><td>PDF, puis hors-ligne (V2)</td><td>PDF, puis hors-ligne (V2)</td><td>—</td></tr>
+        <tr><td><strong>Prix suggéré</strong></td><td class="tnum"><strong>240 €</strong></td><td class="tnum"><strong>420 €</strong></td><td class="tnum"><strong>690 €</strong></td><td class="tnum"><strong>+ 190 €</strong></td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">Quantités et prix à ajuster avec vous. Un prix unique par format, dans vos fourchettes, se lit plus facilement qu'une fourchette : le client n'a pas à deviner où il se situe. Base : un voyage à deux, supplément annoncé au-delà.</p>
+
+    <h3>Le guide gratuit : les 25 choses à savoir</h3>
+    <div class="guide">
+      <div class="gcol">
+        <h4>Les 5 erreurs critiques</h4>
+        <ol><li>Arriver avec seulement une carte bancaire</li><li>Remplir l'eVisa avec une donnée qui diffère du passeport</li><li>Entrer par un point de passage non ouvert à l'eVisa</li><li>Compter sur WhatsApp pour rester joignable</li><li>Partir sans assurance qui couvre vraiment la Russie</li></ol>
+        <h4>Argent et paiements</h4>
+        <ol><li>Combien d'espèces emporter, et en quels billets</li><li>Où changer, et pourquoi pas à l'aéroport</li><li>La carte Mir : où, comment, pour qui</li><li>Payer un taxi, un restaurant, un musée</li></ol>
+      </div>
+      <div class="gcol">
+        <h4>Connexion</h4>
+        <ol><li>eSIM ou SIM locale : ce qui marche en 2026</li><li>Le blocage de 24 h des données à l'arrivée</li><li>Les applications à installer avant de partir</li><li>Messageries : ce qui fonctionne encore</li></ol>
+        <h4>Transports</h4>
+        <ol><li>Réserver un train russe depuis la France</li><li>Le métro sans parler russe</li><li>Commander un taxi sans surprise</li></ol>
+        <h4>Langue</h4>
+        <ol><li>Lire le cyrillique en une heure</li><li>Les 10 phrases essentielles</li></ol>
+      </div>
+      <div class="gcol">
+        <h4>Sécurité pratique</h4>
+        <ol><li>Ce qu'on ne photographie pas</li><li>Les documents à garder toujours sur soi</li><li>L'enregistrement migratoire : qui s'en charge</li><li>Rester informé : Ariane et les conseils aux voyageurs</li></ol>
+        <h4>Arrivée et premières 24 heures</h4>
+        <ol><li>De l'aéroport au centre-ville</li><li>Les trois premières choses à faire à l'hôtel</li><li>Votre premier soir : où aller, quoi commander</li></ol>
+      </div>
+    </div>
+
+    <h3>Dix phrases essentielles</h3>
+    <div class="tw"><table class="t mid" id="phrases">
+      <thead><tr><th>Russe</th><th>Prononciation</th><th>Traduction</th><th>Audio</th></tr></thead>
+      <tbody>
+        <tr><td class="ru" lang="ru">Здравствуйте</td><td>zdrastvouïtié</td><td>Bonjour (poli)</td><td><button class="say" type="button" data-ru="Здравствуйте">Écouter</button></td></tr>
+        <tr><td class="ru" lang="ru">Спасибо</td><td>spassiba</td><td>Merci</td><td><button class="say" type="button" data-ru="Спасибо">Écouter</button></td></tr>
+        <tr><td class="ru" lang="ru">Пожалуйста</td><td>pajalousta</td><td>S'il vous plaît · je vous en prie</td><td><button class="say" type="button" data-ru="Пожалуйста">Écouter</button></td></tr>
+        <tr><td class="ru" lang="ru">Извините</td><td>izvinitié</td><td>Excusez-moi</td><td><button class="say" type="button" data-ru="Извините">Écouter</button></td></tr>
+        <tr><td class="ru" lang="ru">Я не говорю по-русски</td><td>ia nié gavariou pa-rousski</td><td>Je ne parle pas russe</td><td><button class="say" type="button" data-ru="Я не говорю по-русски">Écouter</button></td></tr>
+        <tr><td class="ru" lang="ru">Не понимаю</td><td>nié panimaïou</td><td>Je ne comprends pas</td><td><button class="say" type="button" data-ru="Не понимаю">Écouter</button></td></tr>
+        <tr><td class="ru" lang="ru">Сколько стоит?</td><td>skolka stoït&#8239;?</td><td>Combien ça coûte&#8239;?</td><td><button class="say" type="button" data-ru="Сколько стоит?">Écouter</button></td></tr>
+        <tr><td class="ru" lang="ru">Где метро?</td><td>gdié mietro&#8239;?</td><td>Où est le métro&#8239;?</td><td><button class="say" type="button" data-ru="Где метро?">Écouter</button></td></tr>
+        <tr><td class="ru" lang="ru">Счёт, пожалуйста</td><td>chtchot, pajalousta</td><td>L'addition, s'il vous plaît</td><td><button class="say" type="button" data-ru="Счёт, пожалуйста">Écouter</button></td></tr>
+        <tr><td class="ru" lang="ru">Помогите!</td><td>pamaguitié&#8239;!</td><td>À l'aide&#8239;!</td><td><button class="say" type="button" data-ru="Помогите!">Écouter</button></td></tr>
+      </tbody>
+    </table></div>
+    <p class="note" id="sayNote">Démonstration avec la voix de synthèse de votre navigateur. Sur le site : enregistrements d'une voix native, environ 20 Ko par phrase.</p>
+  </section>
+
+  <!-- ========== PHASE 9 ========== -->
+  <section class="phase" id="phase-9">
+    <div class="sec-head">
+      <div class="post-row"><span class="post" aria-hidden="true"></span><p class="eyebrow"><span class="ru" lang="ru">Верста 09</span> · Phase 9</p></div>
+      <h2>Architecture technique</h2>
+      <p class="lede">Tout est rendu côté serveur par défaut. Seuls les îlots interactifs envoient du JavaScript : hero, ligne verste, destinations, configurateur, formulaires, lecteur audio.</p>
+    </div>
+<pre class="tree">verste/
+├── app/
+│   ├── (site)/                     <span class="c"># layout public : nav, pied de page, Lenis, ligne verste</span>
+│   │   ├── page.tsx                <span class="c"># accueil, 5 actes (serveur + îlots client)</span>
+│   │   ├── voyages/[format]/       <span class="c"># 1-semaine … 4-semaines, generateStaticParams</span>
+│   │   ├── destinations/[ville]/
+│   │   ├── experiences/
+│   │   ├── configurateur/          <span class="c"># étapes ; état dans l'URL (nuqs)</span>
+│   │   │   └── resultat/           <span class="c"># profil rendu serveur, partageable, noindex</span>
+│   │   ├── offres/
+│   │   ├── russie/[cle]/           <span class="c"># visa, paiements, internet… depuis le MDX</span>
+│   │   ├── guide-gratuit/  journal/[slug]/  a-propos/  contact/
+│   │   └── (legal)/                <span class="c"># mentions, CGV, conditions de prestation, confidentialité, cookies</span>
+│   ├── espace-client/              <span class="c"># V2 · protégé (Supabase Auth, lien magique)</span>
+│   ├── api/stripe/webhook/route.ts
+│   ├── actions/                    <span class="c"># Server Actions : lead, contact, checkout</span>
+│   ├── sitemap.ts  robots.ts  manifest.ts  opengraph-image.tsx
+│   └── layout.tsx                  <span class="c"># polices next/font, métadonnées, analytics</span>
+├── components/
+│   ├── ui/                         <span class="c"># shadcn restylé</span>
+│   ├── brand/                      <span class="c"># <span class="k">VersteLine, VerstPost, KmCounter, Wordmark</span></span>
+│   ├── hero/  destinations/  configurator/  pricing/  logistics/
+│   ├── itinerary/                  <span class="c"># RouteMap (SVG précalculé), DayTimeline</span>
+│   ├── phrases/                    <span class="c"># PhraseCard + lecteur audio</span>
+│   └── motion/                     <span class="c"># Reveal, CyrillicMorph, Magnetic, SmoothScroll</span>
+├── content/                        <span class="c"># MDX : russie/*.mdx, journal/*.mdx</span>
+├── data/                           <span class="c"># destinations, itineraries, experiences, offers, russian-phrases, route</span>
+├── lib/
+│   ├── configurator/               <span class="c"># moteur de profil : fonction pure, testée</span>
+│   ├── geo/                        <span class="c"># projection d3-geo au build → chemins SVG</span>
+│   ├── seo.ts  validations.ts  utils.ts
+│   └── db/                         <span class="c"># V2 · schéma Drizzle</span>
+├── public/  images/  videos/  audio/  geo/
+└── tests/                          <span class="c"># Playwright + axe · tests du moteur</span></pre>
+
+    <h3>Choix structurants</h3>
+    <div class="grid-2">
+      <div class="prose"><h4>Contenus pratiques datés</h4><p class="small">Chaque fichier MDX du hub déclare <code>verifiedAt</code>, <code>sources[]</code> et <code>volatility</code> (haute, moyenne, basse). Le composant <code>VerifiedBadge</code> affiche « Vérifié le … » avec les sources. Au-delà de 60 jours pour un contenu très volatil, la page affiche « à revérifier » et le build vous prévient. C'est à la fois une protection juridique, un signal de confiance et un atout SEO.</p></div>
+      <div class="prose"><h4>Configurateur sans boîte noire</h4><p class="small">Le moteur est une fonction TypeScript pure : durée, profils, langue et budget en entrée ; villes, rythme, expériences, fourchette budgétaire et niveau de préparation en sortie. Pas d'IA, des règles lisibles, testées. L'état vit dans l'URL : on peut partager son profil ou revenir en arrière.</p></div>
+      <div class="prose"><h4>Carte sans bibliothèque côté client</h4><p class="small">La projection est calculée au build à partir de Natural Earth (domaine public). Le navigateur reçoit un SVG léger ; seul le tracé est animé. Dans le carnet, les points sont aussi exportés en KML pour les applications de cartes hors-ligne.</p></div>
+      <div class="prose"><h4>Données personnelles minimales</h4><p class="small">Aucune donnée de passeport n'est collectée ni stockée. Leads : e-mail, source, profil, consentement. Espace client en V2 : voyages, étapes, documents (checklist), paiements. Hébergement des données dans l'UE.</p></div>
+    </div>
+
+    <h3>Budget de performance</h3>
+    <div class="budget">
+      <div><span class="v">≤ 2,0 s</span><span class="l">LCP sur mobile en 4G. L'image d'attente AVIF du hero (≤ 120 Ko) est prioritaire.</span></div>
+      <div><span class="v">≤ 0,05</span><span class="l">CLS. Polices auto-hébergées, dimensions d'images fixées.</span></div>
+      <div><span class="v">≤ 150 ms</span><span class="l">INP. Îlots clients courts, rien de lourd sur le fil principal.</span></div>
+      <div><span class="v">≤ 150 Ko</span><span class="l">JavaScript initial de l'accueil, compressé, hors vidéo.</span></div>
+    </div>
+    <p class="note">Vidéo hero : 8 à 12 s, sans son, ≤ 2,5 Mo en desktop et ≤ 1,2 Mo en mobile, remplacée par son image en cas d'économie de données ou de mouvement réduit. Images via next/image en AVIF et WebP, chargées à la demande sauf l'image principale.</p>
+
+    <h3>SEO</h3>
+    <div class="tw"><table class="t mid">
+      <thead><tr><th>Requête</th><th>Page cible</th></tr></thead>
+      <tbody>
+        <tr><td>voyager en Russie · voyage Russie · voyager Russie français</td><td>/ · /voyages · /russie/avant-de-partir</td></tr>
+        <tr><td>voyage Moscou · visiter Moscou</td><td>/destinations/moscou</td></tr>
+        <tr><td>voyage Saint-Pétersbourg</td><td>/destinations/saint-petersbourg</td></tr>
+        <tr><td>Russie visa · eVisa Russie</td><td>/russie/visa</td></tr>
+        <tr><td>Russie paiement</td><td>/russie/paiements</td></tr>
+        <tr><td>Russie itinéraire · Russie 2 semaines · 3 semaines</td><td>/voyages/[format]</td></tr>
+        <tr><td>Russie lutte · Russie sambo</td><td>/experiences/lutte-sambo</td></tr>
+        <tr><td>Russie voyage culturel</td><td>/experiences</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">Données structurées : Organization et ProfessionalService (et non TravelAgency, qui ne correspond pas au statut), Service et Offer par format, FAQPage sur le hub, Article sur le journal, BreadcrumbList partout. Rythme éditorial : deux articles par mois, dont un « Ce qui a changé ce mois-ci » qui entretient la fraîcheur. Les pages du hub sont les piliers, les articles y renvoient.</p>
+
+    <h3>Accessibilité et cadre légal</h3>
+    <div class="grid-2">
+      <div class="prose"><p class="small"><strong>WCAG 2.2 AA.</strong> Contrastes vérifiés (carmin signal sur fond sombre), focus carmin visible, configurateur entièrement utilisable au clavier (Radix), bouton pause sur la vidéo, attribut <code>lang="ru"</code> sur chaque mot cyrillique pour que les lecteurs d'écran le prononcent correctement, repères de navigation, mouvement réduit respecté partout.</p></div>
+      <div class="prose"><p class="small"><strong>Pages légales.</strong> Mentions légales ; conditions de prestation (nature de conseil, pas de réservation pour compte, pas de manipulation de documents officiels) ; CGV avec droit de rétractation de 14 jours et renonciation expresse si la prestation commence avant ; confidentialité (RGPD, aucune donnée de passeport) ; cookies (mesure d'audience sans cookie) ; avertissement sur les informations administratives. À faire relire par un juriste avant lancement, avec une RC Pro.</p></div>
+    </div>
+  </section>
+
+  <!-- ========== SUITE ========== -->
+  <section class="phase" id="suite">
+    <div class="sec-head">
+      <div class="post-row"><span class="post" aria-hidden="true"></span><p class="eyebrow"><span class="ru" lang="ru">Верста 10</span> · Phases 10 à 16</p></div>
+      <h2>Suite et décisions</h2>
+      <p class="lede">Dès validation, l'implémentation suit six sprints. Les phases 11 à 16 du brief (configurateur, animations, responsive, SEO, performance, audit) sont intégrées aux sprints au lieu d'être traitées à la fin.</p>
+    </div>
+    <div class="tw"><table class="t mid">
+      <thead><tr><th>Sprint</th><th>Livrable</th><th>Phases du brief</th></tr></thead>
+      <tbody>
+        <tr><td>S1 · Fondations</td><td>Projet Next.js, jetons Tailwind, polices, composants signature (ligne, poteau, compteur, logo), layout, navigation</td><td>10, 13</td></tr>
+        <tr><td>S2 · Accueil</td><td>Les cinq actes avec emplacements d'images, hero vidéo, transition РОССИЯ → RUSSIE, destinations</td><td>10, 12, 13</td></tr>
+        <tr><td>S3 · Configurateur</td><td>Moteur pur et ses tests, quatre étapes, page résultat</td><td>11, 12</td></tr>
+        <tr><td>S4 · Les Clés + guide</td><td>MDX datés, badge de vérification, formulaire, Resend, séquence d'e-mails</td><td>8, 14</td></tr>
+        <tr><td>S5 · Offres, contact, légal</td><td>Matrice, Stripe Checkout (après accord), prise de rendez-vous, pages légales</td><td>10</td></tr>
+        <tr><td>S6 · Qualité</td><td>Sitemap, JSON-LD, Lighthouse, axe, tests Playwright, déploiement Vercel, audit final</td><td>14, 15, 16</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Ce que j'ai besoin que vous tranchiez</h3>
+    <ol class="decide">
+      <li><div><b>Le nom</b>Verste (recommandé), Prostor, Zaria, ou une autre piste&#8239;?</div></li>
+      <li><div><b>La direction artistique</b>« De la nuit à l'aube » (recommandé), ou une des directions A, B, C seule&#8239;?</div></li>
+      <li><div><b>Vos images</b>Avez-vous des photos et vidéos personnelles de Russie&#8239;? Sinon, je construis avec des emplacements dessinés et une liste de plans à produire.</div></li>
+      <li><div><b>Votre histoire</b>Pourquoi la Russie, combien de séjours, votre lien avec la lutte, votre niveau de russe. C'est la matière de « Qui vous accompagne ».</div></li>
+      <li><div><b>Votre cadre</b>Statut juridique, RC Pro, compte Stripe existant ou non. Cela conditionne le sprint 5.</div></li>
+      <li><div><b>Le périmètre</b>MVP d'abord (recommandé), ou tout le périmètre du brief d'emblée&#8239;?</div></li>
+    </ol>
+  </section>
+
+  <!-- ========== SOURCES ========== -->
+  <section class="phase" id="sources">
+    <div class="sec-head">
+      <div class="post-row"><span class="post" aria-hidden="true"></span><p class="eyebrow"><span class="ru" lang="ru">Москва</span> · Arrivée</p></div>
+      <h2>Sources</h2>
+      <p class="lede">Consultées le 29 septembre 2026.</p>
+    </div>
+    <ul class="sources">
+      <li><a href="https://evisa.kdmid.ru/">Visa électronique unifié, ministère russe des Affaires étrangères</a></li>
+      <li><a href="http://en.kremlin.ru/acts/news/77531">E-visa validity period extended to 120 days, Kremlin</a></li>
+      <li><a href="https://www.diplomatie.gouv.fr/fr/conseils-aux-voyageurs/conseils-par-pays-destination/russie/">Russie, conseils aux voyageurs, France Diplomatie</a></li>
+      <li><a href="https://www.gw2ru.com/plan-your-trip/245835-payments-in-russia-2026">How foreigners can pay in Russia in 2026, gw2ru</a></li>
+      <li><a href="https://russiable.com/how-to-pay-in-russia/">How to Pay in Russia in 2026, Russiable</a></li>
+      <li><a href="https://en.zona.media/article/2026/04/07/russian_internet_censorship_2026">Russia's internet censorship in 2026, Mediazona</a></li>
+      <li><a href="https://explorer.ooni.org/findings/2026-russia-blocked-telegram">Russia blocked Telegram, OONI Explorer</a></li>
+      <li><a href="https://www.pravda.com.ua/eng/news/2026/07/12/8043664/">Russia restricts use of foreign SIM cards, Ukrainska Pravda</a></li>
+      <li><a href="https://russiable.com/air-borders-russia/">Frontières aériennes vers la Russie 2026, Russiable</a></li>
+      <li><a href="https://stripe.com/en-th/legal/restricted-businesses">Prohibited and Restricted Businesses, Stripe</a></li>
+      <li><a href="https://support.stripe.com/questions/sanctions-on-russia-and-belarus">Sanctions on Russia and Belarus, Stripe Support</a></li>
+      <li><a href="https://www.atout-france.fr/fr/immatriculation-des-operateurs-de-voyages-et-de-sejour">Immatriculation des opérateurs de voyages, Atout France</a></li>
+      <li><a href="https://www.lofficieldesmetiers.fr/travel-planners-le-gouvernement-precise-les-regles-du-jeu/">Travel planners : le Gouvernement précise les règles du jeu</a></li>
+      <li><a href="https://www.tsarvoyages.com/fr">Tsar Voyages</a></li>
+      <li>Registre npm et API GitHub (versions, licences, popularité), Google Fonts (sous-ensembles cyrilliques), rdap.org (domaines)</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <span>Verste · La Russie, verste après verste</span>
+  <span>Document de travail · rien n'est encore codé</span>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var morph = document.getElementById('morph');
+  function play(){
+    if(!morph) return;
+    morph.classList.add('no-t'); morph.classList.add('is-ru');
+    void morph.offsetWidth;
+    morph.classList.remove('no-t');
+    setTimeout(function(){ morph.classList.remove('is-ru'); }, 1100);
+  }
+  if(!reduce){ play(); }
+  var rp = document.getElementById('replay');
+  if(rp){ if(reduce){ rp.hidden = true; } else { rp.addEventListener('click', play); } }
+
+  /* Verste line + km counter: real route Paris → Istanbul (≈2 240 km) → Moscou (≈3 995 km) */
+  var fill = document.getElementById('railFill'), km = document.getElementById('km'), lab = document.getElementById('kmLabel');
+  var TOTAL = 3995, STOP = 2240, ticking = false;
+  function update(){
+    ticking = false;
+    var doc = document.documentElement;
+    var max = Math.max(1, doc.scrollHeight - window.innerHeight);
+    var p = Math.min(1, Math.max(0, (window.scrollY || doc.scrollTop) / max));
+    var d = Math.round(p * TOTAL);
+    if(fill) fill.style.transform = 'scaleY(' + p + ')';
+    if(km) km.textContent = d.toLocaleString('fr-FR');
+    if(lab){
+      lab.textContent = p >= 0.995 ? 'Москва · arrivée' : (Math.abs(d - STOP) < 90 ? 'Escale · Istanbul' : (d < STOP ? 'Paris → Istanbul' : 'Istanbul → Москва'));
+    }
+  }
+  function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  update();
+
+  /* Phrase audio demo (browser speech synthesis) */
+  var synth = window.speechSynthesis, note = document.getElementById('sayNote');
+  var buttons = document.querySelectorAll('.say');
+  if(!synth || typeof SpeechSynthesisUtterance === 'undefined'){
+    buttons.forEach(function(b){ b.disabled = true; });
+    if(note) note.textContent = "La synthèse vocale n'est pas disponible dans ce navigateur. Sur le site : enregistrements d'une voix native, environ 20 Ko par phrase.";
+    return;
+  }
+  buttons.forEach(function(b){
+    b.addEventListener('click', function(){
+      try{
+        synth.cancel();
+        var u = new SpeechSynthesisUtterance(b.getAttribute('data-ru'));
+        u.lang = 'ru-RU'; u.rate = 0.85;
+        var voices = synth.getVoices() || [];
+        var v = voices.find(function(x){ return x.lang && x.lang.toLowerCase().indexOf('ru') === 0; });
+        if(v){ u.voice = v; } else if(note){ note.textContent = "Aucune voix russe installée sur cet appareil : la prononciation peut être approximative. Sur le site : enregistrements d'une voix native."; }
+        synth.speak(u);
+      }catch(e){}
+    });
+  });
+})();
+</script>
