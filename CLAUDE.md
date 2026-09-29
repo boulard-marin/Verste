@@ -2,7 +2,7 @@
 
 # VERSTE
 
-Site de préparation de voyages en Russie (travel planner indépendant). Sources de vérité : `docs/01-dossier-fondateur.html` (stratégie) et `docs/02-fondations-v1.md` (marque, design system, plan V1, journal d'implémentation). Mettre à jour le journal du §10 à chaque incrément.
+Site de préparation de voyages en Russie (travel planner indépendant). Sources de vérité : `docs/01-dossier-fondateur.html` (stratégie), `docs/02-fondations-v1.md` (marque, design system, plan V1, journal d'implémentation) et `docs/03-audit.md` (audits). Mettre à jour le journal du §10 à chaque incrément.
 
 ## Règles non négociables
 
@@ -18,9 +18,12 @@ Site de préparation de voyages en Russie (travel planner indépendant). Sources
 - Le rouge (`route`) est réservé à la route, à l'action principale et au focus : ≤ 5 % de l'écran, jamais en fond de section.
 - Tout mot cyrillique porte `lang="ru"`.
 - Polices : `font-display` (+ `font-cond` / `font-semicond`), `font-display-italic`, `font-sans`, `font-mono` / utilitaire `label`.
-- Animations : état de repos = état final ; respecter `prefers-reduced-motion` (variante `still:` pour les scènes épinglées) ; Motion via `motion/react-m` pour rester léger.
+- Animations : état de repos = état final ; respecter `prefers-reduced-motion` (variante `still:` pour les scènes épinglées) ; Motion via `motion/react-m` (composants `m`), qui ne fonctionnent que sous `MotionProvider` (LazyMotion, déjà dans le layout). Vérifier chaque animation dans le navigateur après modification.
+- `VerstPost` est `relative` : le positionner via une enveloppe, jamais via `className`.
+- Pages sur fond clair : l'en-tête est opaque automatiquement hors de l'accueil.
 - Contenu dans `data/`, logique pure dans `lib/`, Server Components par défaut.
 
 ## Commandes
 
-- `npm run dev` · `npm run build` · `npx eslint .` · `npx tsc --noEmit` (après `npx next typegen` si `LayoutProps` est introuvable)
+- `npm run dev` · `npm run build` · `npm test` (moteur du configurateur) · `npx eslint .` · `npx tsc --noEmit` (après `npx next typegen` si `LayoutProps`/`PageProps` sont introuvables)
+- Le projet est dans OneDrive : le cache compilateur Turbopack est désactivé exprès (`next.config.ts`).

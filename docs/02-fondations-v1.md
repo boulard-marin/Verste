@@ -463,4 +463,15 @@ Voir [03-audit.md](03-audit.md). Onze constats sur l'incrément 1, dont une rég
 - Composants ajoutés : `SceneMarker`, `SourceTag`, `Pending`, `SurfaceBridge`, `ViewTracker`, `MotionProvider`, `DestinationCard`, `DestinationsRail`, `MetroMotif`, `PricingCard`, `LeadForm`.
 - Navigation : Le trajet · Destinations · Russie aujourd'hui · Le Carnet · Offres.
 
-**Phase C terminée.** Prochaine étape : phase D, le configurateur (moteur de profil testé, quatre étapes, page « Votre Russie »).
+**Phase C terminée.**
+
+### Phase D · Configurateur · 29/09/2026
+
+- **Moteur** (`lib/configurator/engine.ts`) : fonction pure, sans dépendance, couverte par 11 tests (`npm test`). Règles lisibles : répartition des jours par ville selon la durée, variantes (sport sur 14 jours → Moscou, Nijni Novgorod, Saint-Pétersbourg ; nature sur 28 jours → Baïkal), rythme selon le nombre de changements de ville, niveau logistique selon le russe, le nombre d'étapes et les vols intérieurs, expériences limitées aux villes du trajet.
+- **Étapes** : formulaires GET rendus côté serveur avec `next/form`. Aucun état côté navigateur, fonctionne sans JavaScript, adresse partageable, bouton retour du navigateur fiable. Choix natifs (radios, cases) stylés en cartes : clavier et lecteurs d'écran fonctionnent sans bibliothèque. Radix et nuqs deviennent inutiles et ne sont pas installés.
+- **Votre Russie** (`/configurateur/resultat`) : synthèse (durée, profil, villes, rythme, niveau logistique), carte de l'itinéraire calculée au serveur avec tracé dessiné en CSS, ligne étape par étape, expériences, raisons du niveau de préparation, note eVisa, format conseillé, conciergerie proposée si le profil la justifie. Pas de prix en premier : le profil, puis le format.
+- **Budget indicatif** : laissé « à compléter » tant que vos fourchettes de terrain ne sont pas fournies ; en production, la page annonce qu'il sera donné lors de l'appel de cadrage.
+- **`/contact`** : page d'attente qui conserve le profil, en attendant l'outil de prise de rendez-vous.
+- Bug trouvé par les tests : les valeurs séparées par des virgules n'étaient pas découpées quand le paramètre était répété.
+
+**Prochaines étapes** : phase F (rédiger La Première Verste, brancher Resend dès que la clé existe), phase G (pages légales et checkout Stripe en mode test), phase H (carnet hors ligne), phases I et J.
