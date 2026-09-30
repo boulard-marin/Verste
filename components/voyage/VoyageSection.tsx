@@ -1,7 +1,8 @@
 import { findPlace } from "@/data/travel/index";
 import { getJourney } from "@/data/travel/journeys";
 import { flightLegs, flightMarks } from "@/data/voyage/flight";
-import { highlights, metroLine1, metroMarks, outlines, scenes } from "@/data/voyage/scenes";
+import { grandeVersteGeometry } from "@/data/travel/grande-verste-geometry";
+import { cityMarks, highlights, metroLine1, metroMarks, outlines, scenes } from "@/data/voyage/scenes";
 import { photoOf } from "@/lib/map/data";
 import { lineKm } from "@/lib/travel/geo";
 import { getMedia } from "@/lib/travel/media";
@@ -59,7 +60,13 @@ export function VoyageSection() {
       fortresses="kremlin-moscou,kremlin-nijni"
       label="Le voyage, de Paris à Nijni Novgorod"
       legs={flightLegs}
-      marks={[...flightMarks, ...metroMarks]}
+      marks={[...flightMarks, ...metroMarks, ...cityMarks]}
+      lines={[
+        { id: "grande-verste", path: grandeVersteGeometry, style: "route" },
+        { id: "train-nijni", path: rail.path, style: "route" },
+        { id: "train-spb", path: getJourney("train-moscou-spb").path, style: "schematic" },
+        { id: "train-kazan", path: getJourney("train-moscou-kazan").path, style: "schematic" },
+      ]}
     />
   );
 }

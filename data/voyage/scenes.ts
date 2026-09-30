@@ -1,6 +1,8 @@
 import type { Highlight, Mark, MetroLine, Outline, Scene } from "@/lib/voyage/types";
 
 import { formatKm } from "../../lib/format.ts";
+import { formatDistance, lineKm } from "../../lib/travel/geo.ts";
+import { grandeVersteGeometry } from "../travel/grande-verste-geometry.ts";
 
 import { flightLegs, flightTotalKm } from "./flight.ts";
 import { kremlinNijniFigures } from "./kremlin-nijni.ts";
@@ -27,6 +29,7 @@ export const highlights: Highlight[] = [
   { id: "moscow-city", center: [37.5385, 55.7486], radiusM: 650, minHeight: 90, color: "#f2c983" },
   { id: "nevski", center: [43.97118, 56.3336], radiusM: 40, color: OCHRE },
   { id: "kremlin-nijni", center: [44.0025, 56.32833], radiusM: 500, within: kremlinNijni, color: "#c98a6e" },
+  { id: "volga-arena", center: [43.96694, 56.33472], radiusM: 90, minHeight: 8, color: TITANIUM },
 ];
 
 export const outlines: Outline[] = [
@@ -38,6 +41,14 @@ export const outlines: Outline[] = [
 export const metroMarks: Mark[] = [
   { id: "metro-okhotny", at: [37.61651, 55.75777], name: "Okhotny Riad", ru: "Охотный Ряд", sub: "Métro · ligne 1", kind: "metro", badge: { text: "1", color: "#e42313" } },
   { id: "metro-vorobiovy", at: [37.55929, 55.71033], name: "Vorobiovy Gory", ru: "Воробьёвы горы", sub: "Métro · ligne 1", kind: "metro", badge: { text: "1", color: "#e42313" } },
+];
+
+/** The four cities of the product, lived (terrain) or prepared from sources (destination). */
+export const cityMarks: Mark[] = [
+  { id: "city-moscou", at: [37.6175, 55.75056], name: "Moscou", ru: "Москва", sub: "Expérience terrain", kind: "city" },
+  { id: "city-nijni", at: [44.0075, 56.32694], name: "Nijni Novgorod", ru: "Нижний Новгород", sub: "Expérience terrain", kind: "city" },
+  { id: "city-spb", at: [30.31667, 59.95], name: "Saint-Pétersbourg", ru: "Санкт-Петербург", sub: "Destination VERSTE · Sapsan", kind: "city" },
+  { id: "city-kazan", at: [49.11444, 55.79083], name: "Kazan", ru: "Казань", sub: "Destination VERSTE · train de nuit", kind: "city" },
 ];
 
 /** Line 1 (Sokolnitcheskaïa), from Okhotny Riad to Vorobiovy Gory, southbound. */
@@ -442,6 +453,88 @@ export const scenes: Scene[] = [
       { verb: "Suivre le fleuve", label: "Marcher La Grande Verste", to: { href: "/destinations/nijni-novgorod/la-grande-verste" } },
     ],
     length: 3.6,
+  },
+  {
+    id: "grande-verste",
+    environment: "monde",
+    kicker: "Jour 5 · à pied",
+    title: "La Grande Verste",
+    text: "Du kremlin à la Volga, puis la ville basse : une journée à pied, en huit étapes.",
+    camera: [
+      { center: [43.9995, 56.3292], zoom: 15.6, pitch: 73, bearing: 292 },
+      { center: [44.0045, 56.3292], zoom: 14.9, pitch: 60, bearing: 250 },
+      { center: [43.998, 56.3288], zoom: 14.7, pitch: 58, bearing: 285 },
+    ],
+    lines: ["grande-verste"],
+    night: [-1, -1],
+    terrain: 1.5,
+    figures: [
+      { value: formatDistance(lineKm(grandeVersteGeometry)), label: "À pied", note: "itinéraire piéton calculé (OSRM)" },
+      { value: "8", label: "Étapes", note: "de START à FINAL" },
+    ],
+    media: ["nijni-kremlin-mur-volga"],
+    portals: [{ verb: "Suivre le fleuve", label: "Marcher La Grande Verste", to: { href: "/destinations/nijni-novgorod/la-grande-verste" } }],
+    length: 2,
+  },
+  {
+    id: "nijni-hockey",
+    environment: "monde",
+    kicker: "Jour 5 · le sport",
+    title: "Le hockey",
+    ru: "Хоккей",
+    text: "Sur la Strelka, la VOLGA Arena, nouvelle patinoire du Torpedo. En tribune un soir de match, le 24/09.",
+    camera: [
+      { center: [43.998, 56.3288], zoom: 14.7, pitch: 58, bearing: 285 },
+      { center: [43.972, 56.3345], zoom: 15.6, pitch: 64, bearing: 300 },
+      { center: [43.9669, 56.3347], zoom: 16.4, pitch: 68, bearing: 320 },
+    ],
+    highlights: ["nevski", "volga-arena"],
+    night: [-1, -1],
+    terrain: 1.5,
+    placeId: "volga-arena",
+    media: ["nijni-hockey-mise-en-jeu"],
+    portals: [{ verb: "Voir", label: "La VOLGA Arena", to: { href: "/lieux/volga-arena" } }],
+    length: 1.6,
+  },
+  {
+    id: "nijni-nature",
+    environment: "monde",
+    kicker: "Jour 6 · la forêt",
+    title: "Trois lacs",
+    ru: "Щёлоковский хутор",
+    text: "Au sud de la ville, une forêt de 333 hectares, trois lacs et un musée d'architecture en bois.",
+    camera: [
+      { center: [43.9669, 56.3347], zoom: 16.4, pitch: 68, bearing: 320 },
+      { center: [44.0, 56.3], zoom: 13.2, pitch: 50, bearing: 200 },
+      { center: [44.0106, 56.2742], zoom: 14.4, pitch: 56, bearing: 180 },
+    ],
+    night: [-1, -1],
+    terrain: 1.5,
+    placeId: "chtcholokovski",
+    media: ["nijni-lacs-ponton"],
+    portals: [{ verb: "Voir", label: "Chtcholokovski Khoutor", to: { href: "/lieux/chtcholokovski" } }],
+    length: 1.6,
+  },
+  {
+    id: "et-ensuite",
+    environment: "monde",
+    kicker: "Et ensuite ?",
+    title: "D'autres Russie",
+    text: "Moscou et Nijni, vécues sur le terrain. Saint-Pétersbourg et Kazan, préparées sur sources : deux autres façons de voyager.",
+    camera: [
+      { center: [44.0106, 56.2742], zoom: 14.4, pitch: 56, bearing: 180 },
+      { center: [41, 57], zoom: 6.2, pitch: 30, bearing: 20 },
+      { center: [40, 57.6], zoom: 4.2, pitch: 20, bearing: 0 },
+    ],
+    lines: ["train-nijni", "train-spb", "train-kazan"],
+    marks: ["city-moscou", "city-nijni", "city-spb", "city-kazan"],
+    night: [-1, 0],
+    portals: [
+      { verb: "Découvrir", label: "La Russia Travel Map", to: { href: "/carte" } },
+      { verb: "Voir", label: "Saint-Pétersbourg", to: { href: "/carte?ville=saint-petersbourg" } },
+      { verb: "Voir", label: "Kazan", to: { href: "/carte?ville=kazan" } },
+    ],
+    length: 2,
   },
   {
     id: "votre-voyage",

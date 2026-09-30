@@ -7,7 +7,7 @@ import { sliceAlong } from "@/lib/travel/geo";
 import type { LonLat } from "@/lib/travel/types";
 
 import { buildFortress, distanceToWall, towerAnchor, towerDiscs, type Fortress } from "./fortress";
-import type { Highlight, Mark, Outline } from "./types";
+import type { Highlight, Mark, Outline, WorldLine } from "./types";
 
 /**
  * The persistent world of the journey: one MapLibre map for every surface
@@ -33,6 +33,8 @@ export type World = {
   setRoute(legs: RouteLeg[]): void;
   /** Shows these marks (airports, cities), hides the others. */
   setMarks(ids: string[]): void;
+  /** Shows these named lines, hides the others. */
+  setLines(ids: string[]): void;
   /** The points to explore of the scene; `onPick` receives the id clicked. */
   setHotspots(spots: { id: string; label: string; at: LonLat }[], onPick: (id: string) => void): void;
   /** An animated camera move (exploring a hotspot, coming back to the journey). */
@@ -96,7 +98,7 @@ const LIT_GLASS: ExpressionSpecification = ["match", ["%", ["id"], 3], 0, "#f2c9
 
 export async function createWorld(
   container: HTMLElement,
-  opts: { highlights: Highlight[]; outlines: Outline[]; start: CameraView; interactive?: boolean; objects?: boolean; fortresses?: Fortress[]; marks?: Mark[] },
+  opts: { highlights: Highlight[]; outlines: Outline[]; start: CameraView; interactive?: boolean; objects?: boolean; fortresses?: Fortress[]; marks?: Mark[]; lines?: WorldLine[] },
 ): Promise<World> {
   const ml = await loadMapLibre();
   const map = new ml.Map({
@@ -154,6 +156,34 @@ export async function createWorld(
     paint: { "line-color": "#e8485a", "line-width": ["interpolate", ["linear"], ["zoom"], 3, 2.2, 10, 3.2] },
   });
   let routeKey = "";
+
+  // Named lines: routes walked or ridden, and schematic links.
+  map.addSource("lines", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+  map.addLayer({
+    id: "lines-schematic",
+    type: "line",
+    source: "lines",
+    filter: ["==", ["get", "style"], "schematic"],
+    layout: { "line-cap": "round" },
+    paint: { "line-color": "#eef2f8", "line-opacity": 0.6, "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1.3, 12, 2.4], "line-dasharray": [2, 2.5] },
+  });
+  map.addLayer({
+    id: "lines-route-glow",
+    type: "line",
+    source: "lines",
+    filter: ["==", ["get", "style"], "route"],
+    layout: { "line-cap": "round", "line-join": "round" },
+    paint: { "line-color": "#e8485a", "line-opacity": 0.25, "line-width": ["interpolate", ["linear"], ["zoom"], 10, 4, 17, 16], "line-blur": 5 },
+  });
+  map.addLayer({
+    id: "lines-route",
+    type: "line",
+    source: "lines",
+    filter: ["==", ["get", "style"], "route"],
+    layout: { "line-cap": "round", "line-join": "round" },
+    paint: { "line-color": "#e8485a", "line-width": ["interpolate", ["linear"], ["zoom"], 10, 1.8, 17, 5] },
+  });
+  let linesKey = "";
 
   const planeEl = document.createElement("div");
   planeEl.className = "verste-plane is-hidden";
@@ -503,6 +533,15 @@ export async function createWorld(
     },
     flyTo(v, durationMs) {
       map.flyTo({ center: [v.center[0], v.center[1]], zoom: v.zoom, pitch: v.pitch ?? 0, bearing: v.bearing ?? 0, padding: framePadding(), duration: durationMs, essential: true });
+    },
+    setLines(ids) {
+      const key = ids.join();
+      if (key === linesKey) return;
+      linesKey = key;
+      const features = (opts.lines ?? [])
+        .filter((l) => ids.includes(l.id))
+        .map((l) => ({ type: "Feature" as const, properties: { style: l.style }, geometry: { type: "LineString" as const, coordinates: l.path.map((q) => [q[0], q[1]]) } }));
+      (map.getSource("lines") as GeoJSONSource | undefined)?.setData({ type: "FeatureCollection", features });
     },
     setMarks(ids) {
       const key = ids.join();

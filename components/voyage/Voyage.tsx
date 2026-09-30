@@ -17,7 +17,7 @@ import { useTrip } from "@/lib/trip";
 import { flightState, routeProgress, type Legs } from "@/lib/voyage/flight";
 import { rideState } from "@/lib/voyage/ride";
 import type { Metro } from "@/lib/voyage/metro";
-import type { Highlight, Hotspot, Mark, MetroLine, Outline, Portal, Scene } from "@/lib/voyage/types";
+import type { Highlight, Hotspot, Mark, MetroLine, Outline, Portal, Scene, WorldLine } from "@/lib/voyage/types";
 import type { World } from "@/lib/voyage/world";
 
 import { EscalatorSequence } from "./EscalatorSequence";
@@ -57,6 +57,8 @@ type Props = {
   legs?: Legs;
   /** Airports and cities drawn on the world. */
   marks?: Mark[];
+  /** Named lines drawn on the world (walks, trains). */
+  lines?: WorldLine[];
 };
 
 // Metro scene: the real escalator first, then the stylised station.
@@ -100,7 +102,7 @@ function cameraAt(keys: CameraView[], t: number): CameraView {
  * across surface scenes; the metro and the train replace it. Each scene has
  * an anchor (/#metro) so every moment can be linked and the back button works.
  */
-export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni Novgorod", scenes, highlights, outlines, line, train, escalator, objects = true, fortresses = "", legs, marks }: Props) {
+export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni Novgorod", scenes, highlights, outlines, line, train, escalator, objects = true, fortresses = "", legs, marks, lines }: Props) {
   const section = useRef<HTMLElement>(null);
   const mapBox = useRef<HTMLDivElement>(null);
   const metroCanvas = useRef<HTMLCanvasElement>(null);
@@ -148,6 +150,7 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
         world.setVehicle(state);
         if (legs) world.setRoute(routeProgress(scenes, i, state, legs));
         world.setMarks(scene.marks ?? []);
+        world.setLines(scene.lines ?? []);
         world.setHotspots(scene.spots ?? [], (id) => pickRef.current(id));
         if (state && scene.vehicle?.leg === "ist-svo" && state.t > 0.97 && !landed.current) {
           landed.current = true;
@@ -239,7 +242,7 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
     const ids = fortresses ? fortresses.split(",") : [];
     Promise.all([import("@/lib/voyage/world"), ids.length ? import("@/data/voyage/fortresses") : null])
       .then(([{ createWorld }, data]) =>
-        createWorld(mapBox.current!, { highlights, outlines, start: first, objects, marks, fortresses: ids.flatMap((id) => (data?.fortresses[id] ? [data.fortresses[id]] : [])) }),
+        createWorld(mapBox.current!, { highlights, outlines, start: first, objects, marks, lines, fortresses: ids.flatMap((id) => (data?.fortresses[id] ? [data.fortresses[id]] : [])) }),
       )
       .then((world) => {
         if (cancelled) return world.destroy();
@@ -257,7 +260,7 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
       worldRef.current?.destroy();
       worldRef.current = null;
     };
-  }, [near, scenes, highlights, outlines, objects, fortresses, marks, locate, drive, scrollYProgress]);
+  }, [near, scenes, highlights, outlines, objects, fortresses, marks, lines, locate, drive, scrollYProgress]);
 
   // The metro is built when its scene is next door.
   const metroNear = metroIndex >= 0 && Math.abs(view.i - metroIndex) <= 1;

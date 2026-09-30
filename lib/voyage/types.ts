@@ -49,6 +49,9 @@ export type Hotspot = {
   portal?: Portal;
 };
 
+/** A named line drawn on the world: a route walked or ridden (red), or a schematic link (dashed). */
+export type WorldLine = { id: string; path: LonLat[]; style: "route" | "schematic" };
+
 /** A named point drawn on the world (airports, cities), shown by the scenes that list it. */
 export type Mark = { id: string; at: LonLat; name: string; ru?: string; sub?: string; kind: "airport" | "city" | "metro"; badge?: { text: string; color: string } };
 
@@ -92,6 +95,8 @@ export type Scene = {
   hotspots?: Hotspot[];
   /** Marks (airports, cities) shown on the world during the scene. */
   marks?: string[];
+  /** Named lines shown during the scene (La Grande Verste, the trains to the next cities). */
+  lines?: string[];
   /** Computed figures shown with the scene, each with its method. */
   figures?: { value: string; label: string; note: string }[];
   media?: string[];
