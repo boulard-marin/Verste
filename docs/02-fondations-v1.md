@@ -475,3 +475,7 @@ Voir [03-audit.md](03-audit.md). Onze constats sur l'incrément 1, dont une rég
 - Bug trouvé par les tests : les valeurs séparées par des virgules n'étaient pas découpées quand le paramètre était répété.
 
 **Prochaines étapes** : phase F (rédiger La Première Verste, brancher Resend dès que la clé existe), phase G (pages légales et checkout Stripe en mode test), phase H (carnet hors ligne), phases I et J.
+
+### Cadrage V2 · 30/09/2026
+
+Voir [04-v2-experience-immersive.md](04-v2-experience-immersive.md) : audit, vision (12 scènes, dont 5 exceptionnelles), carte des interactions A–G, stratégie 3D (Saint-Basile seulement), inventaire des 176 médias du fondateur et pipeline (suppression du GPS), types de données vérifiables, itinéraire « Moscou + Nijni Novgorod : 7 jours », plan V2.0 → V2.7, test des trois personas. Aucun code modifié : en attente de validation et des réponses du §L.

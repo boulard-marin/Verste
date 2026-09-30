@@ -2,7 +2,7 @@
 
 # VERSTE
 
-Site de préparation de voyages en Russie (travel planner indépendant). Sources de vérité : `docs/01-dossier-fondateur.html` (stratégie), `docs/02-fondations-v1.md` (marque, design system, plan V1, journal d'implémentation) et `docs/03-audit.md` (audits). Mettre à jour le journal du §10 à chaque incrément.
+Site de préparation de voyages en Russie (travel planner indépendant). Sources de vérité : `docs/01-dossier-fondateur.html` (stratégie), `docs/02-fondations-v1.md` (marque, design system, plan V1, journal d'implémentation), `docs/03-audit.md` (audits) et `docs/04-v2-experience-immersive.md` (cadrage V2 : scènes, médias, données, itinéraire). Mettre à jour le journal du §10 à chaque incrément.
 
 ## Règles non négociables
 
@@ -10,6 +10,7 @@ Site de préparation de voyages en Russie (travel planner indépendant). Sources
 - Contexte 2026 : ne jamais cacher l'avis du Quai d'Orsay ; dater et sourcer toute information pratique ; distinguer *Officiel*, *Terrain* et *Conseil Verste*.
 - Ne jamais promettre WhatsApp (bloqué en Russie depuis février 2026) ; l'assistance et le carnet doivent tolérer une connexion dégradée.
 - Aucun témoignage, chiffre ou fait biographique inventé. Tout média déclare `kind: "verste" | "illustrative"` dans `data/media.ts`.
+- Aucun média publié ne garde ses métadonnées : les originaux du fondateur contiennent le GPS de son logement. Les originaux ne sont jamais commités (`media-src/` ignoré) ; un lieu ne se déduit jamais d'un EXIF.
 - Toute distance affichée est calculée (`lib/geo.ts`) et libellée.
 
 ## Design system
