@@ -17,6 +17,8 @@ export const kremlinNijniFortress: Fortress = {
   id: "kremlin-nijni",
   ring: kremlinNijni,
   wall: { thickness: 5, height: 10.5, merlon: 2, bay: 4, covered: true },
+  style: "roof",
+  replaces: "wall",
   colors: { brick: "#a04b36", roof: "#6d757e", ridge: "#59616a", wood: "#4f565e", gold: "#e2b85c" },
   /** Elevation drop along the wall, computed on AWS Terrain Tiles (Mapzen, SRTM) z15 at the 59 outline points, 30/09/2026: 84 m → 146 m. */
   dropM: 62,

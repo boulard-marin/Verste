@@ -16,7 +16,7 @@ import type { LonLat } from "@/lib/travel/types";
 import { useTrip } from "@/lib/trip";
 import { flightState, routeProgress, type Legs } from "@/lib/voyage/flight";
 import type { Metro } from "@/lib/voyage/metro";
-import type { Highlight, Mark, MetroLine, Outline, Portal, Scene } from "@/lib/voyage/types";
+import type { Highlight, Hotspot, Mark, MetroLine, Outline, Portal, Scene } from "@/lib/voyage/types";
 import type { World } from "@/lib/voyage/world";
 
 import { EscalatorSequence } from "./EscalatorSequence";
@@ -34,7 +34,10 @@ export type VoyageMedia = {
   credit?: string;
 };
 
-export type VoyageScene = Scene & { resolved: VoyageMedia[] };
+/** A hotspot with its text, photo and link resolved on the server (from its place). */
+export type VoyageHotspot = Hotspot & { label: string; ru?: string; text?: string; photo?: VoyageMedia; href?: string };
+
+export type VoyageScene = Scene & { resolved: VoyageMedia[]; spots?: VoyageHotspot[] };
 
 type Props = {
   id?: string;
@@ -99,6 +102,11 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
   const [view, setView] = useState({ i: 0, local: 0 });
   const trip = useTrip();
   const landed = useRef(false);
+  // Exploring a hotspot: the camera leaves the scroll path until the visitor scrolls on.
+  const [focus, setFocus] = useState<{ spot: VoyageHotspot; y: number } | null>(null);
+  const focusRef = useRef<{ spot: VoyageHotspot; y: number } | null>(null);
+  const returningUntil = useRef(0);
+  const pickRef = useRef<(id: string) => void>(() => {});
 
   const lengths = useMemo(() => scenes.map((s) => s.length), [scenes]);
   const total = useMemo(() => lengths.reduce((a, b) => a + b, 0), [lengths]);
@@ -124,10 +132,13 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
       if (world && scene.environment === "monde" && scene.camera) {
         const state = scene.vehicle && legs ? flightState(scene.vehicle, reduced ? 1 : local, legs) : null;
         const camera = cameraAt(scene.camera, reduced ? 1 : local);
-        world.setCamera(state && scene.vehicle?.follow ? { ...camera, center: state.at } : camera);
+        if (!focusRef.current && performance.now() > returningUntil.current) {
+          world.setCamera(state && scene.vehicle?.follow ? { ...camera, center: state.at } : camera);
+        }
         world.setVehicle(state);
         if (legs) world.setRoute(routeProgress(scenes, i, state, legs));
         world.setMarks(scene.marks ?? []);
+        world.setHotspots(scene.spots ?? [], (id) => pickRef.current(id));
         if (state && scene.vehicle?.leg === "ist-svo" && state.t > 0.97 && !landed.current) {
           landed.current = true;
           track("route_completed");
@@ -150,8 +161,49 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
   );
 
   const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end end"] });
+
+  /** Leaves a hotspot: the camera glides back to the journey, then scroll drives it again. */
+  const leaveFocus = useCallback(
+    (glide: boolean) => {
+      if (!focusRef.current) return;
+      focusRef.current = null;
+      setFocus(null);
+      const world = worldRef.current;
+      const { i, local } = locate(scrollYProgress.get());
+      const cam = scenes[i]?.camera;
+      if (world && cam && glide && !prefersReducedMotion()) {
+        const ms = 700;
+        returningUntil.current = performance.now() + ms;
+        world.flyTo(cameraAt(cam, local), ms);
+      }
+    },
+    [locate, scrollYProgress, scenes],
+  );
+
+  // Picking a hotspot: fly there and open its card.
+  useEffect(() => {
+    pickRef.current = (id: string) => {
+      const { i } = locate(scrollYProgress.get());
+      const spot = scenes[i]?.spots?.find((x) => x.id === id);
+      const world = worldRef.current;
+      if (!spot || !world) return;
+      const next = { spot, y: window.scrollY };
+      focusRef.current = next;
+      setFocus(next);
+      world.flyTo(spot.view, prefersReducedMotion() ? 0 : 1800);
+    };
+  }, [locate, scrollYProgress, scenes]);
+
+  useEffect(() => {
+    if (!focus) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && leaveFocus(true);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [focus, leaveFocus]);
+
   useMotionValueEvent(scrollYProgress, "change", (p) => {
     const { i, local } = locate(p);
+    if (focusRef.current && Math.abs(window.scrollY - focusRef.current.y) > 60) leaveFocus(true);
     drive(i, local);
     const bucket = Math.round(local * 400) / 400;
     setView((v) => (v.i === i && v.local === bucket ? v : { i, local: bucket }));
@@ -265,13 +317,13 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
         )}
 
         {/* THE METRO */}
-        <canvas ref={metroCanvas} aria-hidden="true" className={`absolute inset-0 size-full transition-opacity duration-slow ${env === "metro" && metroLocal >= ESCALATOR_END - 0.03 ? "opacity-100" : "opacity-0"}`} />
+        <canvas ref={metroCanvas} aria-hidden="true" className={`pointer-events-none absolute inset-0 size-full transition-opacity duration-slow ${env === "metro" && metroLocal >= ESCALATOR_END - 0.03 ? "opacity-100" : "opacity-0"}`} />
         {escalator && metroNear && (
           <EscalatorSequence
             {...escalator}
             progress={clamp01(metroLocal / ESCALATOR_END)}
             load={metroNear}
-            className={`absolute inset-0 size-full transition-opacity duration-base ${env === "metro" && metroLocal < ESCALATOR_END ? "opacity-100" : "opacity-0"}`}
+            className={`pointer-events-none absolute inset-0 size-full transition-opacity duration-base ${env === "metro" && metroLocal < ESCALATOR_END ? "opacity-100" : "opacity-0"}`}
           />
         )}
         {env === "metro" && metro3d >= 0.94 && <div className="pointer-events-none absolute inset-0 bg-[#f4f6f9]" style={{ opacity: smooth((metro3d - 0.94) / 0.06) }} />}
@@ -288,7 +340,21 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
         {env === "fin" ? (
           <FinalScene scene={scene} tripCount={trip.length} />
         ) : (
-          <SceneText key={scene.id} scene={scene} local={view.local} onPortal={goTo} />
+          <div className={focus ? "max-lg:invisible" : ""}>
+            <SceneText key={scene.id} scene={scene} local={view.local} onPortal={goTo} />
+          </div>
+        )}
+
+        {/* Exploring a hotspot */}
+        {focus && (
+          <SpotCard
+            spot={focus.spot}
+            onBack={() => leaveFocus(true)}
+            onPortal={(sceneId, at) => {
+              leaveFocus(false);
+              goTo(sceneId, at);
+            }}
+          />
         )}
 
         {/* The relief is exaggerated and the models are stylised: say so. */}
@@ -310,6 +376,48 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
         <JourneyIndex scenes={scenes} current={view.i} onGo={goTo} light={env === "fin"} />
       </div>
     </section>
+  );
+}
+
+function SpotCard({ spot, onBack, onPortal }: { spot: VoyageHotspot; onBack: () => void; onPortal: (id: string, at?: number) => void }) {
+  return (
+    <aside
+      aria-label={spot.label}
+      className="enter absolute inset-x-3 bottom-3 z-20 overflow-hidden rounded-[6px] border border-line bg-night/90 backdrop-blur-md lg:inset-x-auto lg:right-16 lg:bottom-10 lg:w-[380px]"
+    >
+      {spot.photo && (
+        <div className="relative aspect-[16/10] max-lg:hidden">
+          <Image src={spot.photo.src} alt={spot.photo.alt} fill sizes="380px" placeholder="blur" blurDataURL={spot.photo.blurDataURL} className="object-cover" />
+        </div>
+      )}
+      <div className="p-5">
+        <p className="label text-fg-2">Explorer</p>
+        <h3 className="mt-2 font-display text-[1.9rem] leading-none">{spot.label}</h3>
+        {spot.ru && (
+          <p lang="ru" className="mt-1 font-display font-cond text-[1.05rem] text-fg-2">
+            {spot.ru}
+          </p>
+        )}
+        {spot.text && <p className="mt-3 text-[0.95rem] leading-snug text-fg">{spot.text}</p>}
+        {spot.photo && (
+          <p className="mt-3 text-[0.72rem] text-fg-2 max-lg:hidden">
+            <span className="label mr-2">{spot.photo.kind === "verste" ? "Photographie VERSTE" : "Image libre"}</span>
+            {spot.photo.caption}
+          </p>
+        )}
+        <div className="mt-5 flex flex-wrap gap-2">
+          {spot.portal && <PortalButton portal={spot.portal} primary onPortal={onPortal} />}
+          {spot.href && (
+            <Link href={spot.href} className="inline-flex min-h-11 items-center gap-2 rounded-xs border border-fg/35 px-4 text-[0.92rem] text-fg hover:border-fg">
+              La fiche
+            </Link>
+          )}
+          <button type="button" onClick={onBack} className="inline-flex min-h-11 items-center px-3 text-[0.92rem] text-fg-2 underline decoration-fg/30 underline-offset-[6px] hover:text-fg">
+            Revenir au voyage
+          </button>
+        </div>
+      </div>
+    </aside>
   );
 }
 

@@ -1,3 +1,4 @@
+import { findPlace } from "@/data/travel/index";
 import { getJourney } from "@/data/travel/journeys";
 import { flightLegs, flightMarks } from "@/data/voyage/flight";
 import { highlights, metroLine1, outlines, scenes } from "@/data/voyage/scenes";
@@ -5,7 +6,9 @@ import { photoOf } from "@/lib/map/data";
 import { lineKm } from "@/lib/travel/geo";
 import { getMedia } from "@/lib/travel/media";
 
-import { Voyage, type VoyageMedia, type VoyageScene } from "./Voyage";
+import type { Scene } from "@/lib/voyage/types";
+
+import { Voyage, type VoyageHotspot, type VoyageMedia, type VoyageScene } from "./Voyage";
 
 function media(slug: string): VoyageMedia | null {
   const photo = photoOf(slug);
@@ -14,9 +17,25 @@ function media(slug: string): VoyageMedia | null {
   return { ...photo, ...(m.type === "video" ? { video: m.src } : {}) };
 }
 
+/** A hotspot takes its words, photo and link from its place: nothing is written twice. */
+function spots(scene: Scene): VoyageHotspot[] | undefined {
+  return scene.hotspots?.map((h) => {
+    const place = h.placeId ? findPlace(h.placeId) : undefined;
+    const photo = place?.media[0] ? media(place.media[0]) : null;
+    return {
+      ...h,
+      label: h.label ?? place?.fr ?? h.id,
+      ru: place?.ru,
+      text: h.text ?? place?.summary,
+      photo: photo ?? undefined,
+      href: place ? `/lieux/${place.id}` : undefined,
+    };
+  });
+}
+
 /** Server side of the journey: media resolved, distances computed, lean props. */
 export function VoyageSection() {
-  const resolved: VoyageScene[] = scenes.map((s) => ({ ...s, resolved: (s.media ?? []).map(media).filter((x): x is VoyageMedia => x !== null) }));
+  const resolved: VoyageScene[] = scenes.map((s) => ({ ...s, resolved: (s.media ?? []).map(media).filter((x): x is VoyageMedia => x !== null), spots: spots(s) }));
   const rail = getJourney("train-moscou-nijni");
   const total = lineKm(rail.path);
   const at = (index: number) => lineKm(rail.path.slice(0, index + 1)) / total;
@@ -37,7 +56,7 @@ export function VoyageSection() {
       line={metroLine1}
       train={{ path: rail.path, stations, duration: `${rail.duration?.value ?? ""} (à recouper sur rzd.ru)` }}
       escalator={sequence}
-      fortresses="kremlin-nijni"
+      fortresses="kremlin-moscou,kremlin-nijni"
       label="Le voyage, de Paris à Nijni Novgorod"
       legs={flightLegs}
       marks={flightMarks}

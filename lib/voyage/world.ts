@@ -6,7 +6,7 @@ import type { CameraView } from "@/lib/map/views";
 import { sliceAlong } from "@/lib/travel/geo";
 import type { LonLat } from "@/lib/travel/types";
 
-import { buildFortress, distanceToWall, towerAnchor, type Fortress } from "./fortress";
+import { buildFortress, distanceToWall, towerAnchor, towerDiscs, type Fortress } from "./fortress";
 import type { Highlight, Mark, Outline } from "./types";
 
 /**
@@ -33,6 +33,10 @@ export type World = {
   setRoute(legs: RouteLeg[]): void;
   /** Shows these marks (airports, cities), hides the others. */
   setMarks(ids: string[]): void;
+  /** The points to explore of the scene; `onPick` receives the id clicked. */
+  setHotspots(spots: { id: string; label: string; at: LonLat }[], onPick: (id: string) => void): void;
+  /** An animated camera move (exploring a hotspot, coming back to the journey). */
+  flyTo(view: CameraView, durationMs: number): void;
   resize(): void;
   destroy(): void;
 };
@@ -83,6 +87,10 @@ const mix = (a: string, b: string, t: number) => {
 const NIGHT = { background: "#07090d", water: "#07142a", building: "#0e1420", buildingTop: "#151d2c" };
 /** Dawn over the Volga: the only morning of the journey (« De la nuit à l'aube »). */
 const DAWN = { background: "#1d2533", water: "#2b4f82", building: "#2a3446", buildingTop: "#3b4860" };
+/** Detailed OSM buildings are drawn from their parts: their outline (hide_3d) would be a crude box around them. */
+const SHOW_3D: ExpressionSpecification = ["!", ["to-boolean", ["coalesce", ["get", "hide_3d"], false]]];
+/** OSM colour of a lit part (gilding, brick, green roofs), softened towards the floodlight tone so the night holds together. */
+const realColour = (light: string): ExpressionSpecification => ["interpolate", ["linear"], ["literal", 0.3], 0, ["to-color", ["get", "colour"], light], 1, light];
 /** Glass towers at night: warm and cool windows, varied by building. */
 const LIT_GLASS: ExpressionSpecification = ["match", ["%", ["id"], 3], 0, "#f2c983", 1, "#d6e4f5", "#9db6d8"];
 
@@ -193,6 +201,21 @@ export async function createWorld(
   }
   let marksKey = "";
 
+  /**
+   * The scene text covers the lower half on phones and the left column on
+   * large screens: the camera always looks at the free part of the screen.
+   */
+  function framePadding() {
+    const w = container.clientWidth;
+    return w < 1024
+      ? { top: 56, bottom: Math.round(container.clientHeight * 0.42), left: 0, right: 0 }
+      : { top: 0, bottom: 0, left: Math.round(Math.min(520, w * 0.44) * 0.8), right: 0 };
+  }
+
+  // ── Hotspots: points to explore, real buttons ──────────────────────────
+  let spotMarkers: InstanceType<typeof ml.Marker>[] = [];
+  let spotsKey = "";
+
   // ── 3D objects (three.js, loaded with the first object) ────────────────
   const risers: Record<string, (t: number) => void> = {};
   const replaced: Record<string, { center: LonLat; radiusM: number }> = {};
@@ -207,6 +230,7 @@ export async function createWorld(
 
   // ── Fortresses: walls and towers stepping on the relief ─────────────────
   const fortresses = opts.fortresses ?? [];
+  const discsOf = new Map(fortresses.map((f) => [f.id, towerDiscs(f)]));
   type Label = { el: HTMLElement; marker: InstanceType<typeof ml.Marker>; at: LonLat; heightM: number };
   const labels = new Map<string, Label[]>();
   let shownLabels = "";
@@ -231,7 +255,7 @@ export async function createWorld(
       },
     });
     for (const f of fortresses) {
-      const els = f.towers.map((t): Label => {
+      const els = f.towers.filter((t) => !t.minor).map((t): Label => {
         const el = document.createElement("div");
         el.className = "verste-tower is-hidden";
         el.setAttribute("aria-hidden", "true");
@@ -312,7 +336,16 @@ export async function createWorld(
       for (const r of Object.values(replaced)) if (metres(c, r.center) < r.radiusM) hidden.add(f.id);
       // OSM wall and towers replaced by the fortress model (flat slabs would float on the slope).
       for (const fz of fortresses) {
-        if (metres(c, fz.ring[0]!) > 1500 || height > 40) continue;
+        if (metres(c, fz.ring[0]!) > 2500) continue;
+        if (fz.replaces === "towers") {
+          const discs = discsOf.get(fz.id)!;
+          const onTower = cs.map((q) => discs.some((d) => metres(q, d.at) < d.r));
+          if (!onTower.some(Boolean) || height > 95) continue;
+          if (onTower.every(Boolean)) walled.add(f.id);
+          else mixed.add(f.id);
+          continue;
+        }
+        if (height > 40) continue;
         const near = cs.map((q) => distanceToWall(fz, q) < 14);
         if (!near.some(Boolean)) continue;
         if (cs.every((q, i) => near[i] || inside(q, fz.ring))) walled.add(f.id);
@@ -341,12 +374,13 @@ export async function createWorld(
     let color: ExpressionSpecification | string = base;
     if (lit.length) {
       const cases: unknown[] = ["case"];
-      for (const [id, ids] of lit) cases.push(["in", ["id"], ["literal", ids]], id === "moscow-city" ? LIT_GLASS : specs.get(id)!.color);
+      // A lit monument takes its real colours when OSM has them (gilded domes, brick, green roofs).
+      for (const [id, ids] of lit) cases.push(["in", ["id"], ["literal", ids]], id === "moscow-city" ? LIT_GLASS : realColour(specs.get(id)!.color));
       cases.push(base);
       color = cases as ExpressionSpecification;
     }
     map.setPaintProperty("building-3d", "fill-extrusion-color", color);
-    const filter = gone.length ? (["!", ["in", ["id"], ["literal", gone]]] as ExpressionSpecification) : null;
+    const filter: ExpressionSpecification = gone.length ? ["all", SHOW_3D, ["!", ["in", ["id"], ["literal", gone]]]] : SHOW_3D;
     map.setFilter("building-3d", filter);
     map.setFilter("building-flat", filter);
     const nextSky: keyof typeof skies = night > 0.5 ? "deep" : night < -0.3 ? "dawn" : "night";
@@ -373,14 +407,7 @@ export async function createWorld(
   return {
     map,
     setCamera(v) {
-      // The scene text covers the lower half on phones and the left column on
-      // large screens: the camera looks at the free part of the screen.
-      const w = container.clientWidth;
-      const narrow = w < 1024;
-      const padding = narrow
-        ? { top: 56, bottom: Math.round(container.clientHeight * 0.42), left: 0, right: 0 }
-        : { top: 0, bottom: 0, left: Math.round(Math.min(520, w * 0.44) * 0.8), right: 0 };
-      map.jumpTo({ center: [v.center[0], v.center[1]], zoom: v.zoom, pitch: v.pitch ?? 0, bearing: v.bearing ?? 0, padding });
+      map.jumpTo({ center: [v.center[0], v.center[1]], zoom: v.zoom, pitch: v.pitch ?? 0, bearing: v.bearing ?? 0, padding: framePadding() });
       if (shownLabels) placeLabels();
     },
     setHighlights(ids) {
@@ -447,6 +474,31 @@ export async function createWorld(
         }
       }
       (map.getSource("journey") as GeoJSONSource | undefined)?.setData({ type: "FeatureCollection", features });
+    },
+    setHotspots(spots, onPick) {
+      const key = spots.map((q) => q.id).join();
+      if (key === spotsKey) return;
+      spotsKey = key;
+      for (const m of spotMarkers) m.remove();
+      spotMarkers = spots.map((spot) => {
+        const el = document.createElement("button");
+        el.type = "button";
+        el.className = "verste-hotspot is-spot";
+        el.setAttribute("aria-label", `Explorer : ${spot.label}`);
+        const dot = document.createElement("span");
+        dot.className = "verste-hotspot-dot";
+        const text = document.createElement("span");
+        text.textContent = spot.label;
+        el.append(dot, text);
+        el.addEventListener("click", (e) => {
+          e.stopPropagation();
+          onPick(spot.id);
+        });
+        return new ml.Marker({ element: el, anchor: "left", offset: [-8, 0] }).setLngLat([spot.at[0], spot.at[1]]).addTo(map);
+      });
+    },
+    flyTo(v, durationMs) {
+      map.flyTo({ center: [v.center[0], v.center[1]], zoom: v.zoom, pitch: v.pitch ?? 0, bearing: v.bearing ?? 0, padding: framePadding(), duration: durationMs, essential: true });
     },
     setMarks(ids) {
       const key = ids.join();

@@ -9,7 +9,7 @@ import type { LonLat } from "@/lib/travel/types";
 
 export type Environment = "monde" | "metro" | "train" | "fin";
 
-export type PortalVerb = "Entrer" | "Découvrir" | "Voir" | "Descendre" | "Partir" | "Suivre le fleuve" | "Ressortir" | "S'approcher" | "Construire";
+export type PortalVerb = "Entrer" | "Découvrir" | "Voir" | "Descendre" | "Partir" | "Suivre le fleuve" | "Ressortir" | "S'approcher" | "Construire" | "Continuer";
 
 export type Portal = {
   verb: PortalVerb;
@@ -30,6 +30,24 @@ export type Highlight = {
 };
 
 export type Outline = { id: string; ring: LonLat[] };
+
+/**
+ * A point to explore inside a scene (the Kremlin as a hub: Red Square, the
+ * cathedrals, the garden…). A click flies the camera there and opens a short
+ * card; scrolling takes the journey back. Text, photo and link come from the
+ * place (data/travel), never written twice.
+ */
+export type Hotspot = {
+  id: string;
+  placeId?: string;
+  /** Used when no place carries the text (details of a monument, from its sourced facts). */
+  label?: string;
+  text?: string;
+  at: LonLat;
+  view: CameraView;
+  /** « Continuer » moves on to another scene. */
+  portal?: Portal;
+};
 
 /** A named point drawn on the world (airports, cities), shown by the scenes that list it. */
 export type Mark = { id: string; at: LonLat; name: string; ru?: string; sub?: string; kind: "airport" | "city" };
@@ -71,6 +89,7 @@ export type Scene = {
   /** Fortresses whose tower names are shown (the Nizhny kremlin). */
   labels?: string[];
   vehicle?: SceneVehicle;
+  hotspots?: Hotspot[];
   /** Marks (airports, cities) shown on the world during the scene. */
   marks?: string[];
   /** Computed figures shown with the scene, each with its method. */

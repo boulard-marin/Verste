@@ -49,3 +49,32 @@ describe("buildFortress (Nizhny kremlin)", () => {
     }
   });
 });
+
+describe("buildFortress (Moscow Kremlin towers)", async () => {
+  const { kremlinMoscouFortress: mk } = await import("../../data/voyage/kremlin-moscou.ts");
+  const fc = buildFortress(mk);
+  const parts = (name: string) => fc.features.filter((f) => f.properties.part === name);
+
+  it("rebuilds the twenty towers from their OSM tiers, keeping the OSM wall", () => {
+    assert.equal(mk.towers.length, 20);
+    assert.equal(parts("wall").length, 0);
+    assert.ok(parts("roof").length >= 19 * 8, "a tent roof on each tower");
+  });
+
+  it("puts a ruby star on exactly five towers", () => {
+    assert.deepEqual(mk.towers.filter((t) => t.star).map((t) => t.fr).sort(), ["Borovitskaïa", "Nikolskaïa", "Spasskaïa", "Troïtskaïa", "Vodovzvodnaïa"]);
+    assert.equal(parts("star").length, 5 * 3);
+  });
+
+  it("never draws the full-height outline box of a tower mapped in parts", () => {
+    const spasskaia = mk.towers.find((t) => t.fr === "Spasskaïa")!;
+    const H = spasskaia.heightM!;
+    const tallest = Math.max(...parts("tower").filter((f) => f.properties.base === 0).map((f) => f.properties.height));
+    assert.ok(tallest < H - 1, `no ground-to-top box (tallest from ground: ${tallest} m)`);
+  });
+
+  it("keeps the Spasskaïa star at its OSM height", () => {
+    const tops = parts("star").map((f) => f.properties.height);
+    assert.ok(tops.some((h) => Math.abs(h - 71) < 1.5), `star tops ${tops.join(", ")}`);
+  });
+});

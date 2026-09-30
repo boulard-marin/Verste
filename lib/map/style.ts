@@ -13,6 +13,9 @@ export const OPENFREEMAP_GLYPHS = "https://tiles.openfreemap.org/fonts/{fontstac
 export const TERRAIN_TILES = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png";
 export const TERRAIN_ATTRIBUTION = "Relief : Terrain Tiles (Mapzen, AWS)";
 
+/** Buildings mapped in detail come as parts; their outline (hide_3d) would be a crude box around them. */
+const SHOW_3D: ExpressionSpecification = ["!", ["to-boolean", ["coalesce", ["get", "hide_3d"], false]]];
+
 /** The globe's atmosphere: visible from space, gone once the camera is over a city. */
 const ATMOSPHERE: ExpressionSpecification = ["interpolate", ["linear"], ["zoom"], 0, 1, 5, 0.85, 8, 0];
 
@@ -170,6 +173,7 @@ export function buildNightStyle(): StyleSpecification {
         type: "fill",
         source: "openmaptiles",
         "source-layer": "building",
+        filter: SHOW_3D,
         minzoom: 13,
         maxzoom: 15,
         paint: { "fill-color": mapColors.building, "fill-opacity": ["interpolate", ["linear"], ["zoom"], 13, 0, 14, 0.8] },
@@ -180,6 +184,7 @@ export function buildNightStyle(): StyleSpecification {
         source: "openmaptiles",
         "source-layer": "building",
         minzoom: 14.5,
+        filter: SHOW_3D,
         paint: {
           "fill-extrusion-color": ["interpolate", ["linear"], ["get", "render_height"], 0, mapColors.building, 60, mapColors.buildingTop],
           "fill-extrusion-height": ["interpolate", ["linear"], ["zoom"], 14.5, 0, 15.5, ["get", "render_height"]],

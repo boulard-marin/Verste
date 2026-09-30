@@ -8,6 +8,12 @@ import type { LonLat } from "../travel/types.ts";
  * hill on its own, and the parts of a bay (brick, merlon, roof) share its
  * centroid so they stay stacked. Tower roofs are stacked tiers scaled around
  * the tower's centroid (a pyramid or a cone, depending on the footprint).
+ *
+ * Two tower styles:
+ * - "roof" (Nizhny): the OSM body under a wooden hip roof, on the relief;
+ * - "tent" (Moscow): the OSM tiers themselves (base and height of each part,
+ *   flat ground), the highest one turned into a green tent roof, crowned by a
+ *   ruby star on the five towers that carry one, or a gilded spire.
  */
 
 export type FortressTower = {
@@ -16,23 +22,33 @@ export type FortressTower = {
   ru: string;
   /** Roof height in metres when OSM tags it (roof:height). */
   roofM?: number;
-  /** OSM building parts at ground level: footprint and total height. */
-  parts: { h: number; ring: LonLat[] }[];
+  /** Total height (OSM height tag), star included. */
+  heightM?: number;
+  /** Crowned by a ruby star (Spasskaïa, Nikolskaïa, Troïtskaïa, Borovitskaïa, Vodovzvodnaïa). */
+  star?: boolean;
+  /** A secondary tower: modelled, but its name is not shown on the map. */
+  minor?: boolean;
+  /** OSM building parts: footprint, base (tiers) and top height. */
+  parts: { min?: number; h: number; ring: LonLat[] }[];
 };
 
 export type Fortress = {
   id: string;
   /** Wall centre line (closed or not). */
   ring: LonLat[];
-  wall: { thickness: number; height: number; merlon: number; bay: number; covered: boolean };
-  colors: { brick: string; roof: string; ridge: string; wood: string; gold: string };
+  /** A generated wall (Nizhny); absent when the OSM wall is kept (Moscow). */
+  wall?: { thickness: number; height: number; merlon: number; bay: number; covered: boolean };
+  style: "roof" | "tent";
+  /** What the model replaces in OSM: the wall and its towers, or the towers only. */
+  replaces: "wall" | "towers";
+  colors: { brick: string; roof: string; ridge: string; wood: string; gold: string; star?: string };
   dropM?: number;
   towers: FortressTower[];
 };
 
 export type FortressFeature = {
   type: "Feature";
-  properties: { base: number; height: number; color: string; part: "wall" | "merlon" | "roof" | "tower" | "spire" | "finial" };
+  properties: { base: number; height: number; color: string; part: "wall" | "merlon" | "roof" | "tower" | "spire" | "finial" | "star" };
   geometry: { type: "Polygon"; coordinates: [number, number][][] };
 };
 
@@ -79,7 +95,38 @@ export function buildFortress(f: Fortress): { type: "FeatureCollection"; feature
 
   // ── Towers ────────────────────────────────────────────────────────────
   const discs: { c: XY; r: number }[] = [];
-  for (const t of f.towers) {
+  const square = (c: XY, e: number): XY[] => [[c[0] - e, c[1] - e], [c[0] + e, c[1] - e], [c[0] + e, c[1] + e], [c[0] - e, c[1] + e]];
+  const scaled = (ring: XY[], c: XY, k: number) => ring.map((q): XY => [c[0] + (q[0] - c[0]) * k, c[1] + (q[1] - c[1]) * k]);
+  if (f.style === "tent") {
+    for (const t of f.towers) {
+      const all = t.parts.map((p) => ({ min: p.min ?? 0, h: p.h, ring: p.ring.map(toXY) })).map((p) => ({ ...p, a: area(p.ring) }));
+      const H = t.heightM ?? Math.max(...all.map((p) => p.h));
+      // The full-height outline of a tower mapped in parts would box the tiers in.
+      const tiers = all.length > 1 ? all.filter((p) => !(p.min === 0 && p.h >= H - 1)) : all;
+      for (const p of all) discs.push({ c: closedMean(p.ring), r: Math.sqrt(p.a / Math.PI) });
+      const tent = [...tiers].filter((p) => p.a >= 4 && p.min > 0).sort((a, b) => b.h - a.h)[0];
+      for (const p of tiers) if (p !== tent) push(p.ring, p.min, p.h, f.colors.brick, "tower");
+      if (!tent) continue;
+      const c = closedMean(tent.ring);
+      const crown = t.star ? 3.4 : 2.2;
+      const top = Math.min(tent.h, H - (t.star ? crown : 0));
+      const n = 8;
+      for (let k = 0; k < n; k++) {
+        push(scaled(tent.ring, c, 1.04 * (1 - k / n) + 0.04), tent.min + ((top - tent.min) * k) / n, tent.min + ((top - tent.min) * (k + 1)) / n, k === n - 1 ? f.colors.ridge : f.colors.roof, "roof");
+      }
+      if (t.star) {
+        // The ruby star, seen from the city: a small bright diamond on the spire.
+        const s0 = top + 0.3;
+        push(square(c, 0.45), top, s0, f.colors.gold, "finial");
+        push(square(c, 0.55), s0, s0 + 0.9, f.colors.star ?? "#ff3048", "star");
+        push(square(c, 1.25), s0 + 0.9, s0 + 2.1, f.colors.star ?? "#ff3048", "star");
+        push(square(c, 0.55), s0 + 2.1, s0 + 3.0, f.colors.star ?? "#ff3048", "star");
+      } else {
+        push(square(c, 0.35), top, top + crown, f.colors.gold, "finial");
+      }
+    }
+  }
+  for (const t of f.style === "roof" ? f.towers : []) {
     const parts = t.parts.map((p) => ({ h: p.h, ring: p.ring.map(toXY) })).map((p) => ({ ...p, a: area(p.ring) }));
     const main = [...parts].filter((p) => p.a >= 60).sort((a, b) => b.h - a.h)[0] ?? [...parts].sort((a, b) => b.a - a.a)[0];
     if (!main) continue;
@@ -105,6 +152,7 @@ export function buildFortress(f: Fortress): { type: "FeatureCollection"; feature
   }
 
   // ── Wall, bay by bay ──────────────────────────────────────────────────
+  if (!f.wall) return { type: "FeatureCollection", features };
   const line = f.ring.map(toXY);
   const cum = [0];
   for (let i = 1; i < line.length; i++) cum.push(cum[i - 1]! + Math.hypot(line[i]![0] - line[i - 1]![0], line[i]![1] - line[i - 1]![1]));
@@ -164,4 +212,14 @@ export function distanceToWall(f: Pick<Fortress, "ring">, p: LonLat): number {
 export function towerAnchor(t: FortressTower): LonLat {
   const ring = t.parts[0]!.ring;
   return [ring.reduce((s, p) => s + p[0], 0) / ring.length, ring.reduce((s, p) => s + p[1], 0) / ring.length];
+}
+
+/** Where the towers stand (centre, radius in metres): the OSM parts there are replaced by the model. */
+export function towerDiscs(f: Fortress): { at: LonLat; r: number }[] {
+  return f.towers.map((t) => {
+    const pts = t.parts.flatMap((q) => q.ring);
+    const at: LonLat = [pts.reduce((s, q) => s + q[0], 0) / pts.length, pts.reduce((s, q) => s + q[1], 0) / pts.length];
+    const { toXY } = frame(at);
+    return { at, r: Math.max(...pts.map((q) => Math.hypot(...toXY(q)))) + 2 };
+  });
 }
