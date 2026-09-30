@@ -62,7 +62,7 @@ export function SiteHeader() {
           <Wordmark animate />
         </Link>
 
-        <nav aria-label="Navigation principale" className="hidden lg:block">
+        <nav aria-label="Navigation principale" className="hidden xl:block">
           <ul className="flex items-center gap-6 xl:gap-8">
             {items.map((item) => (
               <li key={item.href}>
@@ -87,7 +87,7 @@ export function SiteHeader() {
           onClick={() => setOpen(true)}
           aria-expanded={open}
           aria-controls="menu-mobile"
-          className="-mr-2 inline-flex size-11 items-center justify-center text-fg lg:hidden"
+          className="-mr-2 inline-flex size-11 items-center justify-center text-fg xl:hidden"
         >
           <Menu aria-hidden="true" className="size-6" strokeWidth={1.5} />
           <span className="sr-only">Ouvrir le menu</span>
@@ -101,7 +101,7 @@ export function SiteHeader() {
           aria-modal="true"
           aria-label="Menu"
           data-lenis-prevent
-          className="gutter fixed inset-0 z-50 flex flex-col bg-night pb-[max(2rem,env(safe-area-inset-bottom))] lg:hidden"
+          className="gutter fixed inset-0 z-50 flex flex-col bg-night pb-[max(2rem,env(safe-area-inset-bottom))] xl:hidden"
         >
           <div className="flex h-16 items-center justify-between">
             <span className="text-[1.35rem] text-fg">
