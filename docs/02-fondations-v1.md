@@ -488,3 +488,14 @@ Voir [04-v2-experience-immersive.md](04-v2-experience-immersive.md) : audit, vis
 - Russia Travel Map (`/carte`) et fiches `/lieux/[id]`, vérifiées desktop et mobile.
 - Scène Saint-Basile (accueil, après le trajet) : descente de caméra fonctionnelle ; **à reprendre** : le modèle 3D apparaît trop petit et masqué par les bâtiments voisins en fin de descente (cadrage et échelle).
 - Reste : transition Moscou → Nijni, page destination Nijni, configurateur narratif, audit final aux quatre largeurs.
+
+### V2.2 · Un monde que l'on traverse · 30/09/2026
+
+Voir [06-v2.2-monde-interactif.md](06-v2.2-monde-interactif.md), section E :
+- nouveau logo « La borne » ;
+- voyage Moscou → Nijni en 14 scènes sur l'accueil (monde MapLibre persistant, monuments OSM allumés, Saint-Basile 3D corrigé, métro et train en environnements) ;
+- page destination Nijni et La Grande Verste (4,2 km calculés) ;
+- configurateur jour par jour (`lib/itinerary`, 32 tests) ;
+- audit responsive et confidentialité.
+
+Push GitHub toujours en attente des droits du compte local.
