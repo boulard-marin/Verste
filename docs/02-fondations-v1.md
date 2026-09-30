@@ -479,3 +479,12 @@ Voir [03-audit.md](03-audit.md). Onze constats sur l'incrément 1, dont une rég
 ### Cadrage V2 · 30/09/2026
 
 Voir [04-v2-experience-immersive.md](04-v2-experience-immersive.md) : audit, vision (12 scènes, dont 5 exceptionnelles), carte des interactions A–G, stratégie 3D (Saint-Basile seulement), inventaire des 176 médias du fondateur et pipeline (suppression du GPS), types de données vérifiables, itinéraire « Moscou + Nijni Novgorod : 7 jours », plan V2.0 → V2.7, test des trois personas. Aucun code modifié : en attente de validation et des réponses du §L.
+
+### V2.1 · Monde explorable, en cours · 30/09/2026
+
+- Dépôt relié à github.com/Marino338/Verste (commit initial conservé, branche `main`). **Push en attente** : le compte Git local (`boulard-marin`) n'a pas les droits d'écriture.
+- Inventaire des 176 médias (`data/media-inventory.ts`, `docs/05-inventaire-medias.md`), pipeline `npm run media:process` / `media:check` (GPS supprimé, contrôlé), 65 médias personnels et 15 images libres Commons créditées.
+- Modèle de données vérifiable (`lib/travel`, `data/travel`) : 57 lieux, La Grande Verste (tracé piéton OSRM), Nijni — 3 jours, Nijni — Nature, VERSTE Sport, matchs annoncés non confirmés. 21 tests.
+- Russia Travel Map (`/carte`) et fiches `/lieux/[id]`, vérifiées desktop et mobile.
+- Scène Saint-Basile (accueil, après le trajet) : descente de caméra fonctionnelle ; **à reprendre** : le modèle 3D apparaît trop petit et masqué par les bâtiments voisins en fin de descente (cadrage et échelle).
+- Reste : transition Moscou → Nijni, page destination Nijni, configurateur narratif, audit final aux quatre largeurs.

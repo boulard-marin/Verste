@@ -12,6 +12,7 @@ import { PositioningScene } from "@/components/home/PositioningScene";
 import { ProblemScene } from "@/components/home/ProblemScene";
 import { TodayScene } from "@/components/home/TodayScene";
 import { RouteScene } from "@/components/itinerary/RouteScene";
+import { SaintBasil } from "@/components/scenes/SaintBasil";
 import { SurfaceBridge } from "@/components/ui/SurfaceBridge";
 
 /**
@@ -24,6 +25,7 @@ export default function HomePage() {
       {/* Acte I · L'appel — nuit */}
       <HeroScene />
       <RouteScene />
+      <SaintBasil />
 
       {/* Acte II · La découverte — minuit, puis bleu */}
       <ManifestoScene />
