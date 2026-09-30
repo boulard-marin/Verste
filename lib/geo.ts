@@ -197,6 +197,67 @@ export function getItineraryMap(stops: LonLat[]): ItineraryMapData {
   };
 }
 
+export type ComposerAtlas = {
+  width: number;
+  height: number;
+  land: string;
+  borders: string;
+  russia: string;
+  cities: Record<string, { x: number; y: number }>;
+  /** Cities beyond the frame (the Baikal): an arrow on the edge, with the distance from Moscow. */
+  beyond: Record<string, { x: number; y: number; angle: number; km: number }>;
+};
+
+/**
+ * The atlas of the configurator: European Russia fitted to the cities of the
+ * plans; cities too far east (the Baikal) are pointed at from the edge.
+ */
+export function getComposerAtlas(cities: { id: string; coords: LonLat }[], beyond: { id: string; coords: LonLat }[], origin: LonLat): ComposerAtlas {
+  const width = 1000;
+  const height = 620;
+  const topo = world as unknown as Countries;
+  const coordinates = cities.map((c) => [c.coords[0], c.coords[1]] as [number, number]);
+  const projection = geoConicConformal()
+    .parallels([48, 62])
+    .rotate([-40, 0])
+    .fitExtent(
+      [
+        [width * 0.2, height * 0.18],
+        [width * 0.78, height * 0.86],
+      ],
+      { type: "MultiPoint", coordinates },
+    )
+    .clipExtent([
+      [-10, -10],
+      [width + 10, height + 10],
+    ]);
+  const path = geoPath(projection).digits(1);
+  const countries = feature(topo, topo.objects.countries);
+  const russia = countries.features.find((f) => String(f.id) === RUSSIA_ID) as Feature<Geometry> | undefined;
+  const at = (c: LonLat) => {
+    const xy = projection([c[0], c[1]]) ?? [0, 0];
+    return { x: Math.round(xy[0] * 10) / 10, y: Math.round(xy[1] * 10) / 10 };
+  };
+  const o = at(origin);
+  return {
+    width,
+    height,
+    land: countries.features.map((f) => path(f) ?? "").join(""),
+    borders: path(mesh(topo, topo.objects.countries, (a, b) => a !== b)) ?? "",
+    russia: russia ? (path(russia) ?? "") : "",
+    cities: Object.fromEntries(cities.map((c) => [c.id, at(c.coords)])),
+    beyond: Object.fromEntries(
+      beyond.map((b) => {
+        const far = at(b.coords);
+        const angle = Math.atan2(far.y - o.y, far.x - o.x);
+        // Where the line from Moscow leaves the frame, a little inside it.
+        const t = Math.min((width - 40 - o.x) / Math.cos(angle || 1e-6), Math.abs((angle < 0 ? o.y - 40 : height - 40 - o.y) / Math.sin(angle || 1e-6)));
+        return [b.id, { x: Math.round(o.x + Math.cos(angle) * t), y: Math.round(o.y + Math.sin(angle) * t), angle: (angle * 180) / Math.PI, km: distanceKm(origin, b.coords) }];
+      }),
+    ),
+  };
+}
+
 export function getRouteMap(): RouteMapData {
   return build().data;
 }
