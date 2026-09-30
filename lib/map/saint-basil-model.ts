@@ -31,7 +31,8 @@ import {
  * Mercator in render().
  */
 
-export const SAINT_BASIL_CENTER: [number, number] = [37.62322, 55.75267];
+/** Centre of the central church, from the OpenStreetMap building parts (the Wikipedia point is ~20 m off). */
+export const SAINT_BASIL_CENTER: [number, number] = [37.623064, 55.752487];
 
 type Pattern = "spiral" | "chevron" | "diamond" | "plain";
 

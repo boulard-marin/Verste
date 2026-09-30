@@ -1,0 +1,301 @@
+import type { Highlight, MetroLine, Outline, Scene } from "@/lib/voyage/types";
+
+import { kremlinMoscou, kremlinNijni } from "./outlines";
+
+/**
+ * LE VOYAGE — Moscou → Nijni Novgorod, as the visitor lives it.
+ * Day to night in Moscow, the train at dawn, the Volga in the morning light:
+ * « De la nuit à l'aube ». Texts state facts only; figures come from
+ * data/travel (sourced, dated) or are computed on screen.
+ */
+
+const WARM = "#e9d7b4";
+const TITANIUM = "#d7dde6";
+const OCHRE = "#e3b35c";
+
+export const highlights: Highlight[] = [
+  { id: "kremlin", center: [37.6175, 55.7517], radiusM: 700, within: kremlinMoscou, minHeight: 8, color: "#c98a6e" },
+  { id: "bolchoi", center: [37.6186, 55.76025], radiusM: 45, color: WARM },
+  { id: "mgu", center: [37.53076, 55.70293], radiusM: 190, minHeight: 20, color: WARM },
+  { id: "cosmos", center: [37.63968, 55.82244], radiusM: 16, color: TITANIUM },
+  { id: "musee-victoire", center: [37.505, 55.7308], radiusM: 90, color: WARM },
+  { id: "moscow-city", center: [37.5385, 55.7486], radiusM: 650, minHeight: 90, color: "#f2c983" },
+  { id: "nevski", center: [43.97118, 56.3336], radiusM: 40, color: OCHRE },
+  { id: "kremlin-nijni", center: [44.0025, 56.32833], radiusM: 500, within: kremlinNijni, color: "#c98a6e" },
+];
+
+export const outlines: Outline[] = [
+  { id: "kremlin", ring: kremlinMoscou },
+  { id: "kremlin-nijni", ring: kremlinNijni },
+];
+
+/** Line 1 (Sokolnitcheskaïa), from Okhotny Riad to Vorobiovy Gory, southbound. */
+export const metroLine1: MetroLine = {
+  id: "ligne-1",
+  number: "1",
+  ru: "Сокольническая",
+  fr: "Sokolnitcheskaïa",
+  color: "#e42313",
+  stations: [
+    { ru: "Охотный Ряд", fr: "Okhotny Riad" },
+    { ru: "Библиотека имени Ленина", fr: "Bibliothèque Lénine" },
+    { ru: "Кропоткинская", fr: "Kropotkinskaïa" },
+    { ru: "Парк культуры", fr: "Park Kultury" },
+    { ru: "Фрунзенская", fr: "Frounzenskaïa" },
+    { ru: "Спортивная", fr: "Sportivnaïa" },
+    { ru: "Воробьёвы горы", fr: "Vorobiovy Gory" },
+  ],
+};
+
+export const scenes: Scene[] = [
+  {
+    id: "moscou",
+    environment: "monde",
+    kicker: "Jour 1 · l'arrivée",
+    title: "Moscou",
+    ru: "Москва",
+    text: "La ligne rouge se pose. En bas, la Moskova dessine ses boucles et la ville s'organise en anneaux autour d'un seul point.",
+    camera: [
+      { center: [37.62, 55.75], zoom: 5.6, pitch: 0, bearing: 0 },
+      { center: [37.617, 55.752], zoom: 9.4, pitch: 10, bearing: -4 },
+      { center: [37.6175, 55.7525], zoom: 11.6, pitch: 32, bearing: -10 },
+    ],
+    media: ["moscou-arrivee-moscow-city"],
+    portals: [{ verb: "S'approcher", label: "S'approcher du Kremlin", to: { scene: "kremlin" } }],
+    length: 2,
+  },
+  {
+    id: "kremlin",
+    environment: "monde",
+    kicker: "Jour 1 · le centre",
+    title: "Le Kremlin",
+    ru: "Кремль",
+    text: "Une enceinte de brique sur la colline qui domine la Moskova. À l'intérieur, des cathédrales, des palais, et la résidence officielle de la présidence russe.",
+    camera: [
+      { center: [37.6175, 55.7525], zoom: 11.6, pitch: 32, bearing: -10 },
+      { center: [37.6178, 55.7518], zoom: 14.6, pitch: 48, bearing: -20 },
+      { center: [37.6185, 55.7515], zoom: 15.4, pitch: 56, bearing: -48 },
+    ],
+    highlights: ["kremlin"],
+    outlines: ["kremlin"],
+    placeId: "kremlin-moscou",
+    media: ["moscou-kremlin-jardin-alexandre"],
+    portals: [
+      { verb: "Entrer", label: "Entrer dans Saint-Basile", to: { scene: "saint-basile" } },
+      { verb: "Voir", label: "La fiche du Kremlin", to: { href: "/lieux/kremlin-moscou" } },
+    ],
+    length: 2,
+  },
+  {
+    id: "saint-basile",
+    environment: "monde",
+    kicker: "Jour 1 · 18 h 20",
+    title: "Saint-Basile",
+    ru: "Храм Василия Блаженного",
+    text: "Au bout de la place Rouge, neuf églises sur un même soubassement. L'heure dorée tombe vingt minutes avant le coucher du soleil.",
+    camera: [
+      { center: [37.6205, 55.7525], zoom: 16, pitch: 55, bearing: -40 },
+      { center: [37.62306, 55.75249], zoom: 17.7, pitch: 64, bearing: -28 },
+      { center: [37.62306, 55.75249], zoom: 17.9, pitch: 66, bearing: 38 },
+    ],
+    objects: [{ id: "saint-basile", rise: [0.05, 0.45] }],
+    placeId: "saint-basile",
+    media: ["moscou-saint-basile-minine"],
+    portals: [
+      { verb: "Découvrir", label: "Découvrir le plan", to: { scene: "saint-basile-plan" } },
+      { verb: "Voir", label: "La fiche de Saint-Basile", to: { href: "/lieux/saint-basile" } },
+    ],
+    length: 3,
+  },
+  {
+    id: "saint-basile-plan",
+    environment: "monde",
+    kicker: "Vu d'en haut",
+    title: "Huit autour d'un",
+    text: "D'en haut, le plan se lit enfin : une église centrale sous un toit en tente, quatre grandes églises sur les axes, quatre petites en diagonale. La photo ne le montre pas ; le ciel, si.",
+    camera: [
+      { center: [37.62306, 55.75249], zoom: 17.9, pitch: 66, bearing: 38 },
+      { center: [37.62306, 55.75249], zoom: 18.4, pitch: 0, bearing: 0 },
+    ],
+    objects: [{ id: "saint-basile", rise: [0, 0] }],
+    placeId: "saint-basile",
+    media: ["moscou-saint-basile-heure-doree"],
+    portals: [{ verb: "Ressortir", label: "Ressortir vers le Bolchoï", to: { scene: "bolchoi" } }],
+    length: 1.6,
+  },
+  {
+    id: "bolchoi",
+    environment: "monde",
+    kicker: "Jour 1 · 17 h",
+    title: "Le Bolchoï",
+    ru: "Большой театр",
+    text: "On remonte la place Rouge, on longe le Manège, et la place des Théâtres s'ouvre : le portique du Bolchoï et son quadrige.",
+    camera: [
+      { center: [37.62306, 55.75249], zoom: 18.4, pitch: 0, bearing: 0 },
+      { center: [37.6202, 55.7555], zoom: 15.4, pitch: 50, bearing: -20 },
+      { center: [37.6186, 55.7596], zoom: 17, pitch: 62, bearing: -8 },
+    ],
+    objects: [{ id: "saint-basile", rise: [0, 0] }],
+    highlights: ["bolchoi"],
+    placeId: "bolchoi",
+    media: ["moscou-bolchoi"],
+    portals: [
+      { verb: "Descendre", label: "Descendre dans le métro", to: { scene: "metro" } },
+      { verb: "Voir", label: "La fiche du Bolchoï", to: { href: "/lieux/bolchoi" } },
+    ],
+    length: 2,
+  },
+  {
+    id: "metro",
+    environment: "metro",
+    kicker: "Sous Moscou",
+    title: "Le métro",
+    ru: "Метро",
+    text: "La surface disparaît. On descend, longtemps. En bas, la station s'ouvre comme un palais.",
+    media: ["moscou-escalator-park-pobedy", "metro-maiakovskaia", "metro-komsomolskaia", "metro-novoslobodskaia"],
+    portals: [{ verb: "Partir", label: "Prendre la ligne 1", to: { scene: "metro", at: 0.56 } }],
+    length: 6,
+  },
+  {
+    id: "vorobiovy-gory",
+    environment: "monde",
+    kicker: "Jour 2 · la colline",
+    title: "Vorobiovy Gory",
+    ru: "Воробьёвы горы",
+    text: "La station est bâtie sur le pont qui franchit la Moskova. On ressort dans la lumière, on monte au belvédère : la ville en face, et derrière soi le gratte-ciel de l'université.",
+    camera: [
+      { center: [37.5592, 55.7103], zoom: 17.2, pitch: 72, bearing: 200 },
+      { center: [37.548, 55.709], zoom: 15, pitch: 64, bearing: 225 },
+      { center: [37.5335, 55.7043], zoom: 16, pitch: 66, bearing: 240 },
+    ],
+    highlights: ["mgu"],
+    placeId: "belvedere-vorobiovy",
+    portals: [{ verb: "Partir", label: "Ligne 1 jusqu'à Park Kultury", to: { scene: "muzeon" } }],
+    length: 2,
+  },
+  {
+    id: "muzeon",
+    environment: "monde",
+    kicker: "Jour 2 · les statues",
+    title: "Muzeon",
+    ru: "Музеон",
+    text: "Au bord de la Moskova, un parc où ont été rassemblés des monuments soviétiques déposés après 1991. À côté, la Nouvelle Tretiakov et l'art russe du XXᵉ siècle.",
+    camera: [
+      { center: [37.5935, 55.7355], zoom: 15, pitch: 40, bearing: 30 },
+      { center: [37.6072, 55.7352], zoom: 16.4, pitch: 58, bearing: 60 },
+    ],
+    placeId: "muzeon",
+    media: ["moscou-muzeon-armoiries", "moscou-muzeon-alignement", "moscou-pont-patriarche"],
+    portals: [
+      { verb: "Voir", label: "La fiche du Muzeon", to: { href: "/lieux/muzeon" } },
+      { verb: "Partir", label: "Vers VDNKh et l'espace", to: { scene: "vdnkh" } },
+    ],
+    length: 1.8,
+  },
+  {
+    id: "vdnkh",
+    environment: "monde",
+    kicker: "Jour 3 · l'espace",
+    title: "VDNKh",
+    ru: "ВДНХ",
+    text: "Au pied du monument aux Conquérants de l'espace, le musée de la Cosmonautique. Plus loin, les pavillons des républiques, les fontaines, la fusée Vostok.",
+    camera: [
+      { center: [37.6405, 55.8205], zoom: 15.4, pitch: 45, bearing: -20 },
+      { center: [37.6397, 55.8223], zoom: 17, pitch: 70, bearing: -35 },
+      { center: [37.6285, 55.8305], zoom: 15.6, pitch: 55, bearing: -60 },
+    ],
+    highlights: ["cosmos"],
+    placeId: "vdnkh",
+    media: ["moscou-vdnkh-vostok-fontaines", "moscou-vdnkh-arche-coucher", "moscou-vdnkh-pavillon-central"],
+    portals: [
+      { verb: "Voir", label: "Le musée de la Cosmonautique", to: { href: "/lieux/musee-cosmonautique" } },
+      { verb: "Partir", label: "Jusqu'à Poklonnaïa, au coucher du soleil", to: { scene: "poklonnaia" } },
+    ],
+    length: 2.2,
+  },
+  {
+    id: "poklonnaia",
+    environment: "monde",
+    kicker: "Jour 3 · 18 h 36 → 19 h 40",
+    title: "Du soleil à la nuit",
+    ru: "Поклонная гора",
+    text: "Poklonnaïa, le soleil vient de se coucher. Le bleu fonce, saint Georges s'éclaire, Moscow City s'allume à l'horizon. Chaque image porte son heure réelle.",
+    camera: [
+      { center: [37.5075, 55.7322], zoom: 15.6, pitch: 55, bearing: 70 },
+      { center: [37.5062, 55.7315], zoom: 16.6, pitch: 68, bearing: 95 },
+    ],
+    highlights: ["musee-victoire"],
+    night: [0.1, 1],
+    placeId: "poklonnaia",
+    media: ["moscou-poklonnaia-1836", "moscou-saint-georges-heure-bleue", "moscou-skyline-poklonnaia-1923", "moscou-fontaines-rouges-1938"],
+    mediaTimes: ["18 h 36", "19 h 09", "19 h 23", "19 h 38"],
+    portals: [
+      { verb: "Voir", label: "La fiche de Poklonnaïa", to: { href: "/lieux/poklonnaia" } },
+      { verb: "Partir", label: "Vers les tours de Moscow City", to: { scene: "moscow-city" } },
+    ],
+    length: 3.2,
+  },
+  {
+    id: "moscow-city",
+    environment: "monde",
+    kicker: "Jour 3 · la nuit",
+    title: "Moscow City",
+    ru: "Москва-Сити",
+    text: "Une seule ville, plusieurs Russie : après les murs du Kremlin et les statues du Muzeon, les tours de verre allumées au bord de la Moskova.",
+    camera: [
+      { center: [37.53, 55.745], zoom: 14.6, pitch: 60, bearing: 20 },
+      { center: [37.5385, 55.7484], zoom: 15.8, pitch: 68, bearing: -30 },
+    ],
+    highlights: ["moscow-city"],
+    night: [1, 1],
+    placeId: "moscow-city",
+    media: ["moscou-moscow-city-nuit"],
+    portals: [{ verb: "Partir", label: "Le lendemain, partir pour Nijni Novgorod", to: { scene: "train" } }],
+    length: 2,
+  },
+  {
+    id: "train",
+    environment: "train",
+    kicker: "Jour 4 · la Lastochka",
+    title: "Moscou → Nijni Novgorod",
+    ru: "Ласточка",
+    text: "La gare, le quai, les portes. Puis la fenêtre : les bouleaux, les villages, les rivières. Sur la carte, la ligne rouge avance.",
+    media: ["train-lastochka"],
+    portals: [],
+    length: 4,
+  },
+  {
+    id: "nijni",
+    environment: "monde",
+    kicker: "Jour 4 · le matin",
+    title: "Nijni Novgorod",
+    ru: "Нижний Новгород",
+    text: "Le train s'arrête sur la rive gauche de l'Oka. En face, sur la colline, le kremlin rouge ; en contrebas, l'Oka rejoint la Volga.",
+    camera: [
+      { center: [43.9461, 56.3219], zoom: 14.2, pitch: 50, bearing: 60 },
+      { center: [43.972, 56.33], zoom: 13.6, pitch: 55, bearing: 80 },
+      { center: [43.995, 56.3295], zoom: 14.6, pitch: 62, bearing: 120 },
+    ],
+    highlights: ["nevski", "kremlin-nijni"],
+    outlines: ["kremlin-nijni"],
+    night: [-0.5, -1],
+    media: ["nijni-kremlin-volga", "nijni-cathedrale-nevski"],
+    portals: [
+      { verb: "Découvrir", label: "Découvrir Nijni Novgorod", to: { href: "/destinations/nijni-novgorod" } },
+      { verb: "Suivre le fleuve", label: "Marcher La Grande Verste", to: { href: "/destinations/nijni-novgorod/la-grande-verste" } },
+    ],
+    length: 2.6,
+  },
+  {
+    id: "votre-voyage",
+    environment: "fin",
+    kicker: "Et vous ?",
+    title: "Et si c'était votre voyage ?",
+    text: "Tout ce que vous venez de traverser, nous le préparons pour vous : l'ordre des journées, les horaires vérifiés, les trajets, les réservations que vous ferez vous-même, en connaissance de cause.",
+    portals: [
+      { verb: "Construire", label: "Construire mon voyage", to: { href: "/configurateur" } },
+      { verb: "Voir", label: "Explorer la Russia Travel Map", to: { href: "/carte" } },
+    ],
+    length: 1.2,
+  },
+];

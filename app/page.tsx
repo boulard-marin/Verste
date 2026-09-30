@@ -1,49 +1,39 @@
 import { CarnetScene } from "@/components/home/CarnetScene";
-import { ConfiguratorTeaser } from "@/components/home/ConfiguratorTeaser";
 import { DepartureScene } from "@/components/home/DepartureScene";
-import { DestinationsScene } from "@/components/home/DestinationsScene";
 import { FounderScene } from "@/components/home/FounderScene";
 import { GuideScene } from "@/components/home/GuideScene";
 import { HeroScene } from "@/components/home/HeroScene";
-import { ManifestoScene } from "@/components/home/ManifestoScene";
-import { MoscowScene } from "@/components/home/MoscowScene";
 import { OffersScene } from "@/components/home/OffersScene";
 import { PositioningScene } from "@/components/home/PositioningScene";
-import { ProblemScene } from "@/components/home/ProblemScene";
 import { TodayScene } from "@/components/home/TodayScene";
 import { RouteScene } from "@/components/itinerary/RouteScene";
-import { SaintBasil } from "@/components/scenes/SaintBasil";
 import { SurfaceBridge } from "@/components/ui/SurfaceBridge";
+import { VoyageSection } from "@/components/voyage/VoyageSection";
 
 /**
- * Homepage: five acts, from night to snow (docs/02-fondations-v1.md §5).
- * Bridges are the only places where the page changes colour between scenes.
+ * Homepage: enter, travel, then prepare (docs/06-v2.2-monde-interactif.md).
+ * The journey carries the night-to-dawn arc; what follows is the part that
+ * explains, from the 2026 context to the offers.
  */
 export default function HomePage() {
   return (
     <>
-      {/* Acte I · L'appel — nuit */}
+      {/* Entrer — nuit */}
       <HeroScene />
       <RouteScene />
-      <SaintBasil />
 
-      {/* Acte II · La découverte — minuit, puis bleu */}
-      <ManifestoScene />
-      <MoscowScene />
-      <DestinationsScene />
+      {/* Traverser — Moscou, le métro, le train, Nijni à l'aube */}
+      <VoyageSection />
 
-      {/* Acte III · L'immersion — bleu, le rouge apparaît */}
-      <ProblemScene />
+      {/* Avant de partir — le cadre, puis ce que nous préparons */}
+      <SurfaceBridge from="frost" to="russian" size="sm" />
       <PositioningScene />
       <SurfaceBridge from="russian" to="midnight" size="sm" />
       <TodayScene />
-
-      {/* Acte IV · Votre Russie — l'aube, le givre */}
       <SurfaceBridge from="midnight" to="frost" size="lg" />
-      <ConfiguratorTeaser />
       <CarnetScene />
 
-      {/* Acte V · Le départ — la neige */}
+      {/* Partir — la neige */}
       <SurfaceBridge from="frost" to="snow" size="sm" />
       <OffersScene />
       <FounderScene />

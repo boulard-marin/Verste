@@ -7,8 +7,8 @@ export function SiteFooter() {
     <footer data-surface="snow" className="bg-surface text-fg">
       <div className="gutter mx-auto grid max-w-[1440px] gap-12 py-16 md:grid-cols-12 md:py-24">
         <div className="md:col-span-6">
-          <span className="text-[1.75rem]">
-            <Wordmark />
+          <span className="block text-[clamp(2.4rem,5vw,3.6rem)]">
+            <Wordmark route coords />
           </span>
           <p className="mt-8 max-w-[22ch] font-display-italic text-quote italic">{site.signature}</p>
           <p className="label mt-6 text-fg-2">{site.descriptor}</p>

@@ -474,3 +474,28 @@
   .maplibregl-ctrl-attrib a { color: #c9d5e6; }
   .maplibregl-ctrl-attrib-button { filter: invert(1); }
 }
+
+/* --------------------------------------------------------------------------
+   Logo — « La borne ». Plays once on load; the rest state is the final state.
+   -------------------------------------------------------------------------- */
+
+@keyframes logo-cap-drop {
+  from { transform: translateY(-6px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes logo-route-draw {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes logo-word-in {
+  from { letter-spacing: 0.32em; opacity: 0; }
+  to { letter-spacing: 0.12em; opacity: 1; }
+}
+.logo-animate .logo-cap { animation: logo-cap-drop 700ms var(--ease-verste) 250ms both; transform-box: fill-box; }
+.logo-animate .logo-route { animation: logo-route-draw 1100ms var(--ease-cinematic) 600ms both; }
+.logo-animate .logo-word { animation: logo-word-in 900ms var(--ease-verste) 50ms both; }
+@media (prefers-reduced-motion: reduce) {
+  .logo-animate .logo-cap,
+  .logo-animate .logo-route,
+  .logo-animate .logo-word { animation: none; }
+}

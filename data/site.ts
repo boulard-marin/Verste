@@ -30,16 +30,16 @@ export type NavItem = { label: string; href: string; ready: boolean };
 
 /** Final navigation. Items appear as soon as their scene or page exists. */
 export const nav: NavItem[] = [
-  { label: "Le trajet", href: "/#trajet", ready: true },
-  { label: "Destinations", href: "/#destinations", ready: true },
+  { label: "Le voyage", href: "/#voyage", ready: true },
+  { label: "Russia Travel Map", href: "/carte", ready: true },
+  { label: "Nijni Novgorod", href: "/destinations/nijni-novgorod", ready: true },
   { label: "Russie aujourd'hui", href: "/#russie-aujourdhui", ready: true },
-  { label: "Le Carnet", href: "/#carnet", ready: true },
   { label: "Offres", href: "/#offres", ready: true },
 ];
 
 export const ctas = {
   build: { label: "Construire mon voyage", href: "/configurateur" },
-  explore: { label: "Explorer la Russie", href: "/#trajet" },
+  explore: { label: "Entrer dans le voyage", href: "/#trajet" },
 } as const;
 
 export const officialAdvice = {
