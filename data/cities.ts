@@ -3,8 +3,7 @@ import type { LonLat } from "./route";
 /** Bronze plaque of the "Kilometre Zero", near Red Square: origin of Russian road distances. */
 export const KM_ZERO: LonLat = [37.6177, 55.7557];
 
-/** `value: null` means the founder has not provided it yet (shown only in development). */
-export type Fact = { label: string; value: string | null };
+export type Fact = { label: string; value: string };
 
 export const moscow = {
   id: "moscou",
@@ -22,7 +21,6 @@ export const moscow = {
       label: "Transport",
       value: "Métro et taxis par application. Trains rapides vers Saint-Pétersbourg et Nijni Novgorod.",
     },
-    { label: "Budget indicatif", value: null },
   ] satisfies Fact[],
 } as const;
 

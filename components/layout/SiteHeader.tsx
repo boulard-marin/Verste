@@ -56,10 +56,13 @@ export function SiteHeader() {
       <div className="gutter mx-auto flex h-16 max-w-[1440px] items-center justify-between md:h-20">
         <Link
           href="/"
-          aria-label="Verste, accueil"
-          className={`origin-left text-[1.35rem] text-fg transition-transform duration-base ease-verste md:text-[1.7rem] ${scrolled ? "scale-[0.9]" : ""}`}
+          aria-label="Verste, Russia Travel, accueil"
+          className={`flex origin-left items-center gap-4 text-[1.6rem] text-fg transition-transform duration-base ease-verste md:text-[2rem] ${scrolled ? "scale-[0.9]" : ""}`}
         >
           <Wordmark animate />
+          <span aria-hidden="true" className="label hidden border-l border-white/20 py-1 pl-4 text-[0.62rem] text-fg-2 sm:inline">
+            Russia Travel
+          </span>
         </Link>
 
         <nav aria-label="Navigation principale" className="hidden xl:block">
@@ -104,7 +107,7 @@ export function SiteHeader() {
           className="gutter fixed inset-0 z-50 flex flex-col bg-night pb-[max(2rem,env(safe-area-inset-bottom))] xl:hidden"
         >
           <div className="flex h-16 items-center justify-between">
-            <span className="text-[1.35rem] text-fg">
+            <span className="text-[1.6rem] text-fg">
               <Wordmark />
             </span>
             <button

@@ -520,7 +520,7 @@
 }
 @keyframes logo-word-in {
   from { letter-spacing: 0.32em; opacity: 0; }
-  to { letter-spacing: 0.12em; opacity: 1; }
+  to { letter-spacing: 0.06em; opacity: 1; }
 }
 .logo-animate .logo-cap { animation: logo-cap-drop 700ms var(--ease-verste) 250ms both; transform-box: fill-box; }
 .logo-animate .logo-route { animation: logo-route-draw 1100ms var(--ease-cinematic) 600ms both; }

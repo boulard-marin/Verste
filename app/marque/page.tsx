@@ -8,10 +8,10 @@ export const metadata: Metadata = {
 };
 
 const pistes = [
-  { id: "A", name: "Typographie seule", text: "Le mot, plus lourd et plus serré. Lisible partout, mais sans signe propre.", node: <Wordmark post={false} /> },
-  { id: "B", name: "Mot + ligne rouge", text: "La ligne qui part du mot : distance et direction. Forte en grand, fragile en petit.", node: <Wordmark post={false} route /> },
-  { id: "C", name: "Mot + borne", text: "Le poteau verste des routes russes, coiffé de rouge. Un symbole qui tient seul (icône, favicon).", node: <Wordmark /> },
-  { id: "D", name: "Mot + coordonnées", text: "Le kilomètre zéro de Moscou sous le mot. Pour la vidéo et les grands formats.", node: <Wordmark post={false} coords /> },
+  { id: "A", name: "Typographie seule", text: "Le mot seul, extra-gras et serré. Lisible partout, mais sans signe propre.", node: <Wordmark post={false} /> },
+  { id: "B", name: "Mot + signature", text: "La ligne rouge et RUSSIA TRAVEL sous le mot : le lieu et le mouvement.", node: <Wordmark post={false} tagline /> },
+  { id: "C", name: "Borne + mot", text: "Le poteau verste des routes russes, coiffé de rouge. Un symbole qui tient seul (icône, favicon).", node: <Wordmark /> },
+  { id: "D", name: "Borne + coordonnées", text: "Le kilomètre zéro de Moscou sous le mot. Pour la vidéo et les grands formats.", node: <Wordmark coords /> },
 ];
 
 /** Internal brand sheet: the four explored directions and the chosen lockup. Not indexed. */
@@ -20,20 +20,20 @@ export default function MarquePage() {
     <div className="pt-16 md:pt-20">
       <section data-surface="night" className="gutter bg-surface py-16 text-fg md:py-24">
         <div className="mx-auto max-w-[1440px]">
-          <p className="label text-fg-2">Marque · 30/09/2026</p>
-          <h1 className="mt-4 font-display text-h1">Le logo VERSTE : « La borne »</h1>
+          <p className="label text-fg-2">Marque · V3 · 30/09/2026</p>
+          <h1 className="mt-4 font-display text-h1">Le logo VERSTE : « La borne », V3</h1>
           <p className="mt-6 max-w-[60ch] text-lead text-fg-2">
-            Retenu : la borne (piste C) dans la navigation, avec la ligne rouge et les coordonnées (pistes B et D) dans les grands formats. Distance, direction, Russie ; pas une agence de voyages.
+            Plus visible : le mot passe en extra-gras, serré, et gagne en taille dans la navigation. La borne garde le seul rouge du logo. Le verrouillage complet ajoute la ligne rouge et la signature RUSSIA TRAVEL. Le lieu, le mouvement, la Russie ; pas une agence de voyages.
           </p>
           <div className="mt-14 grid gap-10 md:grid-cols-2">
             <div className="grid min-h-[260px] place-items-center rounded-[6px] border border-line p-10">
               <span className="text-[clamp(3rem,7vw,5.5rem)]">
-                <Wordmark route coords animate />
+                <Wordmark tagline animate />
               </span>
             </div>
             <div data-surface="snow" className="grid min-h-[260px] place-items-center rounded-[6px] bg-surface p-10 text-fg">
               <span className="text-[clamp(3rem,7vw,5.5rem)]">
-                <Wordmark route coords />
+                <Wordmark tagline />
               </span>
             </div>
           </div>

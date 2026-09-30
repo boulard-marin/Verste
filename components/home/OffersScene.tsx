@@ -1,6 +1,5 @@
 import { SceneMarker } from "@/components/brand/SceneMarker";
 import { PricingCard } from "@/components/pricing/PricingCard";
-import { Pending } from "@/components/ui/Pending";
 import { ViewTracker } from "@/components/ui/ViewTracker";
 import { offers, offersMeta } from "@/data/offers";
 import { site } from "@/data/site";
@@ -19,7 +18,6 @@ export function OffersScene() {
           </div>
           <div className="grid content-end gap-4 md:col-span-4 md:col-start-9">
             <p className="text-lead text-fg-2">Des prix fixes, affichés avant tout échange. Vous savez ce que vous payez, et pour quoi.</p>
-            {!offersMeta.validated && <Pending>prix et quantités à valider</Pending>}
           </div>
         </div>
 

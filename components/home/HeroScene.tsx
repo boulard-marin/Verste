@@ -1,4 +1,5 @@
 import { ArrowDown } from "lucide-react";
+import Link from "next/link";
 import type { CSSProperties } from "react";
 
 import { MorphWord } from "@/components/brand/MorphWord";
@@ -11,7 +12,17 @@ import { ctas, site } from "@/data/site";
 
 const delay = (ms: number) => ({ "--delay": `${ms}ms` }) as CSSProperties;
 
-/** S01 · Ouverture — Acte I, nuit. */
+/** Three verbs, three doors: the journey, the map, the configurator. */
+const doors = [
+  { verb: "Entrez", href: ctas.explore.href },
+  { verb: "Explorez", href: "/carte" },
+  { verb: "Construisez votre Russie", href: ctas.build.href },
+];
+
+/**
+ * S01 · Ouverture. The hierarchy of the first screen, in this order:
+ * 1. VERSTE  2. la Russie  3. l'expérience  4. l'action.
+ */
 export function HeroScene() {
   return (
     <section
@@ -28,27 +39,40 @@ export function HeroScene() {
       </div>
 
       <div className="gutter mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-end pt-28 pb-[max(4.5rem,11vh)]">
-        <p className="label enter text-fg-2" style={delay(100)}>
-          Travel planner · {site.descriptor}
-        </p>
-
+        {/* 1 · VERSTE */}
         <h1
           id="hero-title"
-          aria-label={`${site.name}, ${site.descriptor.charAt(0).toLowerCase()}${site.descriptor.slice(1)}`}
-          className="mt-5 -ml-[0.04em] font-display font-cond text-[clamp(5rem,24vw,15.5rem)] leading-[0.82] font-medium tracking-[0.06em]"
+          aria-label={`${site.name}, Russia Travel : ${site.descriptor.charAt(0).toLowerCase()}${site.descriptor.slice(1)}`}
+          className="-ml-[0.04em] font-display font-cond text-[clamp(5.2rem,25vw,16rem)] leading-[0.8] font-extrabold tracking-[0.05em]"
         >
           <MorphWord ru="ВЕРСТА" fr="VERSTE" />
         </h1>
+        <p aria-hidden="true" className="enter mt-5 flex items-center gap-4 md:mt-7" style={delay(350)}>
+          <span className="h-[3px] w-12 bg-route md:w-16" />
+          <span className="font-mono text-[clamp(0.78rem,1.3vw,1.05rem)] font-medium tracking-[0.42em] text-fg uppercase">Russia Travel</span>
+        </p>
 
-        <p className="enter mt-6 font-display-italic text-quote italic md:mt-8" style={delay(600)}>
-          {site.heroLines.map((part) => (
-            <span key={part} className="block">
-              {part}
-            </span>
+        {/* 2 · La Russie */}
+        <p className="enter mt-8 max-w-[20ch] font-display-italic text-quote italic md:mt-10" style={delay(600)}>
+          {site.manifestoTitle}
+        </p>
+
+        {/* 3 · L'expérience */}
+        <p className="enter mt-5 flex flex-wrap items-baseline gap-x-5 gap-y-2" style={delay(750)}>
+          {doors.map((d, i) => (
+            <Link
+              key={d.verb}
+              href={d.href}
+              className="label text-fg-2 underline decoration-transparent underline-offset-[6px] transition-colors duration-fast hover:text-fg hover:decoration-route"
+            >
+              <span className="mr-2 text-fg/40">{String(i + 1).padStart(2, "0")}</span>
+              {d.verb}
+            </Link>
           ))}
         </p>
 
-        <div className="enter mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4" style={delay(850)}>
+        {/* 4 · L'action */}
+        <div className="enter mt-9 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4" style={delay(900)}>
           <Track event="hero_cta_click" props={{ cta: "build", from: "hero" }}>
             <ButtonLink href={ctas.build.href}>{ctas.build.label}</ButtonLink>
           </Track>
@@ -61,7 +85,7 @@ export function HeroScene() {
         </div>
       </div>
 
-      {/* The verste line starts here and leads into the route scene */}
+      {/* The verste line starts here and leads into the journey */}
       <div aria-hidden="true" className="gutter pointer-events-none absolute inset-x-0 bottom-0 mx-auto w-full max-w-[1440px]">
         <div className="line-grow h-[9vh] w-px bg-route" />
       </div>

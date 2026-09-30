@@ -8,7 +8,6 @@ import { SourceTag } from "@/components/brand/SourceTag";
 import { VerstPost } from "@/components/brand/VerstPost";
 import { ItineraryMap } from "@/components/itinerary/ItineraryMap";
 import { buttonClass, ButtonLink } from "@/components/ui/Button";
-import { Pending, showPending } from "@/components/ui/Pending";
 import { TrackOnMount } from "@/components/ui/TrackOnMount";
 import { offers } from "@/data/offers";
 import { site } from "@/data/site";
@@ -86,11 +85,7 @@ export default async function ResultPage({ searchParams }: PageProps<"/configura
               <div className="grid gap-1 border-b border-line py-4 sm:grid-cols-[11rem_1fr] sm:gap-6">
                 <dt className="label pt-1 text-fg-2">Budget indicatif</dt>
                 <dd className="text-[1rem]">
-                  {showPending ? (
-                    <Pending>fourchettes par niveau de confort</Pending>
-                  ) : (
-                    "Nous calibrons nos fourchettes sur le terrain. Nous vous donnons la vôtre lors de l'appel de cadrage."
-                  )}
+                  Nous calibrons nos fourchettes sur le terrain. Nous vous donnons la vôtre lors de l&apos;appel de cadrage.
                 </dd>
               </div>
             </dl>

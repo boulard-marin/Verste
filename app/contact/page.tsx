@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import { SceneMarker } from "@/components/brand/SceneMarker";
 import { buttonClass } from "@/components/ui/Button";
-import { Pending } from "@/components/ui/Pending";
 import { offers } from "@/data/offers";
 import { configuratorCities } from "@/lib/configurator/cities";
 import { buildProfile } from "@/lib/configurator/engine.ts";
@@ -36,9 +35,6 @@ export default async function ContactPage({ searchParams }: PageProps<"/contact"
           Un appel de vingt minutes, gratuit et sans engagement, pour vérifier que Verste correspond à votre projet. La
           prise de rendez-vous en ligne arrive dans la prochaine étape de construction.
         </p>
-        <div className="mt-6">
-          <Pending>outil de prise de rendez-vous ou adresse e-mail de contact</Pending>
-        </div>
 
         {profile && (
           <div className="mt-12 border border-line bg-snow/70 p-6 md:p-8">
