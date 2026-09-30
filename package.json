@@ -7,16 +7,20 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --test \"lib/**/*.test.ts\""
+    "test": "node --test \"lib/**/*.test.ts\"",
+    "media:process": "node scripts/media/process.ts",
+    "media:check": "node scripts/media/check.ts"
   },
   "dependencies": {
     "d3-geo": "^3.1.1",
     "lenis": "^1.3.26",
     "lucide-react": "^1.48.0",
+    "maplibre-gl": "^6.11.2",
     "motion": "^13.4.6",
     "next": "16.3.7",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "three": "^0.186.1",
     "topojson-client": "^3.1.0",
     "world-atlas": "^2.0.2",
     "zod": "^4.6.5"
@@ -28,9 +32,13 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.186.0",
     "@types/topojson-client": "^3.1.5",
     "eslint": "^9",
     "eslint-config-next": "16.3.7",
+    "exifr": "^7.1.3",
+    "ffmpeg-static": "^5.3.0",
+    "heic-convert": "^2.1.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

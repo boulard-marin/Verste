@@ -1,0 +1,581 @@
+{
+ "moscou-arrivee-moscow-city": {
+  "type": "video",
+  "src": "/media/verste/moscou-arrivee-moscow-city.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 8,
+  "blurDataURL": "data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAAAwBACdASoQABwALrV2u12jqampiYC0SzgGJsHzDv/3DCYWEJK/DcBYz4AA/uiBUxCJxMfPBuUzByvCxw60Lft+Tax1EQ8hX/gwFFNgb5zeDz+VzOsTYL2p2XEqMm06uJfeq+5kKMLuRQX9h2niD3TOrg9SqnXdp54CAA==",
+  "hd": "/media/verste/moscou-arrivee-moscow-city-1080.mp4",
+  "poster": "/media/verste/moscou-arrivee-moscow-city-poster.jpg"
+ },
+ "moscou-bolchoi": {
+  "type": "photo",
+  "src": "/media/verste/moscou-bolchoi.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAADwAgCdASoQABwAA4BaJZACsAEYGF347t7VA5Z1t8T6gADL1zzjst5sri1wOgDqHBQvNxhyGKwCpMM62y0CSHqVv1RUsXYjYcmqOVGv2g9CCk7w0ORJb+fjNgwKO5X3WYJAZGSfIiYjJtJZDWeuC9zcR9R3oAAA"
+ },
+ "moscou-christ-sauveur": {
+  "type": "photo",
+  "src": "/media/verste/moscou-christ-sauveur.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAABQBACdASoQABwAPu1iqU2ppaQiMAgBMB2JQBOmUAApfPwnViXDHhDZ/SAAAOuJU3jz+eI1wZfakmYWB85BauVp1ZaLKY77MCeqfo7WbAxPKaiQzSvzkj/APPAJ8gk9/RRJWUyO0R4kCamC/Laonzc6TGmP+NH71CdhB0jU03Ap7jzGYAA="
+ },
+ "moscou-escalator-park-pobedy": {
+  "type": "video",
+  "src": "/media/verste/moscou-escalator-park-pobedy.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 4.2,
+  "blurDataURL": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAADwAwCdASoQABwAPu1kqU2ppaOiMAgBMB2JZwDKABeo5dYIb40H8dAAAP6OGNhej4HXkJirn4LT6WothCZZFaMzIe4s6SgiyUG2RLy4stiabQy1KvsaWe1Vdv0YsVG+bTFJG3IYVAAAAA==",
+  "poster": "/media/verste/moscou-escalator-park-pobedy-poster.jpg",
+  "sequence": {
+   "pattern": "/media/verste/moscou-escalator-park-pobedy/{i}.webp",
+   "count": 48,
+   "width": 540,
+   "height": 960
+  }
+ },
+ "moscou-fontaines-rouges": {
+  "type": "video",
+  "src": "/media/verste/moscou-fontaines-rouges.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 8,
+  "blurDataURL": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAABwAwCdASoQABwAPu1orU6tJiSiMAgBoB2JZgABHuqzMZVvs4AA/v3Z2OxP6uFxARWdXzeqcRDK63fsYbZRjd4zv9SUgEe342efWU7E+YAAAA==",
+  "poster": "/media/verste/moscou-fontaines-rouges-poster.jpg"
+ },
+ "moscou-fontaines-rouges-1938": {
+  "type": "video",
+  "src": "/media/verste/moscou-fontaines-rouges-1938.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 10,
+  "blurDataURL": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAADQAwCdASoQABwAPu1iqk2ppaQiMAgBMB2JZgAAUqPpzbTIZ66yW0AA/uNNOVl7+AQl5d5Lbs41YAyi/wSKcPdV33uMnMx08R5eWCeUy+y7eoSzJlgAAA==",
+  "hd": "/media/verste/moscou-fontaines-rouges-1938-1080.mp4",
+  "poster": "/media/verste/moscou-fontaines-rouges-1938-poster.jpg"
+ },
+ "moscou-hotel-moskva-lumiere": {
+  "type": "video",
+  "src": "/media/verste/moscou-hotel-moskva-lumiere.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 7,
+  "blurDataURL": "data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAAAQBACdASoQABwAPu1iqU2ppaOiMAgBMB2JZgCo9BovcDl8Uto/adqnwAD+BV0N7NO0MAcaj8qItAF7P1e/ZlDt2fn5AuyIL9BCrzr6LUw+UeHj30PzNJ0GFi7IaFB9nEMCB0IQPW3exQTQtGbcE5C9z23ZziAqHUAAAA==",
+  "poster": "/media/verste/moscou-hotel-moskva-lumiere-poster.jpg"
+ },
+ "moscou-khinkali": {
+  "type": "photo",
+  "src": "/media/verste/moscou-khinkali.jpg",
+  "width": 1536,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAADwAwCdASoQABUAPu1iqU2ppaOiMAgBMB2JQBOgBDQFwRUA6OU8AavEAP7N8JFhSCLbUD1ut1McIIueJl7+VS0a6tveH+niAaFfWHL0ZQdsEEfT4tvOGHDyszuWONouYyLfu9jjWQEPMHzRO24+jzwCWgn7cro6WYYKL5IQ+XgAAA=="
+ },
+ "moscou-kremlin-jardin-alexandre": {
+  "type": "photo",
+  "src": "/media/verste/moscou-kremlin-jardin-alexandre.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAAAwBACdASoQABwAPu1iqU2ppaQiMAgBMB2JbACdLwJ5WBLgV5Pw4nJ6msAA/uk+eyepCpLCtBqzMe9qgx/WduIP5qCr4f1ZUlu9TDfD1il4bDcZ2Q/U/IJq6YNV3GsK3p4lYcuWFbnfVweQsV0c4/HzZCho2UrpjTzijwyF/0QAAA==",
+  "wide": {
+   "src": "/media/verste/moscou-kremlin-jardin-alexandre-wide.jpg",
+   "width": 2400,
+   "height": 1350
+  }
+ },
+ "moscou-kremlin-tour-grotte": {
+  "type": "photo",
+  "src": "/media/verste/moscou-kremlin-tour-grotte.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAADwAwCdASoQABwAPu1mqk4ppaOiMAgBMB2JbACdAGXOufh6CulOMNAAAP4WKTWwOK25mqcyUR43pfl3Gt420BNQH9pv2EgsDWjku5+VJ44f5m/CjzA9DuUYU7XL+Nqmfr9feUPJ7QVtsarHXfC1lwn5q1UuYVqC1WRqOWC53rhYe/vXwUwPbHewZknOawAA"
+ },
+ "moscou-moskova-kotelnitcheskaia": {
+  "type": "photo",
+  "src": "/media/verste/moscou-moskova-kotelnitcheskaia.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAAAQBACdASoQABwAPu1kqk2ppaQiMAgBMB2JYwABHus1WajEWc0Tb97LyAD+xUMJ3qGmu0B/Gs6r9XyT5qStmhBkCj+sX/429pEPQfv/19yFRKEBu9ft6m0wdP3c1Zo/BRxyAAAA",
+  "wide": {
+   "src": "/media/verste/moscou-moskova-kotelnitcheskaia-wide.jpg",
+   "width": 2400,
+   "height": 1350
+  }
+ },
+ "moscou-moskvarium-bassin": {
+  "type": "video",
+  "src": "/media/verste/moscou-moskvarium-bassin.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 6.9,
+  "blurDataURL": "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAAAwBACdASoQABwAPu1iqU2ppaQiMAgBMB2JYwCdAB4JhRxUxgLj83GuqAAA/pNLM/Pe3COjXvmTNd6PKVOw2QO4aSF9QbnFwR62pmsfCtBjf74SCpe+mAt50J/Q+fmmitDpG16dRuhXp62Oy4uJbyeyw31cJRMAgNcC+5R3dx7eyg1mW+iIBStydAA=",
+  "poster": "/media/verste/moscou-moskvarium-bassin-poster.jpg"
+ },
+ "moscou-moskvarium-visiteuse": {
+  "type": "video",
+  "src": "/media/verste/moscou-moskvarium-visiteuse.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 8,
+  "blurDataURL": "data:image/webp;base64,UklGRr4AAABXRUJQVlA4ILIAAABQBACdASoQABwAPu1iqU2ppaOiMAgBMB2JQBOmUABwVmCSz7HE2ctIMRpgAP5M/8ENsOGV/pSL/iqDm32qvsz0IYRpwLQxnLJnyyqpA9RikAjnl9OahQGkwRX56H/UzN8ZQCnHzcjgXXLtc/+V3HlneKC8M7kt5K3sgeDLp5Tp8CNJCJAwSk/njLaaX6LiGcx5BFpHkEZClEABsPyVGTGnefkkb+p0gUY2qsNJUjv3iwAA",
+  "poster": "/media/verste/moscou-moskvarium-visiteuse-poster.jpg"
+ },
+ "moscou-musee-victoire": {
+  "type": "photo",
+  "src": "/media/verste/moscou-musee-victoire.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAABwAwCdASoQABwAPu1iqU2ppaOiMAgBMB2JQBOgATbJlZqjPgAA29vawQUhtH1qQ8/5rCuOsxt9ti4yWSVPnWa8NS2sGbYcGeheOxl22//rc9IRprVSNhFL1kW+6hK5zryu9Ovq4AA="
+ },
+ "moscou-muzeon-alignement": {
+  "type": "photo",
+  "src": "/media/verste/moscou-muzeon-alignement.jpg",
+  "width": 1536,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAADQAwCdASoQABUAPu1iqU2ppaOiMAgBMB2JZQCw7BbZDlModc3EBgAA/uCI7QgHcn4VSgnOJUGsSNIIk/lp2bqJmqKRVYrm3yJDoc7A2xvOIIohoAA="
+ },
+ "moscou-muzeon-armoiries": {
+  "type": "photo",
+  "src": "/media/verste/moscou-muzeon-armoiries.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRqgAAABXRUJQVlA4IJwAAACwAwCdASoQABwAPu1iqU2ppaOiMAgBMB2JZQAAORj2FD7xR+ec5AD+14XQh3BOOIh0uJ8ye3KBe2DhBGJoJlWSJ2ORXKALyPkzTIwMN2U/CsnfSIa5Xnou8wrVsc102/5/aTIO/nDi51Kwmy5tYbH2WTJEgQpYgKeDOh8p1S6HVvt+6TXo2nkWLBrSGgF0mU2PLsfdLjZcawE4AAA="
+ },
+ "moscou-muzeon-groupe": {
+  "type": "photo",
+  "src": "/media/verste/moscou-muzeon-groupe.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAADQAwCdASoQABwAPu1kqU2ppaQiMAgBMB2JZQC7B6gA214gOUJ7wAAA/udhYkqGDugcrDUr4thOELIOfDDXkxMMzrnR8dxbPkcPMMi1+z5LFh0iYNlg3gcIFnO8N0fgHVfk9bMXNIAAAA=="
+ },
+ "moscou-novodievitchi-cathedrale": {
+  "type": "photo",
+  "src": "/media/verste/moscou-novodievitchi-cathedrale.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRqwAAABXRUJQVlA4IKAAAADwBACdASoQABwAPu1iqU2ppaOiMAgBMB2JZwATwFUmPATQQvNnLILyCvMdf8SMcsAA/phYBYndeqIEuvdu7x84MNVe5mWnfPl19F9gvH7V2RNo62NiQ9ligpfOViMCl8GMk3nWHvD4cr+ZdxV2gwbdbhExosd/riCeuirYlfdFwLUDoZXj33iT6+/9Dqw/dG9Y12vv8JJAjXlGfqDXGXgA"
+ },
+ "moscou-novodievitchi-etang-moscow-city": {
+  "type": "photo",
+  "src": "/media/verste/moscou-novodievitchi-etang-moscow-city.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAAAwBACdASoQABwAPu1iqU2ppaOiMAgBMB2JQBakKAAOG3eqKEYGkQhMwAAA/oxWI4ufZiNXGoW/SH8X6xxfOkItT3qDbpFtGRqvJS+nycjqGuD/mlra/i/xtD/98zIFt0zEsB2ihaPshlPcH86/xIolb+m0qF/AAAA=",
+  "wide": {
+   "src": "/media/verste/moscou-novodievitchi-etang-moscow-city-wide.jpg",
+   "width": 2400,
+   "height": 1350
+  }
+ },
+ "moscou-novodievitchi-murailles": {
+  "type": "photo",
+  "src": "/media/verste/moscou-novodievitchi-murailles.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAADQAwCdASoQABwAPu1kqU2ppaOiMAgBMB2JQBadDMCRl+Au/jDxoXwA82NrhrQoXSAGkVZMpDnUOsDJEGYl3GzDrR/iDzyO36GNsKS6GeE2OQbaEkACg2x8StCytLDbUAjO0AP/3EG/RNQORXAAAA=="
+ },
+ "moscou-place-rouge-coucher": {
+  "type": "photo",
+  "src": "/media/verste/moscou-place-rouge-coucher.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAACwAwCdASoQABwAPu1iqk4ppaQiMAgBMB2JQBdgAsnJRW17/M9xAAD9zzDuKZCuIMAH1mEwzxaNHvUZvF77ZJ1KhGkha9WjALopwCJQXYzhLua8QI+YJobrYoEoAAAA",
+  "wide": {
+   "src": "/media/verste/moscou-place-rouge-coucher-wide.jpg",
+   "width": 2400,
+   "height": 1350
+  }
+ },
+ "moscou-poklonnaia-1836": {
+  "type": "photo",
+  "src": "/media/verste/moscou-poklonnaia-1836.jpg",
+  "width": 1536,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAAAQBACdASoQABUAPu1iqU2ppaQiMAgBMB2JYwAAV/+T0GbB+sJ8GqIUAADZ3icI/sudGCw9iLjXHqPl0FCt+okTHGQQ1VdNfwS0p9yZ72UwQ6Fsl8WHcBzBfV+23X0PszrudzAA",
+  "wide": {
+   "src": "/media/verste/moscou-poklonnaia-1836-wide.jpg",
+   "width": 2400,
+   "height": 1350
+  }
+ },
+ "moscou-poklonnaia-1836-b": {
+  "type": "photo",
+  "src": "/media/verste/moscou-poklonnaia-1836-b.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAAAwBACdASoQABwAPu1mq04ppaQiMAgBMB2JQBOg9QBOqPt9g3vcD7eMylAA9eKxqPZdt3rXD4juKw/jzOcI91qO31a6bLe6KHqVqbm7qz8YyszlrIGshbxdtFo/RCE+WZwrVyzM3scKnfmeiE20cXBpVnTOZZJOtQAAAA=="
+ },
+ "moscou-poklonnaia-tombee-du-jour": {
+  "type": "photo",
+  "src": "/media/verste/moscou-poklonnaia-tombee-du-jour.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAACwAwCdASoQABwAPu1kqk2ppaQiMAgBMB2JZQAAW7ULYjXnP+tqxAD+nWThklJyDOGsHU1AYXBz+YGPR5AQ2Py7NAvLlOf1X2wL8vEuAAA=",
+  "wide": {
+   "src": "/media/verste/moscou-poklonnaia-tombee-du-jour-wide.jpg",
+   "width": 2400,
+   "height": 1350
+  }
+ },
+ "moscou-pont-patriarche": {
+  "type": "video",
+  "src": "/media/verste/moscou-pont-patriarche.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 5.1,
+  "blurDataURL": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADQAwCdASoQABwALrV2u12jqampiYC0SygFYAIcSWh2HbDPUU54EAAA/u1Ru/t47ud+qeCvH2sDVPRvkcF/1AXIchzBa6fylVrArooVyvQbs5g1/OrGWLXt5yrli8AA",
+  "poster": "/media/verste/moscou-pont-patriarche-poster.jpg"
+ },
+ "moscou-saint-basile-heure-doree": {
+  "type": "photo",
+  "src": "/media/verste/moscou-saint-basile-heure-doree.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAAAQBACdASoQABwAPu1kq04ppaQiMAgBMB2JQBOmUABFdACYkpbugBUwiAD8UusWxBlftg//PdUnBIw2nby04oNGkgwmwfNF1/EtxJBsarvG1ZkJMRJ+TlXLKX2Z4N75Y5OcgE5KWlhCtH88AAA="
+ },
+ "moscou-saint-basile-minine": {
+  "type": "photo",
+  "src": "/media/verste/moscou-saint-basile-minine.jpg",
+  "width": 1536,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAAAwBACdASoQABUAPu1iqU2ppaOiMAgBMB2JQBOnKAAb3jm64Z7Zs4TVI4AA/pBrAFsSZFi3YXTEixTe4WieP/i3rYLZ0EBCdYZ9Tw7dvJmbSdrSNMUwcCVGRgWELiWQ6rxiAAAA",
+  "wide": {
+   "src": "/media/verste/moscou-saint-basile-minine-wide.jpg",
+   "width": 2400,
+   "height": 1350
+  }
+ },
+ "moscou-saint-basile-minine-2": {
+  "type": "photo",
+  "src": "/media/verste/moscou-saint-basile-minine-2.jpg",
+  "width": 1536,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAADQAwCdASoQABUAPu1iqU2ppaOiMAgBMB2JQBOnKAAb7GmeO/CqLAAA/lnC2lYz2D4u2plkGgWUhtzYa12Hr5IY7QiuxOfY4ckxPyRxkndyPySOJrfinXvzHqc6AQvq79HoKAAA"
+ },
+ "moscou-saint-georges-1909": {
+  "type": "video",
+  "src": "/media/verste/moscou-saint-georges-1909.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 8,
+  "blurDataURL": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAABwBACdASoQABwAPu1iqU2ppaQiMAgBMB2JZACdMoAJrUJrQYZts5uwL0pOeAD87OtH78k/Q0t4tHiGvqYwP0w57jxtG13XtPSPgbT6JbFEJcnngNv9gpGu1DM23SNI8zPAuhF5mTuEXDhWafPVVOcAtWH2mGfIhfxdN2OJeXe6LqVK+nAAAA==",
+  "poster": "/media/verste/moscou-saint-georges-1909-poster.jpg"
+ },
+ "moscou-saint-georges-heure-bleue": {
+  "type": "video",
+  "src": "/media/verste/moscou-saint-georges-heure-bleue.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 8,
+  "blurDataURL": "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAABwBACdASoQABwAPu1iqU2ppaOiMAgBMB2JagCdAdwAtZjX05FcByRD24iY4AD8HU5R4vWIYHWCBQXo3SL4FDvRTQks4zftqYymjeJ54gHEVTC/cJo8BKn5CaSEyb+LuzSAaT6RePzX7W8tYSJS84PKCZgEPtzUXgYSR4UOIC/fheCl2pbtYSAA",
+  "hd": "/media/verste/moscou-saint-georges-heure-bleue-1080.mp4",
+  "poster": "/media/verste/moscou-saint-georges-heure-bleue-poster.jpg"
+ },
+ "moscou-skyline-poklonnaia-1923": {
+  "type": "photo",
+  "src": "/media/verste/moscou-skyline-poklonnaia-1923.jpg",
+  "width": 2048,
+  "height": 1152,
+  "blurDataURL": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAADwAQCdASoQAAkAA4BaJZQCdAEPh38wkbwA/vEf5IXGJuaEp7jS7jeQrnP2xXeYHSMwAA=="
+ },
+ "moscou-tour-spasskaia": {
+  "type": "photo",
+  "src": "/media/verste/moscou-tour-spasskaia.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAAAQBACdASoQABwAPu1iqU2ppaOiMAgBMB2JQBOmUAAqppqm64lwLM/gAADWhaASXra2IxU6Y8wG7/ziwcOGQtV+AgnqD/2LT2yN2DoQoXoxa9qedh2mEU4YbYXcSSzERRS+x3mK7mj07AYiGx/Kq2AA"
+ },
+ "moscou-vdnkh-arche-coucher": {
+  "type": "photo",
+  "src": "/media/verste/moscou-vdnkh-arche-coucher.jpg",
+  "width": 1536,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAABwAwCdASoQABUAPu1iqU2ppaOiMAgBMB2JQBYdg7G21ePK6AAA6Uh6HSndZi6AHnqpJp3AhpTR9h0v5g9dC7UtKLVxkWGFwIAqrRgGA60bm5Figb51XuaasgAAAA==",
+  "wide": {
+   "src": "/media/verste/moscou-vdnkh-arche-coucher-wide.jpg",
+   "width": 2400,
+   "height": 1350
+  }
+ },
+ "moscou-vdnkh-dejeuner": {
+  "type": "photo",
+  "src": "/media/verste/moscou-vdnkh-dejeuner.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAAAwBACdASoQABwAPu1iqU2ppaOiMAgBMB2JQBYdhFRSuAfYmZ8NgnLcg3QA/mWc/I67KKszIpmIbHM1xdd9ndU4bJisw+UgGmHFLJcoojiQRgfNPtc3ipFivk/Lq9vE/PqtAuRDCbKJdNHUf9W8OG+rwRUnUCI98/HVwwwQoBcU92DiWBPYCTvgAAA="
+ },
+ "moscou-vdnkh-pavillon-armenie": {
+  "type": "photo",
+  "src": "/media/verste/moscou-vdnkh-pavillon-armenie.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRsYAAABXRUJQVlA4ILoAAABQBACdASoQABwAPu1iqU2ppaOiMAgBMB2JQBbZMXmcHsaqhbFrCjlZngAAAP7i5iF15WLhX+h07sNYN6ezqTMnx5x0lRMD2HH0BJ9guhIlExBxiMR0/ltGAb/k4bg74hJ9gInbJV+Qz3ByPxAH5MTdnECgrnC4/t/ly3Th4yvp1/TGxWIU6oS/m3IyX7Igo95YS6vBEJEK6TfOW5BI9CkJj385CIH81T6qsCGMDrL6cZxdt4s7+AlvcAA="
+ },
+ "moscou-vdnkh-pavillon-bielorussie": {
+  "type": "photo",
+  "src": "/media/verste/moscou-vdnkh-pavillon-bielorussie.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAABwAwCdASoQABwAPu1iqk2ppaQiMAgBMB2JROACXAFYLmhDCYAA/naJ5neCe+eBPAOHBgZSz04QW454+LuVtNO52VJ0C4v/V32P7rlwDxiW/69aW0OZXN4On/7wu5xJ/10Boct7QRDS24ANx8bkr56+1kVEnvjyxv32N0VaAAA="
+ },
+ "moscou-vdnkh-pavillon-central": {
+  "type": "video",
+  "src": "/media/verste/moscou-vdnkh-pavillon-central.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 8,
+  "blurDataURL": "data:image/webp;base64,UklGRrAAAABXRUJQVlA4IKQAAAAwBACdASoQABwAPu1kqU2ppaQiMAgBMB2JQBadBD0fBgaOb8frVsv9IDgA/mgfbMx+2b9JxTP9UOXmcaHk/kx3HpRlWSZmRdg1DpqStgicDhavjER0d+r2yu513Cqz3zPbFGxfIFMEeXhNCm6G3R7MXtsO8GS8o35grPNPO7uSyHX0r+XU8zwHLr/fRg2YdRCSqVc8zgp2AcV0FTP8homI9wAAAA==",
+  "poster": "/media/verste/moscou-vdnkh-pavillon-central-poster.jpg"
+ },
+ "moscou-vdnkh-vostok": {
+  "type": "video",
+  "src": "/media/verste/moscou-vdnkh-vostok.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 8,
+  "blurDataURL": "data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAADQAwCdASoQABwAPu1orU2ppqSiMAgBMB2JYgC06FuH9/TeK/SRLiAA3YwChgUwVbm0f+n5VvQY3lm9MpDA3X6+so8SGW47dKjGoU6r0stu1zMR6yL1u3Q9mt7ecAAUw6v6esBgJXn+JYZ0gPjt4tBu/+3rxVH1oby6FIeTEPsWhzdxLHQS6qkvYOww6rjJuvpJLmBnd5Eic71c8yoeA1R3rLSAAAAA",
+  "poster": "/media/verste/moscou-vdnkh-vostok-poster.jpg"
+ },
+ "moscou-vdnkh-vostok-fontaines": {
+  "type": "photo",
+  "src": "/media/verste/moscou-vdnkh-vostok-fontaines.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAABwBACdASoQABwAPu1iqU2ppaOiMAgBMB2JbACdOUE0ACE6Sjq/76y8Y4dSlAD+95a5qavuWCl16lGOZL0P+e3yxnBWd351oolDVoHna2EqvH+AJKkKNjaKuvRl90oRfyTgRYakhHnale2VbwWyAgReBGYDb5lcOmxmH9JDWy494AAA",
+  "wide": {
+   "src": "/media/verste/moscou-vdnkh-vostok-fontaines-wide.jpg",
+   "width": 2400,
+   "height": 1350
+  }
+ },
+ "moscou-vdnkh-yak42-vostok": {
+  "type": "photo",
+  "src": "/media/verste/moscou-vdnkh-yak42-vostok.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAAAwBACdASoQABwAPu1qrU8ppiQiMAgBMB2JYgC06YuwtOdQ9Kx8pwGqXiAA/vKk7icy8yNbI9+14z59si2OMi1u653zNiw6yYvga3JrpND8bnzZqY3v6u/O3nUIsxkKb5t5Gdq6S4w7qD1rWvb12xYvOLvkFPlaxeafrTLww/J/2gnR+/7VO4KGDqj0AAAA"
+ },
+ "nijni-berges-promenade": {
+  "type": "photo",
+  "src": "/media/verste/nijni-berges-promenade.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAAAQBACdASoQABwAPu1iqk4ppaQiMAgBMB2JZgC7LwAFKBQIvccyChe+AAD+5/QV40m2xnkqwYk4YdW51ggVP4VPkxWFUGFr3lQhlamPTkz8XZKZm7r9ekml6gwGZ/7jOUMsmwJrc8wNKf9L4A63oZB/qUzQ9XjKlCxAAA=="
+ },
+ "nijni-berges-terrasses": {
+  "type": "video",
+  "src": "/media/verste/nijni-berges-terrasses.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 8,
+  "blurDataURL": "data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAACwAwCdASoQABwAPu1iqU2ppaOiMAgBMB2JQAAHxXeFWS3/Y8ogAAD+5/ai31/SM4FL5QPNxPqp7kUMTBJ8yBIliHA40RO4DK231zs7kemkuQKfTR3n94hx9fvc1vXPioZz52EZcAZz2x2//hIQ6z9W/keOukTig1Vqo0Di4OMVRMgGqwpCoV55JJ9vwZbbBAAAAA==",
+  "poster": "/media/verste/nijni-berges-terrasses-poster.jpg"
+ },
+ "nijni-cathedrale-nevski": {
+  "type": "photo",
+  "src": "/media/verste/nijni-cathedrale-nevski.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAADwAwCdASoQABwAPu1Ct1apoqakGAEwHYloALsAaFG4fM9AVVvycd2AAP65Ai1AK8cDuq0zcsFzg4g3jKoHw5AR8wAv5CQZu/Kv0kyI5SWsg8HPSFdsr+1PysoLBJnP4vr1pahfMTFm6gFqI7pJdPQTqUlxrsp5HTRkVyUuqHBUmUlPv7RwAAAA",
+  "wide": {
+   "src": "/media/verste/nijni-cathedrale-nevski-wide.jpg",
+   "width": 2400,
+   "height": 1350
+  }
+ },
+ "nijni-cathedrale-nevski-coupole": {
+  "type": "photo",
+  "src": "/media/verste/nijni-cathedrale-nevski-coupole.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRqQAAABXRUJQVlA4IJgAAABQBACdASoQABwAPu1iqU2ppaOiMAgBMB2JYwCdBagR/wPnazTAH1DZjiwAAO+y+P1nWqzCIHLLJFNbSHjJw7zqh/7dn+Mnu8kCijdCWXEvUeNGTQWVYOyE2K7Ok9RFdXVEQREXD1K/eLpy8tqnYbvcShv2EBUROlPpsQ5340uhDs2L7D6Ezqtc0MVs9jlbXJL21c5nx3wAAA=="
+ },
+ "nijni-cathedrale-nevski-interieur": {
+  "type": "video",
+  "src": "/media/verste/nijni-cathedrale-nevski-interieur.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 9,
+  "blurDataURL": "data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAADwAwCdASoQABwAPu1iqU2ppaQiMAgBMB2JYwCdABcDYVmKmYeYDLYAAP7ZGk0hVQeVS8w5OAWCYFimTWur2xiVyw5gfzdonJ7cA0ncjb3yIq1/Qy/RHdBkMpnq3y2sZSbIJy0MSYfcQY1wRPEvlXVbX9bf1LYn1XsqfzjIGS+UP1Rl9Lopqjt5Ud5rIhc4AAA=",
+  "poster": "/media/verste/nijni-cathedrale-nevski-interieur-poster.jpg"
+ },
+ "nijni-cathedrale-nevski-pelouse": {
+  "type": "photo",
+  "src": "/media/verste/nijni-cathedrale-nevski-pelouse.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAAAQBACdASoQABwAPu1iqU2ppaQiMAgBMB2JbACsOUACxQ5YWYvreX3gAAD+2Sz42zES12kaawZH7aO9wqM3dICahvlNWhflfXDZ9QJ1N0A+rBxbHWpaoBaUf/aIs7w59pB++NFn0//Mk6lG37maKr7yYe+Mzi3rsBX+c8lh5lOuIGBCG6zSJoqDjCSA5OXVuy2NYdShkY3jtRDyfWAAAA=="
+ },
+ "nijni-cathedrale-nevski-statue": {
+  "type": "photo",
+  "src": "/media/verste/nijni-cathedrale-nevski-statue.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRrIAAABXRUJQVlA4IKYAAABQBACdASoQABwAPu1orU2ppqSiMAgBMB2JagCdEf/i2RlncDbKqubYojqAAP1h36gnfqqtaO/iR2AiXyV6tnZqTi0h3sfbSlwTOCLBlOE0VVWkFofTLMMsdOvy2UVJ9N85+i2UjJB9/mb8I7nem+p3ozhyxr69dAimFb3+utOcbKxZpsIL+OhkkR7jYqIBxIc/+zL8qiRFfPrUh6uy3tBPtEmacgAA"
+ },
+ "nijni-eglise-stroganov": {
+  "type": "photo",
+  "src": "/media/verste/nijni-eglise-stroganov.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAABQBACdASoQABwAPu1krU2ppaSiMAgBMB2JYgCdAGMQh02OiNW6mUpe4GcAAJoQtn7Xw/XOz8A6EctoMVRKXE9G9sQKwFsADlyAOUP4moOcqbTWRUZmaftT7COM2PIw2uLmmCS1NGQ0Wk32lUOeRRSWOk1Fefm9/1BlqTEuHFRQAA=="
+ },
+ "nijni-hockey-drapeau": {
+  "type": "video",
+  "src": "/media/verste/nijni-hockey-drapeau.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 6.3,
+  "blurDataURL": "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAAAQBACdASoQABwAPu1iqk4ppaQiMAgBMB2JZQAAW9mW0zN3GS1nrtL5JAD+zGB1ZJta04a/TRoZ8hhc4un7jxbS6ihzfqxjEglFGMtgV+Yu8XYj4nfnvgrWPz1AVbvHzgZXYEeWXKDaiy9OxyaEw9le8IC3bj12gAA=",
+  "poster": "/media/verste/nijni-hockey-drapeau-poster.jpg"
+ },
+ "nijni-hockey-mise-en-jeu": {
+  "type": "video",
+  "src": "/media/verste/nijni-hockey-mise-en-jeu.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 10,
+  "blurDataURL": "data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAACQBACdASoQABwAPu1qrU8ppiQiMAgBMB2JYwAIEAwE2n8EEd+uY05WIZeqeIAA/vkwChx7IWw/c1fFKGcvXuhzWfHvf6BGh9Ch7+b/yu7WP777d2FvM2j8xYP/5D1qlUYZTHZ9Rb+t6VG0tdoCtMWNvJatUU8f3RuNiSAx4Vp+CAE98nO6qIaPdkP/vztX/N0KXTAAAAA=",
+  "hd": "/media/verste/nijni-hockey-mise-en-jeu-1080.mp4",
+  "poster": "/media/verste/nijni-hockey-mise-en-jeu-poster.jpg"
+ },
+ "nijni-hockey-salut": {
+  "type": "video",
+  "src": "/media/verste/nijni-hockey-salut.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 10,
+  "blurDataURL": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAADwAwCdASoQABwAPu1iqU2ppaQiMAgBMB2JZACsAB08Ehwe0Q0yznMYAP68ZP72EZminpzmJjmi0hQGNsbSHTlwJn5pjYHpzSlXatX2z0dxfIQyrj4+nQLagfvX+4HY9MxnDUD9XY1jQjRnNkVJ0QQh4AAAAA==",
+  "poster": "/media/verste/nijni-hockey-salut-poster.jpg"
+ },
+ "nijni-kremlin-mur-volga": {
+  "type": "photo",
+  "src": "/media/verste/nijni-kremlin-mur-volga.jpg",
+  "width": 1536,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAACwAwCdASoQABUAPu1iqk4ppaQiMAgBMB2JYgCdACDIkpFXoU5wVgD6a7Bd4NBEqIzAGrZwV/L+nDpK+3Vlp+RqpRhMnBi37BDvzEhydbci2OU76L1PmEFaKb8dVXogBtbkgyWV2MGAXoAA",
+  "wide": {
+   "src": "/media/verste/nijni-kremlin-mur-volga-wide.jpg",
+   "width": 2400,
+   "height": 1350
+  }
+ },
+ "nijni-kremlin-tours": {
+  "type": "photo",
+  "src": "/media/verste/nijni-kremlin-tours.jpg",
+  "width": 1536,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAACwAwCdASoQABUAPu1iqk4ppaQiMAgBMB2JZgCw7BtiG3O2+A7CzgD+FlNO5y3WZav1NMkt0aIYt1zvLp8zFz0U9urN2qkB89JdLkdd7bdbJW5HK1GuvxcBV3lYAC0zQ+PpoVOKb70DY8T5bgjdiM4e36F5YgAA",
+  "wide": {
+   "src": "/media/verste/nijni-kremlin-tours-wide.jpg",
+   "width": 2400,
+   "height": 1350
+  }
+ },
+ "nijni-kremlin-volga": {
+  "type": "video",
+  "src": "/media/verste/nijni-kremlin-volga.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 6.6,
+  "blurDataURL": "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAAAwBACdASoQABwAPu1iqU2ppaOiMAgBMB2JQBakKABVd/5y9uxWbrZYBCAA/vUgpWOXJDZYtRurSKH/v9gpaMpogP/5t+05FwLVlhDlBtSEx66K9ojuuh+zD83je+939+WIwgEyBU7UutlY4AA=",
+  "hd": "/media/verste/nijni-kremlin-volga-1080.mp4",
+  "poster": "/media/verste/nijni-kremlin-volga-poster.jpg"
+ },
+ "nijni-lacs-maisons": {
+  "type": "photo",
+  "src": "/media/verste/nijni-lacs-maisons.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAAAQBACdASoQABwAPu1Ct1apoqakGAEwHYlmAKwAHoVDh5Pzfvr98NJ0gAD54rpHZ+zOg8I6aTBqAQDu92doCUh/PGEycErdP9mAhnIV7EW2GqK+tByPs9JO173TBW530Etg1S0a9mCQAA=="
+ },
+ "nijni-lacs-ponton": {
+  "type": "photo",
+  "src": "/media/verste/nijni-lacs-ponton.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAACQAwCdASoQABwAPu1iqU2ppaOiMAgBMB2JZACdMoAAvgMbzulAAOh7xKuGPs1ACzOzyAOXHL8cuUrf7UiC9znaDsrt6CkRMcnbzfaIlrUA2OVIafBfZQHUhC2G9mZ8J0lEFgRhy6stjizbHLX7usVGekek9zhxHjvOOCy0VJUhAAAA",
+  "wide": {
+   "src": "/media/verste/nijni-lacs-ponton-wide.jpg",
+   "width": 2400,
+   "height": 1350
+  }
+ },
+ "nijni-lacs-roseaux": {
+  "type": "video",
+  "src": "/media/verste/nijni-lacs-roseaux.mp4",
+  "width": 720,
+  "height": 1280,
+  "durationS": 6.9,
+  "blurDataURL": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAAAwBACdASoQABwAPu1iqU2ppaOiMAgBMB2JYwC06GlYVMHrf586JlWyBlgA/vq+rREwgxo/G1tsiDiYG7ycDCEsuL1mIsZ2ghESIYGKBNSpuV/Sh0AN0yn6acVFG6uzVKyvJauNUxU4jE0bWQjvPGBFgAA=",
+  "poster": "/media/verste/nijni-lacs-roseaux-poster.jpg"
+ },
+ "nijni-monastere-petchersky": {
+  "type": "photo",
+  "src": "/media/verste/nijni-monastere-petchersky.jpg",
+  "width": 1536,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAABQBACdASoQABUAPu1iqU2ppaQiMAgBMB2JaAC1FwG4ACk9mw4TnWpEi+gAAP7aaD31BATetJajAjyqeiIj5XNvxoJeXIg1cFh7izkDdNRynDr/yKmbfA3ig/Je8AhKvnunEHQxAzlhks2h2cBIWhfgddzsWF/5XGYnZALI71DhNihVsAA=",
+  "wide": {
+   "src": "/media/verste/nijni-monastere-petchersky-wide.jpg",
+   "width": 2400,
+   "height": 1350
+  }
+ },
+ "nijni-musee-salle": {
+  "type": "photo",
+  "src": "/media/verste/nijni-musee-salle.jpg",
+  "width": 1536,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAAAQBACdASoQABUAPu1iqU2ppaOiMAgBMB2JaACdG1/AQS3NL+xMQLD/gAD+cXkdiuv6LwxBCBxl5egbYwAe2X+w1NKXqLSfflQ4i3sblyKsZlgs9w7id2/zZODuQ8D27oZA4nG1R2khXZv37yPRwwLxMp4uviXfk7RpX38WyVvp0var5b7+gAAA"
+ },
+ "nijni-parc-victoire-stele": {
+  "type": "photo",
+  "src": "/media/verste/nijni-parc-victoire-stele.jpg",
+  "width": 1536,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAADQAwCdASoQABUAPu1iqU2ppaOiMAgBMB2JZgCdMoACHxr4JFf0FUAA+eMQYn2jyhcoHAQAeA3MCWl3B2QcJ/+J48CKDiSPI4uB8Fna27mVD4gcuyh2oYQ3Z+PDzJWHJWxw5opeo70Ry0OA6EDs7qYAAAA="
+ },
+ "nijni-parc-victoire-vehicules": {
+  "type": "photo",
+  "src": "/media/verste/nijni-parc-victoire-vehicules.jpg",
+  "width": 1536,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAACwAwCdASoQABUAPu1iqU2ppaQiMAgBMB2JZACnFBt09/iSdhYp4ADdV7wkvlWtz523PNgs3XoXxIsmY2neKyQHBB8AFvdnYPgFhNcHwLMVYMDkLMHhoAAA"
+ },
+ "nijni-tableau-makovski": {
+  "type": "photo",
+  "src": "/media/verste/nijni-tableau-makovski.jpg",
+  "width": 1536,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAAAQBACdASoQABUAPu1iqU2ppaOiMAgBMB2JQBdmUABqrwDkmfNQTdtnJAD+0N01VMyGUPQVjXNlFYX02GsZYkobVhTkc5nGQo7x5+8q44vSak1xG15+G1tDOn7E48jU2jFTElbMW6t3Qj8yd+4EhAq3UFF1nDFkgYuGAAAA",
+  "wide": {
+   "src": "/media/verste/nijni-tableau-makovski-wide.jpg",
+   "width": 2400,
+   "height": 1350
+  }
+ },
+ "nijni-volga-arena": {
+  "type": "photo",
+  "src": "/media/verste/nijni-volga-arena.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAAAwBACdASoQABwAPu1iqU2ppaQiMAgBMB2JZACdMoADSff5+ylqoCkJxAAA/ss5t5sju3UBMTMeeU9KQg4aI3cFBxgBC5tRkZhkBTIv7sO4/bk375qPgH0/g+iKHwr1lsNtFeis9ue+bqdeA4zdH2J6xIVLtO/RLU38nNqOZuvnU62SQiLkPe64AAA="
+ },
+ "sport-salle": {
+  "type": "photo",
+  "src": "/media/verste/sport-salle.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAAAQBACdASoQABwAPu1iqU2ppaOiMAgBMB2JYwABFizqKffkJB/TAbSkEAD+9XvcZ+P9bdVYistUrkH+06Y858UYoxoXATb+2A8C7QcYUg6YHSMNiSvYmNXpE3wVNgPxRmFPDcMVvdaAiIv9VhSDhv9NF6PKYxiJ7ghwUzTJEWNWzoYe7V/wnmmA7zKF1TsKZjaBryjQCzCrHAAA"
+ },
+ "trajet-hublot": {
+  "type": "photo",
+  "src": "/media/verste/trajet-hublot.jpg",
+  "width": 1152,
+  "height": 2048,
+  "blurDataURL": "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAABQBACdASoQABwAPu1kqU2ppaOiMAgBMB2JZQCdB3gYoAOnGg1JhAejLJQAAP7fTgkREcGccPidBD0FuqYaQVhKRtE1wUlQYyZdFY3HTaVmpt18fbW5dqUhnAzqegdNueXPtmQPJjnPvhR838AlAAAA"
+ }
+}
