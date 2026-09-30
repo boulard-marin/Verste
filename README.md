@@ -1,6 +1,6 @@
 # VERSTE
 
-Préparation de voyages en Russie. *Chaque voyage commence par une première verste.*
+Voyage Russie. Préparation de voyages en Russie. *Chaque voyage commence par une première verste.*
 
 ## Démarrer
 
