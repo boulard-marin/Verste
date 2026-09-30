@@ -60,9 +60,10 @@ export type Profile = {
 
 /** Base allocation of days per city, in travel order, for each duration. */
 const PLANS: Record<Duration, [CityId, number][]> = {
+  // The first VERSTE product, tested on the ground (September 2026).
   7: [
     ["moscou", 4],
-    ["saint-petersbourg", 3],
+    ["nijni-novgorod", 3],
   ],
   14: [
     ["moscou", 4],

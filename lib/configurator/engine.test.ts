@@ -22,11 +22,11 @@ describe("buildProfile", () => {
     }
   });
 
-  it("7 days: Moscow and Saint Petersburg, découverte offer", () => {
+  it("7 days: Moscow and Nizhny Novgorod (the tested product), découverte offer", () => {
     const profile = buildProfile({ ...base, days: 7 });
     assert.deepEqual(
       profile.stops.map((s) => s.city),
-      ["moscou", "saint-petersbourg"],
+      ["moscou", "nijni-novgorod"],
     );
     assert.equal(profile.offer, "decouverte");
     assert.equal(profile.rhythm.id, "pose");

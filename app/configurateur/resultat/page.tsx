@@ -13,7 +13,10 @@ import { TrackOnMount } from "@/components/ui/TrackOnMount";
 import { offers } from "@/data/offers";
 import { site } from "@/data/site";
 import { configuratorCities } from "@/lib/configurator/cities";
+import { DayView } from "@/components/destination/DayView";
 import { buildProfile, COMFORTS, RUSSIAN_LEVELS } from "@/lib/configurator/engine.ts";
+import { formatDate } from "@/lib/format";
+import { buildItinerary, cityName, weekdayName } from "@/lib/itinerary/engine.ts";
 import { firstMissingStep, isComplete, parseAnswers, toQuery } from "@/lib/configurator/params.ts";
 
 export const metadata: Metadata = {
@@ -26,10 +29,14 @@ export const metadata: Metadata = {
  * reproducible. No price first: the profile, then the matching format.
  */
 export default async function ResultPage({ searchParams }: PageProps<"/configurateur/resultat">) {
-  const answers = parseAnswers(await searchParams);
+  const params = await searchParams;
+  const answers = parseAnswers(params);
+  const depart = Array.isArray(params.depart) ? params.depart[0] : params.depart;
+  const start = depart && /^20\d\d-\d\d-\d\d$/.test(depart) && !Number.isNaN(Date.parse(depart)) ? depart : undefined;
   if (!isComplete(answers)) redirect(`/configurateur?${toQuery(answers, firstMissingStep(answers))}`);
 
   const profile = buildProfile(answers);
+  const itinerary = buildItinerary(answers, profile, start ? { start } : {});
   const stops = profile.stops.map((stop) => ({ ...configuratorCities[stop.city], days: stop.days }));
   const offer = offers.find((o) => o.id === profile.offer)!;
   const concierge = offers.find((o) => o.id === "conciergerie")!;
@@ -89,40 +96,106 @@ export default async function ResultPage({ searchParams }: PageProps<"/configura
             </dl>
 
             <div className="lg:col-span-7">
-              <ItineraryMap stops={stops} />
+              <ol className="grid gap-3 border-t border-line pt-4">
+                {itinerary.days.map((d) => (
+                  <li key={d.index} className="flex items-baseline gap-4">
+                    <a href={`#jour-${d.index}`} className="label w-16 shrink-0 text-fg-2 hover:text-fg">
+                      Jour {d.index}
+                    </a>
+                    <span className="text-fg">{d.day?.title ?? `À ${cityName(d.city)}`}</span>
+                  </li>
+                ))}
+              </ol>
             </div>
           </div>
         </div>
       </section>
 
-      <section data-surface="snow" aria-labelledby="ligne-title" className="bg-surface text-fg">
+      <section data-surface="snow" id="itineraire" aria-labelledby="itineraire-title" className="bg-surface text-fg">
         <div className="gutter mx-auto max-w-[1440px] pb-16">
-          <h2 id="ligne-title" className="label text-fg-2">
-            Votre ligne, étape par étape
-          </h2>
-          <ol className="relative mt-8 grid gap-8 md:flex md:gap-0">
-            <span aria-hidden="true" className="absolute top-0 bottom-0 left-[3px] w-[2px] bg-route md:top-[3px] md:right-0 md:bottom-auto md:left-0 md:h-[2px] md:w-auto" />
-            {stops.map((stop, i) => (
-              <li key={stop.fr} className="relative pl-8 md:flex-1 md:pt-8 md:pl-0">
-                <span aria-hidden="true" className="absolute top-0 left-0 md:-top-2">
-                  <VerstPost size="sm" />
-                </span>
-                <p className="label text-fg-2">
-                  Étape {i + 1} · {stop.days} jours
-                </p>
-                <p lang="ru" className="mt-2 font-display font-cond text-[clamp(1.4rem,2.4vw,2rem)] leading-none uppercase">
-                  {stop.ru}
-                </p>
-                <p className="mt-1 text-[0.95rem] text-fg-2">{stop.fr}</p>
-              </li>
-            ))}
-          </ol>
-          <p className="mt-8 text-[0.85rem] text-fg-2">
-            Suggestion construite à partir de vos quatre réponses. L&apos;ordre et les durées s&apos;ajustent lors de la
-            préparation.
-          </p>
+          <div className="flex flex-wrap items-end justify-between gap-6 border-t border-line pt-12">
+            <div>
+              <p className="label text-fg-2">Votre itinéraire</p>
+              <h2 id="itineraire-title" className="mt-3 font-display text-h1">
+                {profile.days} jours, jour par jour
+              </h2>
+              <p className="mt-3 max-w-[60ch] text-fg-2">
+                Des journées réelles, testées sur le terrain et vérifiées sur les sources officielles, choisies selon vos réponses et ordonnées pour ne jamais enchaîner deux journées lourdes.
+              </p>
+            </div>
+            <form action="/configurateur/resultat" className="flex flex-wrap items-end gap-3">
+              {Object.entries({ duree: String(answers.days), russe: answers.russian, confort: answers.comfort }).map(([k, v]) => (
+                <input key={k} type="hidden" name={k} value={v} />
+              ))}
+              {answers.interests.map((i) => (
+                <input key={i} type="hidden" name="profils" value={i} />
+              ))}
+              <label className="grid gap-1">
+                <span className="label text-fg-2">Date de départ (facultatif)</span>
+                <input type="date" name="depart" defaultValue={start ?? ""} className="min-h-11 rounded-xs border border-fg/30 bg-transparent px-3 text-fg" />
+              </label>
+              <button type="submit" className={buttonClass({ variant: "secondary", size: "sm" })}>
+                Voir les jours
+              </button>
+            </form>
+          </div>
+          {start && (
+            <p className="mt-4 text-[0.9rem] text-fg-2">
+              Avec une date, VERSTE déplace les journées de musée hors des jours de fermeture quand c&apos;est possible et calcule le coucher du soleil de chaque soir.
+            </p>
+          )}
+          {itinerary.warnings.length > 0 && (
+            <ul className="mt-6 space-y-2 border-l-2 border-route pl-4 text-[0.95rem]">
+              {itinerary.warnings.map((w) => (
+                <li key={w}>{w}</li>
+              ))}
+            </ul>
+          )}
+          <div className="mt-10">
+            {itinerary.days.map((d, i) => {
+              const header = i === 0 || itinerary.days[i - 1]!.city !== d.city;
+              const dateLabel = d.date ? `${weekdayName(d.weekday!)} ${formatDate(d.date)}` : undefined;
+              return (
+                <div key={d.index}>
+                  {header && (
+                    <p lang="ru" className="mt-10 font-display font-cond text-[clamp(1.6rem,3vw,2.4rem)] leading-none text-fg-2 uppercase first:mt-0">
+                      {configuratorCities[d.city].ru} <span lang="fr" className="label align-middle normal-case">· {cityName(d.city)}</span>
+                    </p>
+                  )}
+                  {d.day ? (
+                    <DayView day={d.day} index={d.index} dateLabel={dateLabel} notes={d.notes} />
+                  ) : (
+                    <article className="grid gap-4 border-t border-line py-10 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-14">
+                      <div>
+                        <p className="label text-fg-2">
+                          Jour {d.index}
+                          {dateLabel ? ` · ${dateLabel}` : ""}
+                        </p>
+                        <h3 className="mt-3 font-display text-h3">
+                          {d.kind === "a-construire" && i > 0 && itinerary.days[i - 1]!.city !== d.city ? `Trajet vers ${cityName(d.city)}` : `À ${cityName(d.city)}`}
+                        </h3>
+                      </div>
+                      <p className="text-fg-2">
+                        Pas encore de journée vérifiée VERSTE pour {cityName(d.city)} : nous la construisons avec vous, avec la même méthode (horaires officiels, trajets, jours de fermeture).
+                        {d.notes.length > 0 && <span className="mt-2 block">{d.notes.join(" ")}</span>}
+                      </p>
+                    </article>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-10 grid gap-6 border-t border-line pt-10 lg:grid-cols-12">
+            <div className="lg:col-span-7">
+              <ItineraryMap stops={stops} />
+            </div>
+            <p className="text-[0.9rem] text-fg-2 lg:col-span-5">
+              L&apos;ordre et les durées s&apos;ajustent lors de la préparation, avec vous. Ce que vous réservez vous-même (vols, hôtels, trains, billets) reste entre vos mains : nous vous disons quoi, quand et comment.
+            </p>
+          </div>
         </div>
       </section>
+
 
       <section data-surface="snow" aria-label="Détails du profil" className="bg-surface text-fg">
         <div className="gutter mx-auto grid max-w-[1440px] gap-12 border-t border-line pt-14 pb-16 md:grid-cols-2 md:gap-6">

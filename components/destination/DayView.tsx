@@ -35,7 +35,7 @@ function ActivityLine({ a }: { a: Activity }) {
  * One day of a VERSTE itinerary: morning, afternoon, evening, transport,
  * meals, options, and the days to avoid (closures) stated plainly.
  */
-export function DayView({ day, index, dateLabel }: { day: ItineraryDay; index: number; dateLabel?: string }) {
+export function DayView({ day, index, dateLabel, notes = [] }: { day: ItineraryDay; index: number; dateLabel?: string; notes?: string[] }) {
   const photo = getMediaList(day.media)[0];
   return (
     <article id={`jour-${index}`} className="grid gap-8 border-t border-line py-12 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-14">
@@ -47,6 +47,13 @@ export function DayView({ day, index, dateLabel }: { day: ItineraryDay; index: n
         <h3 className="mt-3 font-display text-h2">{day.title}</h3>
         <p className="mt-2 font-display-italic text-[1.15rem] text-fg-2 italic">{day.theme}</p>
         <p className="mt-5 max-w-[48ch] text-fg">{day.intro}</p>
+        {notes.length > 0 && (
+          <ul className="mt-5 space-y-2 border-l-2 border-route pl-4 text-[0.9rem] text-fg">
+            {notes.map((n) => (
+              <li key={n}>{n}</li>
+            ))}
+          </ul>
+        )}
         {photo && (
           <figure className="mt-6">
             <div className="relative aspect-[4/3] overflow-hidden rounded-[4px] bg-night">
