@@ -120,6 +120,21 @@ describe("map", () => {
     for (const j of journeys) {
       assert.ok(j.path.length >= 2 && j.pathBasis.length > 0, j.id);
     }
-    assert.ok(mapCities.filter((c) => c.ready).length >= 2);
+  });
+
+  it("keeps what was lived apart from what is prepared", () => {
+    assert.deepEqual(mapCities.filter((c) => c.status === "terrain").map((c) => c.id), ["moscou", "nijni-novgorod"]);
+    assert.deepEqual(mapCities.filter((c) => c.status === "destination").map((c) => c.id), ["saint-petersbourg", "kazan"]);
+    // A prepared city never carries a field note: it has not been lived yet.
+    for (const p of allPlaces.filter((x) => x.cityId === "saint-petersbourg" || x.cityId === "kazan")) assert.equal(p.fieldNote, undefined, p.id);
+  });
+
+  it("gives every destination its train from Moscow, with a checked duration and a schematic basis", () => {
+    for (const c of mapCities.filter((x) => x.status === "destination")) {
+      const j = journeys.find((x) => x.id === c.journey);
+      assert.ok(j, c.id);
+      assert.ok(j.duration && j.duration.verification.sources.length > 0, c.id);
+      assert.match(j.pathBasis, /schématique/i, c.id);
+    }
   });
 });

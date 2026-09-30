@@ -3,7 +3,7 @@ import "server-only";
 import { grandeVersteNijni } from "@/data/travel/grande-verste";
 import { allPlaces, mapCities, type MapCity } from "@/data/travel/index";
 import { journeys } from "@/data/travel/journeys";
-import { lineKm } from "@/lib/travel/geo";
+import { haversineKm, lineKm } from "@/lib/travel/geo";
 import { getMedia } from "@/lib/travel/media";
 import type { CityId, LonLat, Place, Theme, VerificationStatus } from "@/lib/travel/types";
 
@@ -44,7 +44,24 @@ export type MapPlace = {
   href: string;
 };
 
-export type MapJourney = { id: string; mode: "avion" | "train"; label: string; basis: string; path: LonLat[]; km: number };
+export type MapJourney = {
+  id: string;
+  mode: "avion" | "train";
+  from: string;
+  to: string;
+  service?: string;
+  label: string;
+  basis: string;
+  /** Drawn as a schematic (dashed), not as a track. */
+  schematic: boolean;
+  path: LonLat[];
+  km: number;
+  duration?: MapProof;
+  notes: string[];
+};
+
+/** A city with what its panel shows: the photo and the distance from Moscow, computed. */
+export type MapCityView = MapCity & { photo?: MapPhoto; fromMoscowKm?: number };
 
 export type MapWalk = {
   id: string;
@@ -57,7 +74,7 @@ export type MapWalk = {
   href: string;
 };
 
-export type MapData = { cities: MapCity[]; places: MapPlace[]; journeys: MapJourney[]; walks: MapWalk[] };
+export type MapData = { cities: MapCityView[]; places: MapPlace[]; journeys: MapJourney[]; walks: MapWalk[] };
 
 const categoryLabel: Record<Place["category"], string> = {
   monument: "Monument",
@@ -128,17 +145,26 @@ export function toMapPlace(p: Place): MapPlace {
 export function getMapData(): MapData {
   const walk = grandeVersteNijni;
   return {
-    cities: mapCities,
+    cities: mapCities.map((c) => {
+      const photo = photoOf(c.media);
+      return { ...c, ...(photo ? { photo } : {}), ...(c.id !== "moscou" ? { fromMoscowKm: haversineKm(mapCities[0]!.coords, c.coords) } : {}) };
+    }),
     places: allPlaces.map(toMapPlace),
     journeys: journeys
       .filter((j) => j.id !== "train-nijni-moscou")
       .map((j) => ({
         id: j.id,
         mode: j.mode,
+        from: j.from,
+        to: j.to,
+        ...(j.service ? { service: j.service } : {}),
         label: j.mode === "train" ? `${j.from} → ${j.to} · ${j.service}` : `${j.from} → ${j.to}`,
         basis: j.pathBasis,
+        schematic: /schématique/i.test(j.pathBasis),
         path: j.path,
         km: lineKm(j.path),
+        ...(j.duration ? { duration: proof(j.duration) } : {}),
+        notes: j.notes,
       })),
     walks: [
       {

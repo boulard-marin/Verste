@@ -428,6 +428,12 @@
   .verste-city-fr { margin-top: 0.2rem; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: #a9b8cc; }
   .verste-city.is-soon { cursor: default; opacity: 0.55; }
   .verste-city.is-soon .verste-city-post { background: #a9b8cc; }
+  /* Trust on the map: lived (solid post), prepared (hollow post), to come (faint). */
+  .verste-city[data-status="destination"] .verste-city-post { background: transparent; box-shadow: inset 0 0 0 1.5px #eef2f8, 0 0 0 2px rgb(12 15 20 / 0.7); }
+  .verste-city[data-status="a-venir"] { cursor: default; opacity: 0.5; }
+  .verste-city[data-status="a-venir"] .verste-city-post { height: 18px; background: #a9b8cc; }
+  .verste-city[data-status="a-venir"] .verste-city-ru { font-size: 0.85rem; }
+  .verste-city[data-status="a-venir"] .verste-city-fr { display: none; }
   .verste-city:focus-visible { outline: 2px solid var(--color-carmine-signal); outline-offset: 3px; }
 
   .verste-stop {

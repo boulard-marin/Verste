@@ -71,6 +71,10 @@ export const mediaText: Record<string, MediaText> = {
   "nijni-hockey-mise-en-jeu": { alt: "Une mise en jeu sur la glace pendant un match de hockey, tribunes pleines", caption: "Torpedo à la VOLGA Arena, 24/09, 19 h." },
   "nijni-hockey-drapeau": { alt: "Un drapeau bleu du Torpedo agité sur la glace", caption: "VOLGA Arena, 24/09." },
   "nijni-hockey-salut": { alt: "Les joueurs du Torpedo saluent le public après le match", caption: "Le salut après le match, 24/09, 21 h 25." },
+  "spb-palais-hiver-neva": { alt: "Le palais d'Hiver et l'Ermitage vus depuis la Neva", caption: "Le palais d'Hiver, au bord de la Neva." },
+  "spb-canal-griboiedov": { alt: "Le canal Griboïedov et l'église du Sauveur-sur-le-Sang-Versé au fond", caption: "Le canal Griboïedov et le Sauveur-sur-le-Sang-Versé." },
+  "kazan-kremlin-koul-charif": { alt: "La mosquée Koul-Charif, blanche et turquoise, dans l'enceinte du kremlin de Kazan", caption: "La mosquée Koul-Charif, dans le kremlin de Kazan." },
+  "kazan-rue-bauman": { alt: "La rue Bauman, piétonne, avec le clocher de l'Épiphanie au fond", caption: "La rue Bauman et le clocher de l'Épiphanie." },
   "sport-salle": { alt: "Une salle de musculation vide, machines et fenêtres", caption: "Garder son rythme d'entraînement pendant le voyage (septembre 2026)." },
   "trajet-hublot": { alt: "Une aile d'avion au-dessus de la mer et des nuages", caption: "Le retour, au-dessus de la Turquie, 26/09." },
   // ── Images libres (Wikimedia Commons) ───────────────────────────────────

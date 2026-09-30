@@ -5,13 +5,14 @@ import { notFound } from "next/navigation";
 import { ProofTag } from "@/components/brand/ProofTag";
 import { AddToTripButton } from "@/components/place/AddToTripButton";
 import { MediaFigure } from "@/components/place/MediaFigure";
-import { allPlaces, findPlace } from "@/data/travel/index";
+import { allPlaces, findPlace, mapCities } from "@/data/travel/index";
 import { formatDistance, formatLonLat, haversineKm } from "@/lib/travel/geo";
 import { getMediaList } from "@/lib/travel/media";
-import type { Source, Verified } from "@/lib/travel/types";
+import type { CityId, Source, Verified } from "@/lib/travel/types";
 
-const cityName = { moscou: "Moscou", "nijni-novgorod": "Nijni Novgorod", "saint-petersbourg": "Saint-Pétersbourg", kazan: "Kazan" } as const;
-const cityHref = { moscou: "/carte?ville=moscou", "nijni-novgorod": "/destinations/nijni-novgorod", "saint-petersbourg": "/carte", kazan: "/carte" } as const;
+const cityName = (id: CityId) => mapCities.find((c) => c.id === id)?.fr ?? id;
+/** Nizhny has its destination page; the other cities open on the map. */
+const cityHref = (id: CityId) => (id === "nijni-novgorod" ? "/destinations/nijni-novgorod" : `/carte?ville=${id}`);
 
 export function generateStaticParams() {
   return allPlaces.map((p) => ({ id: p.id }));
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: PageProps<"/lieux/[id]">): Pr
   const { id } = await params;
   const place = findPlace(id);
   if (!place) return {};
-  return { title: `${place.fr} · ${cityName[place.cityId]}`, description: place.summary };
+  return { title: `${place.fr} · ${cityName(place.cityId)}`, description: place.summary };
 }
 
 function Sources({ sources }: { sources: Source[] }) {
@@ -97,8 +98,8 @@ export default async function PlacePage({ params }: PageProps<"/lieux/[id]">) {
               Russia Travel Map
             </Link>{" "}
             /{" "}
-            <Link href={cityHref[place.cityId]} className="hover:text-fg">
-              {cityName[place.cityId]}
+            <Link href={cityHref(place.cityId)} className="hover:text-fg">
+              {cityName(place.cityId)}
             </Link>
           </nav>
           <h1 className="mt-6 font-display text-h1">{place.fr}</h1>

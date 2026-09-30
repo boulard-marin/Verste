@@ -5,16 +5,18 @@ import { RussiaTravelMap } from "@/components/map/RussiaTravelMap";
 import { getMapData } from "@/lib/map/data";
 
 export const metadata: Metadata = {
-  title: "Russia Travel Map · Moscou, Nijni Novgorod",
+  title: "Russia Travel Map · Moscou, Saint-Pétersbourg, Nijni Novgorod, Kazan",
   description:
-    "La carte du voyage VERSTE : Moscou, Nijni Novgorod, les trajets, La Grande Verste et chaque lieu vérifié, avec photos de terrain, coordonnées et horaires datés.",
+    "La carte du voyage VERSTE : Moscou et Nijni Novgorod vécues sur le terrain, Saint-Pétersbourg et Kazan préparées sur sources, les trains depuis Moscou, la météo du moment et chaque lieu vérifié.",
 };
 
-const cityNames: Record<string, string> = { moscou: "Moscou", "nijni-novgorod": "Nijni Novgorod" };
+const statusLabel = { terrain: "Expérience terrain", destination: "Destination VERSTE", "a-venir": "À venir" } as const;
 
 export default function CartePage() {
   const data = getMapData();
-  const byCity = Object.entries(cityNames).map(([id, name]) => ({ id, name, places: data.places.filter((p) => p.cityId === id) }));
+  const byCity = data.cities
+    .filter((c) => c.status !== "a-venir")
+    .map((c) => ({ id: c.id, name: c.fr, status: c.status, places: data.places.filter((p) => p.cityId === c.id) }));
 
   return (
     <>
@@ -34,7 +36,8 @@ export default function CartePage() {
           <div className="mt-14 grid gap-14 lg:grid-cols-2">
             {byCity.map((city) => (
               <div key={city.id}>
-                <h3 className="font-display font-semicond text-h3">{city.name}</h3>
+                <p className="label text-fg-2">{statusLabel[city.status]}</p>
+                <h3 className="mt-2 font-display font-semicond text-h3">{city.name}</h3>
                 <ul className="mt-6 border-t border-line">
                   {city.places.map((p) => (
                     <li key={p.id} className="border-b border-line">
@@ -54,7 +57,7 @@ export default function CartePage() {
             ))}
           </div>
           <p className="label mt-14 text-fg-2">
-            Fond de carte © contributeurs OpenStreetMap (ODbL) · tuiles OpenFreeMap · coordonnées Wikipédia et OpenStreetMap
+            Fond de carte © contributeurs OpenStreetMap (ODbL) · tuiles OpenFreeMap · relief Terrain Tiles (Mapzen, AWS) · coordonnées Wikipédia et OpenStreetMap · météo Open-Meteo.com (CC BY 4.0)
           </p>
         </div>
       </section>

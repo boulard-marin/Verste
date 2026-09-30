@@ -60,7 +60,7 @@ export function SiteHeader() {
           className={`flex origin-left items-center gap-4 text-[1.6rem] text-fg transition-transform duration-base ease-verste md:text-[2rem] ${scrolled ? "scale-[0.9]" : ""}`}
         >
           <Wordmark animate />
-          <span aria-hidden="true" className="label hidden border-l border-white/20 py-1 pl-4 text-[0.62rem] text-fg-2 sm:inline">
+          <span aria-hidden="true" className="label hidden border-l border-white/20 py-1 pl-4 text-[0.62rem] text-fg-2 sm:inline xl:hidden 2xl:inline">
             Russia Travel
           </span>
         </Link>

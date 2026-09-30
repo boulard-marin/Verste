@@ -35,7 +35,7 @@ export type Verified<T> = { value: T; verification: Verification };
 
 // ─── Places ─────────────────────────────────────────────────────────────────
 
-export type CityId = "moscou" | "nijni-novgorod" | "saint-petersbourg" | "kazan";
+export type CityId = "moscou" | "nijni-novgorod" | "saint-petersbourg" | "kazan" | "vladimir" | "serguiev-possad" | "iaroslavl";
 
 export type Theme =
   | "histoire"
