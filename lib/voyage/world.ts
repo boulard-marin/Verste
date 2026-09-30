@@ -62,7 +62,10 @@ const DAWN = { background: "#1d2533", water: "#2b4f82", building: "#2a3446", bui
 /** Glass towers at night: warm and cool windows, varied by building. */
 const LIT_GLASS: ExpressionSpecification = ["match", ["%", ["id"], 3], 0, "#f2c983", 1, "#d6e4f5", "#9db6d8"];
 
-export async function createWorld(container: HTMLElement, opts: { highlights: Highlight[]; outlines: Outline[]; start: CameraView; interactive?: boolean }): Promise<World> {
+export async function createWorld(
+  container: HTMLElement,
+  opts: { highlights: Highlight[]; outlines: Outline[]; start: CameraView; interactive?: boolean; objects?: boolean },
+): Promise<World> {
   const ml = await loadMapLibre();
   const map = new ml.Map({
     container,
@@ -100,12 +103,16 @@ export async function createWorld(container: HTMLElement, opts: { highlights: Hi
   });
 
   // ── 3D objects (three.js, loaded with the first object) ────────────────
-  const model = await import("@/lib/map/saint-basil-model");
-  const basil = model.createSaintBasilLayer(ml.MercatorCoordinate, 0);
-  map.addLayer(basil.layer);
-  basil.setRise(0);
-  const risers: Record<string, (t: number) => void> = { "saint-basile": basil.setRise };
-  const replaced: Record<string, { center: LonLat; radiusM: number }> = { "saint-basile": { center: model.SAINT_BASIL_CENTER, radiusM: 40 } };
+  const risers: Record<string, (t: number) => void> = {};
+  const replaced: Record<string, { center: LonLat; radiusM: number }> = {};
+  if (opts.objects !== false) {
+    const model = await import("@/lib/map/saint-basil-model");
+    const basil = model.createSaintBasilLayer(ml.MercatorCoordinate, 0);
+    map.addLayer(basil.layer);
+    basil.setRise(0);
+    risers["saint-basile"] = basil.setRise;
+    replaced["saint-basile"] = { center: model.SAINT_BASIL_CENTER, radiusM: 40 };
+  }
 
   // ── Highlights and hidden OSM parts, resolved from loaded tiles ────────
   const specs = new Map(opts.highlights.map((h) => [h.id, h]));

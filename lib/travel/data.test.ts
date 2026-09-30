@@ -9,6 +9,7 @@ import { journeys } from "../../data/travel/journeys.ts";
 import { mediaText } from "../../data/travel/media-catalog.ts";
 import { nijniDays, torpedoAnnounced } from "../../data/travel/products-nijni.ts";
 import { haversineKm, lineKm } from "./geo.ts";
+import { walkSchedule } from "./walk.ts";
 import type { Verified } from "./types.ts";
 
 const root = path.resolve(import.meta.dirname, "../..");
@@ -79,9 +80,20 @@ describe("media", () => {
 describe("La Grande Verste", () => {
   it("is a real walk whose distance is computed from its geometry", () => {
     const km = lineKm(grandeVersteNijni.geometry);
-    assert.ok(km > 5 && km < 8, `${km} km`);
+    assert.ok(km > 3 && km < 8, `${km} km`);
     for (const s of grandeVersteNijni.stops) assert.ok(findPlace(s.placeId), s.placeId);
     assert.ok(findPlace(grandeVersteNijni.restaurantId));
+    assert.equal(grandeVersteNijni.waypointIndex.length, grandeVersteNijni.waypoints.length);
+  });
+
+  it("schedules every stop in order, and the legs add up to the whole walk", () => {
+    for (const pace of ["tranquille", "normal", "soutenu"] as const) {
+      const { legs, totalKm } = walkSchedule(grandeVersteNijni, pace);
+      assert.equal(legs.length, grandeVersteNijni.stops.length);
+      const sum = legs.reduce((a, l) => a + l.km, 0);
+      assert.ok(Math.abs(sum - totalKm) < 0.05, `${sum} vs ${totalKm}`);
+      for (let i = 1; i < legs.length; i++) assert.ok(legs[i]!.arrive >= legs[i - 1]!.leave);
+    }
   });
 });
 

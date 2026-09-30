@@ -1,7 +1,7 @@
 import "server-only";
 
 import { grandeVersteNijni } from "@/data/travel/grande-verste";
-import { allPlaces, getPlace, mapCities, type MapCity } from "@/data/travel/index";
+import { allPlaces, mapCities, type MapCity } from "@/data/travel/index";
 import { journeys } from "@/data/travel/journeys";
 import { lineKm } from "@/lib/travel/geo";
 import { getMedia } from "@/lib/travel/media";
@@ -148,7 +148,7 @@ export function getMapData(): MapData {
         geometry: walk.geometry,
         km: lineKm(walk.geometry),
         walkMin: walk.walkMin,
-        stops: walk.stops.map((s) => ({ letter: s.letter, title: s.title, placeId: s.placeId, coords: getPlace(s.placeId).coords })),
+        stops: walk.stops.map((s, i) => ({ letter: String(i + 1), title: s.title, placeId: s.placeId, coords: walk.waypoints[s.waypoint]! })),
         href: "/destinations/nijni-novgorod/la-grande-verste",
       },
     ],

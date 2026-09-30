@@ -141,12 +141,17 @@ export type Journey = {
 };
 
 export type WalkStop = {
-  letter: string;
+  /** "START", "02"… "FINAL" */
+  label: string;
   placeId: string;
+  /** Index into the walk's waypoints (distances are computed along the geometry). */
+  waypoint: number;
   title: string;
-  text: string;
+  story: string;
+  /** Conseil Verste for this stop. */
+  tip: string;
   stayMin: number;
-  optional?: { placeId: string; text: string; extraKm: number };
+  media?: string[];
 };
 
 export type Walk = {
@@ -157,6 +162,9 @@ export type Walk = {
   stops: WalkStop[];
   /** Real pedestrian geometry (OSRM foot profile on OpenStreetMap data). */
   geometry: LonLat[];
+  /** Index in `geometry` of each waypoint, in route order. */
+  waypointIndex: readonly number[];
+  waypoints: LonLat[];
   geometrySource: string;
   walkMin: number;
   totalDuration: string;

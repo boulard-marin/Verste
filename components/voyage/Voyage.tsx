@@ -32,12 +32,16 @@ export type VoyageMedia = {
 export type VoyageScene = Scene & { resolved: VoyageMedia[] };
 
 type Props = {
+  id?: string;
+  label?: string;
   scenes: VoyageScene[];
   highlights: Highlight[];
   outlines: Outline[];
-  line: MetroLine;
-  train: { path: LonLat[]; stations: { ru: string; fr: string; at: number }[]; duration: string };
-  escalator: { pattern: string; count: number; width: number; height: number };
+  line?: MetroLine;
+  train?: { path: LonLat[]; stations: { ru: string; fr: string; at: number }[]; duration: string };
+  escalator?: { pattern: string; count: number; width: number; height: number };
+  /** 3D objects in the world (Saint Basil). Off for journeys that do not need them. */
+  objects?: boolean;
 };
 
 // Metro scene: the real escalator first, then the stylised station.
@@ -72,7 +76,7 @@ function cameraAt(keys: CameraView[], t: number): CameraView {
  * across surface scenes; the metro and the train replace it. Each scene has
  * an anchor (/#metro) so every moment can be linked and the back button works.
  */
-export function Voyage({ scenes, highlights, outlines, line, train, escalator }: Props) {
+export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni Novgorod", scenes, highlights, outlines, line, train, escalator, objects = true }: Props) {
   const section = useRef<HTMLElement>(null);
   const mapBox = useRef<HTMLDivElement>(null);
   const metroCanvas = useRef<HTMLCanvasElement>(null);
@@ -148,7 +152,7 @@ export function Voyage({ scenes, highlights, outlines, line, train, escalator }:
     }
     const first = scenes.find((s) => s.camera)!.camera![0]!;
     import("@/lib/voyage/world")
-      .then(({ createWorld }) => createWorld(mapBox.current!, { highlights, outlines, start: first }))
+      .then(({ createWorld }) => createWorld(mapBox.current!, { highlights, outlines, start: first, objects }))
       .then((world) => {
         if (cancelled) return world.destroy();
         worldRef.current = world;
@@ -162,10 +166,10 @@ export function Voyage({ scenes, highlights, outlines, line, train, escalator }:
       worldRef.current?.destroy();
       worldRef.current = null;
     };
-  }, [near, scenes, highlights, outlines, locate, drive, scrollYProgress]);
+  }, [near, scenes, highlights, outlines, objects, locate, drive, scrollYProgress]);
 
   // The metro is built when its scene is next door.
-  const metroNear = Math.abs(view.i - metroIndex) <= 1;
+  const metroNear = metroIndex >= 0 && Math.abs(view.i - metroIndex) <= 1;
   useEffect(() => {
     if (!metroNear || metroRef.current || !metroCanvas.current || !supportsWebGL()) return;
     let cancelled = false;
@@ -216,7 +220,7 @@ export function Voyage({ scenes, highlights, outlines, line, train, escalator }:
   const fromWhite = (scene.id === "vorobiovy-gory" || scene.id === "nijni") && view.local < 0.12 ? 1 - view.local / 0.12 : 0;
 
   return (
-    <section ref={section} id="voyage" aria-label="Le voyage, de Moscou à Nijni Novgorod" className="relative bg-night text-fg" style={{ height: `${total * 100}svh` }}>
+    <section ref={section} id={id} aria-label={label} className="relative bg-night text-fg" style={{ height: `${total * 100}svh` }}>
       {/* Anchors: every scene can be linked, and the back button works. */}
       {scenes.map((s, i) => (
         <span key={s.id} id={s.id} aria-hidden="true" className="absolute left-0 w-px" style={{ top: `calc(${(starts[i]! / total) * (total - 1) * 100}svh + 2px)` }} />
@@ -231,7 +235,7 @@ export function Voyage({ scenes, highlights, outlines, line, train, escalator }:
 
         {/* THE METRO */}
         <canvas ref={metroCanvas} aria-hidden="true" className={`absolute inset-0 size-full transition-opacity duration-slow ${env === "metro" && metroLocal >= ESCALATOR_END - 0.03 ? "opacity-100" : "opacity-0"}`} />
-        {Math.abs(view.i - metroIndex) <= 1 && (
+        {escalator && metroNear && (
           <EscalatorSequence
             {...escalator}
             progress={clamp01(metroLocal / ESCALATOR_END)}
@@ -242,7 +246,7 @@ export function Voyage({ scenes, highlights, outlines, line, train, escalator }:
         {env === "metro" && metro3d >= 0.94 && <div className="pointer-events-none absolute inset-0 bg-[#f4f6f9]" style={{ opacity: smooth((metro3d - 0.94) / 0.06) }} />}
 
         {/* THE TRAIN */}
-        {env === "train" && <TrainStage path={train.path} stations={train.stations} progress={view.local} duration={train.duration} />}
+        {env === "train" && train && <TrainStage path={train.path} stations={train.stations} progress={view.local} duration={train.duration} />}
 
         {/* Out of the metro / the train: daylight */}
         {fromWhite > 0 && <div className="pointer-events-none absolute inset-0 bg-[#f4f6f9]" style={{ opacity: fromWhite }} />}
@@ -257,7 +261,7 @@ export function Voyage({ scenes, highlights, outlines, line, train, escalator }:
         )}
 
         {scene.id === "poklonnaia" && <TimedPhotos scene={scene} local={view.local} />}
-        {env === "metro" && <MetroUI line={line} local={metroLocal} p3d={metro3d} onBoard={() => goTo("metro", 0.56)} media={scene.resolved} />}
+        {env === "metro" && line && <MetroUI line={line} local={metroLocal} p3d={metro3d} onBoard={() => goTo("metro", 0.56)} media={scene.resolved} />}
 
         <JourneyIndex scenes={scenes} current={view.i} onGo={goTo} />
       </div>
@@ -296,7 +300,7 @@ function SceneText({ scene, local, onPortal }: { scene: VoyageScene; local: numb
   const photo = scene.id === "poklonnaia" ? undefined : scene.resolved[0];
   return (
     <div
-      className={`absolute inset-x-0 bottom-0 z-10 px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] transition-opacity duration-base md:top-0 md:right-auto md:flex md:w-[min(520px,44vw)] md:flex-col md:justify-center md:px-10 md:pb-0 ${
+      className={`absolute inset-x-0 bottom-0 z-10 px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] transition-opacity duration-base md:top-0 md:right-auto md:flex md:w-[min(520px,44vw)] md:flex-col md:justify-center md:px-10 md:pt-24 md:pb-10 ${
         visible ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
     >
