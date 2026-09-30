@@ -15,6 +15,7 @@ import { scrollToY } from "@/lib/scroll";
 import type { LonLat } from "@/lib/travel/types";
 import { useTrip } from "@/lib/trip";
 import { flightState, routeProgress, type Legs } from "@/lib/voyage/flight";
+import { rideState } from "@/lib/voyage/ride";
 import type { Metro } from "@/lib/voyage/metro";
 import type { Highlight, Hotspot, Mark, MetroLine, Outline, Portal, Scene } from "@/lib/voyage/types";
 import type { World } from "@/lib/voyage/world";
@@ -64,6 +65,15 @@ const ESCALATOR_END = 0.24;
 const smooth = (t: number) => t * t * (3 - 2 * t);
 const clamp01 = (t: number) => Math.min(1, Math.max(0, t));
 const phase = (p: number, a: number, b: number) => (b <= a ? 1 : clamp01((p - a) / (b - a)));
+
+/** A fade over the first or last 0.35 screen of a scene, as the scene declares it. */
+function sceneVeil(scene: Scene, local: number): { color: string; opacity: number } {
+  const w = Math.min(0.5, 0.35 / scene.length);
+  const colour = (c: "dark" | "light") => (c === "light" ? "#f4f6f9" : "#000000");
+  if (scene.transition?.in && local < w) return { color: colour(scene.transition.in), opacity: smooth(1 - local / w) };
+  if (scene.transition?.out && local > 1 - w) return { color: colour(scene.transition.out), opacity: smooth((local - (1 - w)) / w) };
+  return { color: "", opacity: 0 };
+}
 
 function cameraAt(keys: CameraView[], t: number): CameraView {
   if (keys.length === 1) return keys[0]!;
@@ -256,14 +266,19 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
     let cancelled = false;
     import("@/lib/voyage/metro").then(({ createMetro }) => {
       if (cancelled || !metroCanvas.current) return;
-      metroRef.current = createMetro(metroCanvas.current);
-      const { i, local } = locate(scrollYProgress.get());
-      drive(i, local);
+      metroRef.current = createMetro(metroCanvas.current, line?.stations.map((s) => s.ru) ?? []);
+      const redraw = () => {
+        const { i, local } = locate(scrollYProgress.get());
+        drive(i, local);
+      };
+      redraw();
+      // Once more on the next frame: textures are uploaded by then (deep links into the ride).
+      requestAnimationFrame(redraw);
     });
     return () => {
       cancelled = true;
     };
-  }, [metroNear, locate, drive, scrollYProgress]);
+  }, [metroNear, locate, drive, scrollYProgress, line]);
 
   useEffect(() => {
     const onResize = () => {
@@ -298,7 +313,7 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
   const env = scene.environment;
   const metroLocal = env === "metro" ? view.local : view.i < metroIndex ? 0 : 1;
   const metro3d = clamp01((metroLocal - ESCALATOR_END) / (1 - ESCALATOR_END));
-  const fromWhite = (scene.id === "vorobiovy-gory" || scene.id === "nijni") && view.local < 0.12 ? 1 - view.local / 0.12 : 0;
+  const veil = sceneVeil(scene, view.local);
 
   return (
     <section ref={section} id={id} aria-label={label} className="relative bg-night text-fg" style={{ height: `${total * 100}svh` }}>
@@ -331,8 +346,8 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
         {/* THE TRAIN */}
         {env === "train" && train && <TrainStage path={train.path} stations={train.stations} progress={view.local} duration={train.duration} />}
 
-        {/* Out of the metro / the train: daylight */}
-        {fromWhite > 0 && <div className="pointer-events-none absolute inset-0 bg-[#f4f6f9]" style={{ opacity: fromWhite }} />}
+        {/* Scene transitions: into the dark (underground), out into the daylight */}
+        {veil.opacity > 0 && <div className="pointer-events-none absolute inset-0" style={{ background: veil.color, opacity: veil.opacity }} />}
 
         {/* Legibility veil */}
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgb(12_15_20/0.82)_0%,rgb(12_15_20/0.35)_38%,transparent_60%)] max-lg:bg-[linear-gradient(to_top,rgb(12_15_20/0.92)_0%,rgb(12_15_20/0.55)_38%,transparent_62%)]" />
@@ -542,7 +557,7 @@ function MetroUI({ line, local, p3d, onBoard, media }: { line: MetroLine; local:
   const choose = p3d >= 0.3 && p3d < 0.58;
   const ride = p3d >= 0.66 && p3d < 0.95;
   const rideT = clamp01((p3d - 0.66) / 0.28);
-  const at = Math.min(line.stations.length - 1, Math.floor(rideT * (line.stations.length - 1) + 0.15));
+  const at = rideState(rideT, line.stations.length).station;
   const escalatorPhoto = media[0];
   const doorsClose = p3d >= 0.62 && p3d < 0.7 ? clamp01(1 - Math.abs(p3d - 0.66) / 0.04) : 0;
   return (

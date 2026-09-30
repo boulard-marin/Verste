@@ -486,6 +486,7 @@
   .verste-mark.is-hidden { visibility: hidden; }
   .verste-mark-dot { width: 11px; height: 11px; flex-shrink: 0; border: 2px solid #eef2f8; border-radius: 999px; background: #0c0f14; }
   .verste-mark-text { display: flex; flex-direction: column; line-height: 1.05; text-shadow: 0 1px 14px rgb(12 15 20 / 0.95); }
+  .verste-mark.is-metro .verste-mark-dot { display: grid; place-items: center; width: 26px; height: 26px; border: 2px solid #eef2f8; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: #fff; }
   .verste-mark-name { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; font-stretch: 62.5%; letter-spacing: 0.05em; color: #eef2f8; text-transform: uppercase; }
   .verste-mark-ru { font-family: var(--font-display); font-size: 0.9rem; font-stretch: 78%; color: #c9d5e6; }
   .verste-mark-sub { margin-top: 0.25rem; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.14em; color: #a9b8cc; text-transform: uppercase; }

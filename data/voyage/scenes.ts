@@ -1,4 +1,4 @@
-import type { Highlight, MetroLine, Outline, Scene } from "@/lib/voyage/types";
+import type { Highlight, Mark, MetroLine, Outline, Scene } from "@/lib/voyage/types";
 
 import { formatKm } from "../../lib/format.ts";
 
@@ -32,6 +32,12 @@ export const highlights: Highlight[] = [
 export const outlines: Outline[] = [
   { id: "kremlin", ring: kremlinMoscou },
   { id: "kremlin-nijni", ring: kremlinNijni },
+];
+
+/** Metro stations drawn on the world (positions: OpenStreetMap, via OpenFreeMap tiles, 30/09/2026). */
+export const metroMarks: Mark[] = [
+  { id: "metro-okhotny", at: [37.61651, 55.75777], name: "Okhotny Riad", ru: "Охотный Ряд", sub: "Métro · ligne 1", kind: "metro", badge: { text: "1", color: "#e42313" } },
+  { id: "metro-vorobiovy", at: [37.55929, 55.71033], name: "Vorobiovy Gory", ru: "Воробьёвы горы", sub: "Métro · ligne 1", kind: "metro", badge: { text: "1", color: "#e42313" } },
 ];
 
 /** Line 1 (Sokolnitcheskaïa), from Okhotny Riad to Vorobiovy Gory, southbound. */
@@ -245,10 +251,27 @@ export const scenes: Scene[] = [
     placeId: "bolchoi",
     media: ["moscou-bolchoi"],
     portals: [
-      { verb: "Descendre", label: "Descendre dans le métro", to: { scene: "metro" } },
+      { verb: "Descendre", label: "Descendre dans le métro", to: { scene: "entree-metro" } },
       { verb: "Voir", label: "La fiche du Bolchoï", to: { href: "/lieux/bolchoi" } },
     ],
     length: 2,
+  },
+  {
+    id: "entree-metro",
+    environment: "monde",
+    kicker: "Jour 1 · la surface",
+    title: "Descendre",
+    ru: "Охотный Ряд",
+    text: "Okhotny Riad, ligne 1 : la station est juste sous nos pieds.",
+    camera: [
+      { center: [37.6186, 55.7596], zoom: 17, pitch: 62, bearing: -8 },
+      { center: [37.6172, 55.7584], zoom: 18, pitch: 68, bearing: 150 },
+      { center: [37.61651, 55.75777], zoom: 19.4, pitch: 74, bearing: 170 },
+    ],
+    marks: ["metro-okhotny"],
+    transition: { out: "dark" },
+    portals: [{ verb: "Descendre", label: "Prendre l'escalator", to: { scene: "metro" } }],
+    length: 1.3,
   },
   {
     id: "metro",
@@ -258,8 +281,9 @@ export const scenes: Scene[] = [
     ru: "Метро",
     text: "La surface disparaît. On descend, longtemps. En bas, la station s'ouvre comme un palais.",
     media: ["moscou-escalator-park-pobedy", "metro-maiakovskaia", "metro-komsomolskaia", "metro-novoslobodskaia"],
+    transition: { in: "dark" },
     portals: [{ verb: "Partir", label: "Prendre la ligne 1", to: { scene: "metro", at: 0.56 } }],
-    length: 6,
+    length: 6.6,
   },
   {
     id: "vorobiovy-gory",
@@ -274,6 +298,8 @@ export const scenes: Scene[] = [
       { center: [37.5335, 55.7043], zoom: 16, pitch: 66, bearing: 240 },
     ],
     highlights: ["mgu"],
+    marks: ["metro-vorobiovy"],
+    transition: { in: "light" },
     placeId: "belvedere-vorobiovy",
     portals: [{ verb: "Partir", label: "Ligne 1 jusqu'à Park Kultury", to: { scene: "muzeon" } }],
     length: 2,
@@ -372,6 +398,7 @@ export const scenes: Scene[] = [
   {
     id: "nijni",
     environment: "monde",
+    transition: { in: "light" },
     kicker: "Jour 4 · le matin",
     title: "Nijni Novgorod",
     ru: "Нижний Новгород",

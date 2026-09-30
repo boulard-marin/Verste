@@ -25,6 +25,8 @@ import {
   WebGLRenderer,
 } from "three";
 
+import { rideState } from "./ride";
+
 /**
  * A Moscow metro station, stylised (not a replica of a specific station):
  * vaulted hall, arcades on pylons, chandeliers, polished granite, a train that
@@ -36,8 +38,12 @@ import {
  *   0.30–0.42  the camera turns to the platform
  *   0.42–0.58  the train arrives and stops
  *   0.58–0.66  doors open, the camera steps in
- *   0.66–0.94  the ride: tunnel lights streaming, speed up then slow down
+ *   0.66–0.94  the ride, station after station: a stop at each platform
+ *              (its name on the wall), then acceleration, tunnel, braking
  *   0.94–1.00  arrival in daylight (Vorobiovy Gory is a station on a bridge)
+ *
+ * The station names come from the line (data/voyage/scenes.ts), so the same
+ * environment serves any ride.
  */
 
 export const METRO_PHASES = { platform: 0.3, train: 0.42, board: 0.58, ride: 0.66, arrive: 0.94 } as const;
@@ -168,7 +174,29 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 export type Metro = { render(p: number): void; resize(): void; dispose(): void };
 
-export function createMetro(canvas: HTMLCanvasElement): Metro {
+/** Distance between two stations, in scene metres (a stylised, shortened tunnel). */
+const LEG = 260;
+
+/** A station name as the metal letters of a platform wall. */
+function signTexture(name: string): CanvasTexture {
+  const c = document.createElement("canvas");
+  c.width = 1024;
+  c.height = 160;
+  const g = c.getContext("2d")!;
+  g.fillStyle = "#e8e2d4";
+  g.fillRect(0, 0, c.width, c.height);
+  g.fillStyle = "#2c2a26";
+  g.font = "600 92px 'Noto Serif Display', Georgia, serif";
+  g.textAlign = "center";
+  g.textBaseline = "middle";
+  g.fillText(name.toUpperCase(), c.width / 2, c.height / 2 + 4, c.width - 60);
+  const t = new CanvasTexture(c);
+  t.colorSpace = SRGBColorSpace;
+  t.anisotropy = 4;
+  return t;
+}
+
+export function createMetro(canvas: HTMLCanvasElement, stations: string[] = []): Metro {
   const renderer = new WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
   renderer.setPixelRatio(Math.min(2, window.devicePixelRatio));
   renderer.outputColorSpace = SRGBColorSpace;
@@ -361,6 +389,33 @@ export function createMetro(canvas: HTMLCanvasElement): Metro {
   tunnel.position.set(0, 1.2, 0);
   scene.add(tunnel);
 
+  // Platforms passed during the ride: a lit marble wall, lamps, the name.
+  const platform = new Group();
+  platform.visible = false;
+  const wallMat = new MeshStandardMaterial({ map: marble(), roughness: 0.4, emissive: new Color("#3a2f24"), emissiveIntensity: 0.6 });
+  const wall = new Mesh(new BoxGeometry(0.3, 4.4, 150), wallMat);
+  wall.position.set(2.95, 0.6, 0);
+  platform.add(wall);
+  const platformLamps = new InstancedMesh(new BoxGeometry(0.2, 0.12, 2.4), new MeshBasicMaterial({ color: "#fff0cf" }), 18);
+  for (let i = 0; i < 18; i++) {
+    dummy.position.set(2.7, 2.7, -72 + i * 8.5);
+    dummy.rotation.set(0, 0, 0);
+    dummy.scale.set(1, 1, 1);
+    dummy.updateMatrix();
+    platformLamps.setMatrixAt(i, dummy.matrix);
+  }
+  platform.add(platformLamps);
+  const signs = stations.map((name) => {
+    const m = new Mesh(new PlaneGeometry(2.4, 0.375), new MeshBasicMaterial({ map: signTexture(name) }));
+    m.position.set(2.78, 0.22, 0);
+    m.rotation.y = -Math.PI / 2;
+    m.visible = false;
+    platform.add(m);
+    return m;
+  });
+  platform.position.set(0, 1.2, 0);
+  scene.add(platform);
+
   const target = new Vector3();
   let width = 1, height = 1;
 
@@ -378,6 +433,7 @@ export function createMetro(canvas: HTMLCanvasElement): Metro {
     const riding = p >= METRO_PHASES.ride;
     hall.visible = !riding || p >= METRO_PHASES.arrive;
     tunnel.visible = riding && p < METRO_PHASES.arrive;
+    if (!tunnel.visible) platform.visible = false;
     for (const l of lamps) l.visible = hall.visible;
 
     // Train position: far away, arriving, stopped, then gone with us.
@@ -405,15 +461,21 @@ export function createMetro(canvas: HTMLCanvasElement): Metro {
       camera.position.set(lerp(8.4, 10.4, t), 1.7, lerp(4, 2.55, t));
       target.set(15, 1.6, lerp(1, 2.55, t));
     } else if (p < METRO_PHASES.arrive) {
-      // The ride: we sit by the window, the tunnel lights stream by.
+      // The ride: by the window, station after station.
       const t = phase(p, METRO_PHASES.ride, METRO_PHASES.arrive);
-      const speed = Math.sin(t * Math.PI); // accelerate, cruise, brake
-      const travelled = (t - Math.sin(t * Math.PI * 2) / (Math.PI * 2)) * 2400;
+      const ride = rideState(t, Math.max(2, stations.length));
+      const travelled = ride.distance * LEG;
       camera.position.set(0.6, 1.5, 0);
-      target.set(4, 1.3, -0.4 - speed * 1.5);
+      target.set(4, 1.3, -0.4 - ride.speed * 1.5);
       lightStrip.position.z = travelled % 10;
-      lightStrip.scale.z = 1 + speed * 7;
-      camera.fov = (width < height ? 75 : 60) + speed * 8;
+      lightStrip.scale.z = 1 + ride.speed * 7;
+      // The nearest station slides past the window, and stops in front of it.
+      const k = Math.round(ride.distance);
+      const offset = k * LEG - travelled;
+      platform.visible = signs.length > 0 && Math.abs(offset) < 120;
+      platform.position.z = -offset;
+      signs.forEach((m, i) => (m.visible = i === k));
+      camera.fov = (width < height ? 75 : 60) + ride.speed * 8;
       camera.updateProjectionMatrix();
     } else {
       // Daylight: out on the bridge.

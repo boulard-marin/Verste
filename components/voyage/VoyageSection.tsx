@@ -1,7 +1,7 @@
 import { findPlace } from "@/data/travel/index";
 import { getJourney } from "@/data/travel/journeys";
 import { flightLegs, flightMarks } from "@/data/voyage/flight";
-import { highlights, metroLine1, outlines, scenes } from "@/data/voyage/scenes";
+import { highlights, metroLine1, metroMarks, outlines, scenes } from "@/data/voyage/scenes";
 import { photoOf } from "@/lib/map/data";
 import { lineKm } from "@/lib/travel/geo";
 import { getMedia } from "@/lib/travel/media";
@@ -59,7 +59,7 @@ export function VoyageSection() {
       fortresses="kremlin-moscou,kremlin-nijni"
       label="Le voyage, de Paris à Nijni Novgorod"
       legs={flightLegs}
-      marks={flightMarks}
+      marks={[...flightMarks, ...metroMarks]}
     />
   );
 }

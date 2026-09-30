@@ -176,6 +176,10 @@ export async function createWorld(
     el.setAttribute("aria-hidden", "true");
     const dot = document.createElement("span");
     dot.className = "verste-mark-dot";
+    if (m.badge) {
+      dot.textContent = m.badge.text;
+      dot.style.background = m.badge.color;
+    }
     const text = document.createElement("span");
     text.className = "verste-mark-text";
     const name = document.createElement("span");

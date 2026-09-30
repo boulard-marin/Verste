@@ -50,7 +50,7 @@ export type Hotspot = {
 };
 
 /** A named point drawn on the world (airports, cities), shown by the scenes that list it. */
-export type Mark = { id: string; at: LonLat; name: string; ru?: string; sub?: string; kind: "airport" | "city" };
+export type Mark = { id: string; at: LonLat; name: string; ru?: string; sub?: string; kind: "airport" | "city" | "metro"; badge?: { text: string; color: string } };
 
 /**
  * A vehicle crossing the world while the scene plays: the plane of the
@@ -99,6 +99,11 @@ export type Scene = {
   mediaTimes?: string[];
   placeId?: string;
   portals: Portal[];
+  /**
+   * How the scene is entered and left: a fade from/to the dark (going
+   * underground) or the daylight (coming out of the metro, off the train).
+   */
+  transition?: { in?: "dark" | "light"; out?: "dark" | "light" };
   /** Scroll length in screens. */
   length: number;
 };
