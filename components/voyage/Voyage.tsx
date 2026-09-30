@@ -252,7 +252,7 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
         {fromWhite > 0 && <div className="pointer-events-none absolute inset-0 bg-[#f4f6f9]" style={{ opacity: fromWhite }} />}
 
         {/* Legibility veil */}
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgb(12_15_20/0.82)_0%,rgb(12_15_20/0.35)_38%,transparent_60%)] max-md:bg-[linear-gradient(to_top,rgb(12_15_20/0.92)_0%,rgb(12_15_20/0.55)_38%,transparent_62%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgb(12_15_20/0.82)_0%,rgb(12_15_20/0.35)_38%,transparent_60%)] max-lg:bg-[linear-gradient(to_top,rgb(12_15_20/0.92)_0%,rgb(12_15_20/0.55)_38%,transparent_62%)]" />
 
         {env === "fin" ? (
           <FinalScene scene={scene} tripCount={trip.length} />
@@ -263,7 +263,7 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
         {scene.id === "poklonnaia" && <TimedPhotos scene={scene} local={view.local} />}
         {env === "metro" && line && <MetroUI line={line} local={metroLocal} p3d={metro3d} onBoard={() => goTo("metro", 0.56)} media={scene.resolved} />}
 
-        <JourneyIndex scenes={scenes} current={view.i} onGo={goTo} />
+        <JourneyIndex scenes={scenes} current={view.i} onGo={goTo} light={env === "fin"} />
       </div>
     </section>
   );
@@ -300,7 +300,7 @@ function SceneText({ scene, local, onPortal }: { scene: VoyageScene; local: numb
   const photo = scene.id === "poklonnaia" ? undefined : scene.resolved[0];
   return (
     <div
-      className={`absolute inset-x-0 bottom-0 z-10 px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] transition-opacity duration-base md:top-0 md:right-auto md:flex md:w-[min(520px,44vw)] md:flex-col md:justify-center md:px-10 md:pt-24 md:pb-10 ${
+      className={`absolute inset-x-0 bottom-0 z-10 px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] transition-opacity duration-base lg:top-0 lg:right-auto lg:flex lg:w-[min(520px,44vw)] lg:flex-col lg:justify-center lg:px-10 lg:pt-24 lg:pb-10 ${
         visible ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
     >
@@ -311,9 +311,9 @@ function SceneText({ scene, local, onPortal }: { scene: VoyageScene; local: numb
           {scene.ru}
         </p>
       )}
-      <p className="mt-4 max-w-[46ch] text-[1.02rem] leading-relaxed text-fg md:text-lead">{scene.text}</p>
+      <p className="mt-4 max-w-[46ch] text-[1.02rem] leading-relaxed text-fg lg:text-lead">{scene.text}</p>
       {photo && scene.environment === "monde" && (
-        <figure className="mt-5 hidden max-w-[360px] items-start gap-3 md:flex">
+        <figure className="mt-5 hidden max-w-[360px] items-start gap-3 lg:flex">
           <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-[3px]">
             {photo.video ? (
               <video src={photo.video} poster={photo.src} muted loop playsInline autoPlay aria-label={photo.alt} className="size-full object-cover motion-reduce:hidden" />
@@ -344,14 +344,14 @@ function TimedPhotos({ scene, local }: { scene: VoyageScene; local: number }) {
   const k = Math.min(n - 1, Math.floor(clamp01(local * 1.05) * n));
   const m = scene.resolved[k]!;
   return (
-    <figure className="absolute top-20 right-4 z-10 w-[min(300px,42vw)] md:top-1/2 md:right-16 md:w-[min(360px,28vw)] md:-translate-y-1/2">
+    <figure className="absolute top-20 right-4 z-10 w-[min(300px,42vw)] lg:top-1/2 lg:right-16 lg:w-[min(360px,28vw)] lg:-translate-y-1/2">
       <div className="relative aspect-[3/4] overflow-hidden rounded-[4px] border border-line">
         {scene.resolved.map((r, j) => (
           <Image key={r.src} src={r.src} alt={j === k ? r.alt : ""} fill sizes="360px" placeholder="blur" blurDataURL={r.blurDataURL} className={`object-cover transition-opacity duration-slow ${j === k ? "opacity-100" : "opacity-0"}`} />
         ))}
         <p className="absolute top-3 left-3 rounded-full bg-night/80 px-3 py-1 font-mono text-[1.1rem] text-fg backdrop-blur">{scene.mediaTimes?.[k]}</p>
       </div>
-      <figcaption className="mt-2 text-[0.75rem] text-fg-2 max-md:hidden">
+      <figcaption className="mt-2 text-[0.75rem] text-fg-2 max-lg:hidden">
         <span className="label mr-2 text-fg">Photographie VERSTE</span>
         {m.caption}
       </figcaption>
@@ -372,13 +372,13 @@ function MetroUI({ line, local, p3d, onBoard, media }: { line: MetroLine; local:
     <div className="pointer-events-none absolute inset-0 z-10">
       {doorsClose > 0 && <div className="absolute inset-0 bg-night" style={{ opacity: doorsClose }} />}
       {ride && (
-        <div aria-hidden="true" className="absolute inset-[9%_4%_12%] rounded-[36px] border-[18px] border-[#1a1d22] shadow-[0_0_0_100vmax_#101216,inset_0_0_80px_rgb(0_0_0/0.7)] md:inset-[12%_14%_14%]" />
+        <div aria-hidden="true" className="absolute inset-[9%_4%_12%] rounded-[36px] border-[18px] border-[#1a1d22] shadow-[0_0_0_100vmax_#101216,inset_0_0_80px_rgb(0_0_0/0.7)] lg:inset-[12%_14%_14%]" />
       )}
       {escalator && local > 0.03 && escalatorPhoto && (
-        <p className="label absolute right-4 bottom-4 max-w-[46ch] text-right text-fg-2 md:right-16">Photographie VERSTE · {escalatorPhoto.caption}</p>
+        <p className="label absolute right-4 bottom-4 max-w-[46ch] text-right text-fg-2 lg:right-16">Photographie VERSTE · {escalatorPhoto.caption}</p>
       )}
       {hall && (
-        <div className="absolute inset-x-5 bottom-8 md:inset-x-auto md:bottom-auto md:left-10 md:top-1/2 md:w-[440px] md:-translate-y-1/2">
+        <div className="absolute inset-x-5 bottom-8 lg:inset-x-auto lg:bottom-auto lg:left-10 lg:top-1/2 lg:w-[440px] lg:-translate-y-1/2">
           <p className="label text-fg-2">Sous Moscou</p>
           <p className="mt-3 font-display text-[clamp(1.8rem,4vw,3rem)] leading-tight">La station s&apos;ouvre comme un palais.</p>
           <p className="mt-3 text-fg-2">Station stylisée VERSTE, inspirée des grandes stations des années 1930 à 1950 : voûte, arcades, lustres, granit.</p>
@@ -393,7 +393,7 @@ function MetroUI({ line, local, p3d, onBoard, media }: { line: MetroLine; local:
         </div>
       )}
       {choose && (
-        <div className="pointer-events-auto absolute inset-x-5 bottom-8 rounded-[6px] border border-line bg-night/85 p-5 backdrop-blur md:inset-x-auto md:bottom-auto md:left-10 md:top-1/2 md:w-[400px] md:-translate-y-1/2">
+        <div className="pointer-events-auto absolute inset-x-5 bottom-8 rounded-[6px] border border-line bg-night/85 p-5 backdrop-blur lg:inset-x-auto lg:bottom-auto lg:left-10 lg:top-1/2 lg:w-[400px] lg:-translate-y-1/2">
           <p className="label text-fg-2">Choisir sa ligne</p>
           <button type="button" onClick={onBoard} className="mt-3 flex w-full items-center gap-3 rounded-[4px] border border-fg/30 p-3 text-left hover:border-fg">
             <span className="grid size-8 shrink-0 place-items-center rounded-full font-mono text-[0.85rem] font-semibold text-white" style={{ background: line.color }}>
@@ -417,7 +417,7 @@ function MetroUI({ line, local, p3d, onBoard, media }: { line: MetroLine; local:
         </div>
       )}
       {ride && (
-        <div className="absolute top-20 left-5 md:top-1/2 md:left-10 md:-translate-y-1/2">
+        <div className="absolute top-20 left-5 lg:top-1/2 lg:left-10 lg:-translate-y-1/2">
           <p className="label flex items-center gap-2 text-fg-2">
             <span className="grid size-5 place-items-center rounded-full font-mono text-[0.65rem] text-white" style={{ background: line.color }}>
               {line.number}
@@ -470,9 +470,9 @@ function FinalScene({ scene, tripCount }: { scene: VoyageScene; tripCount: numbe
   );
 }
 
-function JourneyIndex({ scenes, current, onGo }: { scenes: VoyageScene[]; current: number; onGo: (id: string) => void }) {
+function JourneyIndex({ scenes, current, onGo, light }: { scenes: VoyageScene[]; current: number; onGo: (id: string) => void; light: boolean }) {
   return (
-    <nav aria-label="Étapes du voyage" className="absolute top-1/2 right-3 z-20 -translate-y-1/2 max-md:hidden">
+    <nav data-surface={light ? "frost" : undefined} aria-label="Étapes du voyage" className="absolute top-1/2 right-3 z-20 -translate-y-1/2 max-lg:hidden">
       <ol className="relative flex flex-col items-end gap-2.5">
         <span aria-hidden="true" className="absolute top-1 right-[4.5px] bottom-1 w-px bg-fg/20" />
         {scenes.map((s, i) => (

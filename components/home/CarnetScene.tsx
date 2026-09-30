@@ -31,7 +31,7 @@ export function CarnetScene() {
           <figure className="md:col-span-4 md:col-start-9">
             <div
               data-surface="snow"
-              className="mx-auto w-[min(18rem,80vw)] rounded-[2.4rem] border-[10px] border-ink bg-surface p-5 pt-6 text-fg shadow-[0_24px_60px_-28px_rgb(11_26_51/0.55)]"
+              className="mx-auto w-full max-w-[min(18rem,80vw)] rounded-[2.4rem] border-[10px] border-ink bg-surface p-5 pt-6 text-fg shadow-[0_24px_60px_-28px_rgb(11_26_51/0.55)]"
             >
               <div className="flex items-center justify-between">
                 <span className="label text-fg-2">Carnet Verste</span>

@@ -254,7 +254,7 @@ export default async function ResultPage({ searchParams }: PageProps<"/configura
             <p className="text-[0.85rem] text-fg-2">
               {site.legalPromise} Prix de la préparation uniquement ; vous réservez et payez vos prestations directement.
             </p>
-            <div className="mt-2 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-2 flex flex-wrap gap-3">
               {/* checkout_started is recorded in phase G, when the checkout exists */}
               <ButtonLink href={`/contact?${toQuery(answers)}&offre=${offer.id}`}>
                 Construire cet itinéraire
