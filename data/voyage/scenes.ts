@@ -1,5 +1,6 @@
 import type { Highlight, MetroLine, Outline, Scene } from "@/lib/voyage/types";
 
+import { kremlinNijniFigures } from "./kremlin-nijni";
 import { kremlinMoscou, kremlinNijni } from "./outlines";
 
 /**
@@ -279,12 +280,37 @@ export const scenes: Scene[] = [
     highlights: ["nevski", "kremlin-nijni"],
     outlines: ["kremlin-nijni"],
     night: [-0.5, -1],
+    terrain: 1.5,
     media: ["nijni-kremlin-volga", "nijni-cathedrale-nevski"],
+    portals: [{ verb: "S'approcher", label: "Monter au kremlin", to: { scene: "nijni-kremlin" } }],
+    length: 2.4,
+  },
+  {
+    id: "nijni-kremlin",
+    environment: "monde",
+    kicker: "Jour 4 · le kremlin",
+    title: "La muraille descend vers la Volga",
+    ru: "Нижегородский кремль",
+    text: "Une muraille de brique sous un toit de bois. De la tour Dmitrievskaïa, sur la place Minine, elle dévale la colline vers la Volga, puis remonte.",
+    camera: [
+      { center: [43.995, 56.3295], zoom: 14.6, pitch: 62, bearing: 120 },
+      { center: [44.003, 56.3296], zoom: 15.7, pitch: 72, bearing: 178 },
+      { center: [44.0068, 56.3297], zoom: 16.5, pitch: 74, bearing: 222 },
+      { center: [44.0039, 56.3287], zoom: 16.2, pitch: 75, bearing: 318 },
+      { center: [43.9995, 56.3292], zoom: 15.6, pitch: 73, bearing: 292 },
+    ],
+    highlights: ["kremlin-nijni"],
+    night: [-1, -1],
+    terrain: 1.5,
+    labels: ["kremlin-nijni"],
+    figures: kremlinNijniFigures,
+    placeId: "kremlin-nijni",
+    media: ["nijni-kremlin-tours"],
     portals: [
       { verb: "Découvrir", label: "Découvrir Nijni Novgorod", to: { href: "/destinations/nijni-novgorod" } },
       { verb: "Suivre le fleuve", label: "Marcher La Grande Verste", to: { href: "/destinations/nijni-novgorod/la-grande-verste" } },
     ],
-    length: 2.6,
+    length: 3.6,
   },
   {
     id: "votre-voyage",

@@ -36,6 +36,7 @@ export function VoyageSection() {
       line={metroLine1}
       train={{ path: rail.path, stations, duration: `${rail.duration?.value ?? ""} (à recouper sur rzd.ru)` }}
       escalator={sequence}
+      fortresses="kremlin-nijni"
     />
   );
 }

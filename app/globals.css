@@ -467,6 +467,37 @@
   .verste-hotspot:hover { border-color: rgb(213 223 234 / 0.6); }
   .verste-hotspot:focus-visible { outline: 2px solid var(--color-carmine-signal); outline-offset: 2px; }
 
+  /* Tower names of a 3D kremlin: a thin mast from the tower to its name. */
+  .verste-tower {
+    display: flex;
+    width: max-content;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+  }
+  /* MapLibre drives the marker's own opacity (occlusion): the fade lives on its children. */
+  .verste-tower > * { transition: opacity 400ms ease; }
+  .verste-tower-name {
+    padding: 0.2rem 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    line-height: 1.25;
+    letter-spacing: 0.08em;
+    color: #eef2f8;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+    background: rgb(12 15 20 / 0.72);
+    border: 1px solid rgb(213 223 234 / 0.2);
+    border-radius: 3px;
+    backdrop-filter: blur(4px);
+  }
+  .verste-tower-name [lang="ru"] { display: block; font-family: var(--font-sans); font-size: 0.66rem; letter-spacing: 0; text-transform: none; color: #b9c6d8; }
+  .verste-tower-mast { width: 1px; height: 34px; background: linear-gradient(rgb(238 242 248 / 0.7), rgb(238 242 248 / 0)); }
+  .verste-tower.is-hidden > * { opacity: 0; }
+  @media (max-width: 1023px) { .verste-tower-name [lang="ru"] { display: none; } .verste-tower-mast { height: 22px; } }
+  @media (prefers-reduced-motion: reduce) { .verste-tower > * { transition: none; } }
+
   .maplibregl-ctrl-group { background: rgb(12 15 20 / 0.85) !important; border: 1px solid rgb(213 223 234 / 0.14); box-shadow: none !important; }
   .maplibregl-ctrl-group button + button { border-top-color: rgb(213 223 234 / 0.14) !important; }
   .maplibregl-ctrl-group button .maplibregl-ctrl-icon { filter: invert(1) brightness(0.9); }

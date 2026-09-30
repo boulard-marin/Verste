@@ -9,6 +9,26 @@ import type { ExpressionSpecification, StyleSpecification } from "maplibre-gl";
 
 export const OPENFREEMAP_TILES = "https://tiles.openfreemap.org/planet";
 export const OPENFREEMAP_GLYPHS = "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf";
+/** Open elevation tiles (Mapzen Terrain Tiles on AWS Open Data, Terrarium encoding, no key, CORS allowed). */
+export const TERRAIN_TILES = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png";
+export const TERRAIN_ATTRIBUTION = "Relief : Terrain Tiles (Mapzen, AWS)";
+
+/** Sky and horizon, by light: the default night blue, deep night, dawn over the Volga. */
+export const skies = {
+  night: { "sky-color": "#08101f", "horizon-color": "#1d3b6e", "fog-color": "#0f141c", "sky-horizon-blend": 0.55, "horizon-fog-blend": 0.5, "fog-ground-blend": 0.75, "atmosphere-blend": 0 },
+  deep: { "sky-color": "#05070b", "horizon-color": "#15223a", "fog-color": "#07090d", "sky-horizon-blend": 0.5, "horizon-fog-blend": 0.45, "fog-ground-blend": 0.8, "atmosphere-blend": 0 },
+  dawn: { "sky-color": "#3f5f8f", "horizon-color": "#f0c9a0", "fog-color": "#27344a", "sky-horizon-blend": 0.7, "horizon-fog-blend": 0.6, "fog-ground-blend": 0.65, "atmosphere-blend": 0 },
+} as const;
+
+/**
+ * Light on the volumes. Night: a low, warm light from the south-west, façades
+ * read as volumes. Dawn: the sun rises in the east (azimuth ≈ 95° at the end
+ * of September at 56° N), low and orange, raking the kremlin walls.
+ */
+export const lights = {
+  night: { anchor: "map", color: "#fff1dc", intensity: 0.42, position: [1.3, 215, 38] },
+  dawn: { anchor: "map", color: "#ffd2a1", intensity: 0.5, position: [1.25, 95, 64] },
+} as const satisfies Record<string, NonNullable<StyleSpecification["light"]>>;
 
 export const mapColors = {
   background: "#0f141c",
@@ -44,8 +64,11 @@ export function buildNightStyle(): StyleSpecification {
     version: 8,
     name: "VERSTE nuit",
     glyphs: OPENFREEMAP_GLYPHS,
+    sky: skies.night,
+    light: { ...lights.night, position: [...lights.night.position] },
     sources: {
       openmaptiles: { type: "vector", url: OPENFREEMAP_TILES, attribution: "© OpenStreetMap · OpenFreeMap" },
+      relief: { type: "raster-dem", tiles: [TERRAIN_TILES], encoding: "terrarium", tileSize: 256, maxzoom: 14, attribution: TERRAIN_ATTRIBUTION },
     },
     layers: [
       { id: "background", type: "background", paint: { "background-color": mapColors.background } },
@@ -63,6 +86,19 @@ export function buildNightStyle(): StyleSpecification {
         source: "openmaptiles",
         "source-layer": "park",
         paint: { "fill-color": mapColors.park, "fill-opacity": 0.8 },
+      },
+      {
+        id: "hillshade",
+        type: "hillshade",
+        source: "relief",
+        minzoom: 9,
+        paint: {
+          "hillshade-shadow-color": "#05070b",
+          "hillshade-highlight-color": "#2a3a55",
+          "hillshade-accent-color": "#0b1220",
+          "hillshade-exaggeration": 0.45,
+          "hillshade-illumination-direction": 300,
+        },
       },
       {
         id: "water",

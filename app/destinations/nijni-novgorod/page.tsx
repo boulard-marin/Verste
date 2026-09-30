@@ -65,7 +65,7 @@ export default function NijniPage() {
   return (
     <>
       <h1 className="sr-only">Nijni Novgorod</h1>
-      <Voyage id="nijni" label="Nijni Novgorod, vue d'en haut" scenes={scenes} highlights={nijniHighlights} outlines={nijniOutlines} objects={false} />
+      <Voyage id="nijni" label="Nijni Novgorod, vue d'en haut" scenes={scenes} highlights={nijniHighlights} outlines={nijniOutlines} objects={false} fortresses="kremlin-nijni" />
 
       {/* ── Trois jours ─────────────────────────────────────────────────── */}
       <section data-surface="frost" id="trois-jours" aria-labelledby="trois-jours-title" className="bg-surface py-20 text-fg md:py-28">

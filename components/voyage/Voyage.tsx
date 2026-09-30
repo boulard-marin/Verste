@@ -1,5 +1,7 @@
 "use client";
 
+import "maplibre-gl/dist/maplibre-gl.css";
+
 import { useMotionValueEvent, useScroll } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -42,6 +44,8 @@ type Props = {
   escalator?: { pattern: string; count: number; width: number; height: number };
   /** 3D objects in the world (Saint Basil). Off for journeys that do not need them. */
   objects?: boolean;
+  /** Stylised 3D fortresses on the relief (data/voyage/fortresses.ts), by id. */
+  fortresses?: string;
 };
 
 // Metro scene: the real escalator first, then the stylised station.
@@ -76,7 +80,7 @@ function cameraAt(keys: CameraView[], t: number): CameraView {
  * across surface scenes; the metro and the train replace it. Each scene has
  * an anchor (/#metro) so every moment can be linked and the back button works.
  */
-export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni Novgorod", scenes, highlights, outlines, line, train, escalator, objects = true }: Props) {
+export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni Novgorod", scenes, highlights, outlines, line, train, escalator, objects = true, fortresses = "" }: Props) {
   const section = useRef<HTMLElement>(null);
   const mapBox = useRef<HTMLDivElement>(null);
   const metroCanvas = useRef<HTMLCanvasElement>(null);
@@ -115,6 +119,8 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
         world.setOutlines(scene.outlines ?? []);
         const [n0, n1] = scene.night ?? [0, 0];
         world.setNight(n0 + (n1 - n0) * local);
+        world.setTerrain(scene.terrain ?? null);
+        world.setLabels(scene.labels ?? []);
         const basil = scene.objects?.find((o) => o.id === "saint-basile");
         world.setRise("saint-basile", basil ? (reduced ? 1 : smooth(phase(local, basil.rise[0], basil.rise[1]))) : 0);
       }
@@ -151,8 +157,11 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
       return;
     }
     const first = scenes.find((s) => s.camera)!.camera![0]!;
-    import("@/lib/voyage/world")
-      .then(({ createWorld }) => createWorld(mapBox.current!, { highlights, outlines, start: first, objects }))
+    const ids = fortresses ? fortresses.split(",") : [];
+    Promise.all([import("@/lib/voyage/world"), ids.length ? import("@/data/voyage/fortresses") : null])
+      .then(([{ createWorld }, data]) =>
+        createWorld(mapBox.current!, { highlights, outlines, start: first, objects, fortresses: ids.flatMap((id) => (data?.fortresses[id] ? [data.fortresses[id]] : [])) }),
+      )
       .then((world) => {
         if (cancelled) return world.destroy();
         worldRef.current = world;
@@ -160,13 +169,16 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
         const { i, local } = locate(scrollYProgress.get());
         drive(i, local);
       })
-      .catch(() => setWorldFailed(true));
+      .catch((e: unknown) => {
+        if (process.env.NODE_ENV !== "production") console.error("[voyage] world failed", e);
+        setWorldFailed(true);
+      });
     return () => {
       cancelled = true;
       worldRef.current?.destroy();
       worldRef.current = null;
     };
-  }, [near, scenes, highlights, outlines, objects, locate, drive, scrollYProgress]);
+  }, [near, scenes, highlights, outlines, objects, fortresses, locate, drive, scrollYProgress]);
 
   // The metro is built when its scene is next door.
   const metroNear = metroIndex >= 0 && Math.abs(view.i - metroIndex) <= 1;
@@ -228,9 +240,11 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
 
       <div data-surface="night" className="sticky top-0 h-svh overflow-hidden verste-scroll-map">
         {/* THE WORLD */}
-        <div ref={mapBox} className={`absolute inset-0 transition-opacity duration-slow ${env === "monde" ? "opacity-100" : "opacity-0"}`} />
+        <div ref={mapBox} className={`absolute inset-0 size-full transition-opacity duration-slow ${env === "monde" ? "opacity-100" : "opacity-0"}`} />
         {(!worldReady || worldFailed) && env === "monde" && scene.resolved[0] && (
-          <Image src={scene.resolved[0].src} alt="" fill sizes="100vw" placeholder="blur" blurDataURL={scene.resolved[0].blurDataURL} className="object-cover opacity-70" />
+          <div className="absolute inset-0">
+            <Image src={scene.resolved[0].src} alt="" fill sizes="100vw" placeholder="blur" blurDataURL={scene.resolved[0].blurDataURL} className="object-cover opacity-70" />
+          </div>
         )}
 
         {/* THE METRO */}
@@ -258,6 +272,14 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
           <FinalScene scene={scene} tripCount={trip.length} />
         ) : (
           <SceneText key={scene.id} scene={scene} local={view.local} onPortal={goTo} />
+        )}
+
+        {/* The relief is exaggerated and the models are stylised: say so. */}
+        {env === "monde" && scene.terrain && worldReady && !worldFailed && (
+          <p className="label pointer-events-none absolute right-4 bottom-9 z-10 text-fg-2 max-lg:top-20 max-lg:bottom-auto">
+            Relief exagéré ×{String(scene.terrain).replace(".", ",")}
+            {scene.labels ? " · maquette stylisée" : ""}
+          </p>
         )}
 
         {scene.id === "poklonnaia" && <TimedPhotos scene={scene} local={view.local} />}
@@ -300,18 +322,29 @@ function SceneText({ scene, local, onPortal }: { scene: VoyageScene; local: numb
   const photo = scene.id === "poklonnaia" ? undefined : scene.resolved[0];
   return (
     <div
-      className={`absolute inset-x-0 bottom-0 z-10 px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] transition-opacity duration-base lg:top-0 lg:right-auto lg:flex lg:w-[min(520px,44vw)] lg:flex-col lg:justify-center lg:px-10 lg:pt-24 lg:pb-10 ${
+      className={`absolute inset-x-0 bottom-0 z-10 px-5 pb-[max(3.25rem,env(safe-area-inset-bottom))] transition-opacity duration-base lg:top-0 lg:right-auto lg:flex lg:w-[min(520px,44vw)] lg:flex-col lg:justify-center-safe lg:px-10 lg:pt-24 lg:pb-10 ${
         visible ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
     >
       <p className="label text-fg-2">{scene.kicker}</p>
-      <h2 className="enter mt-3 font-display text-[clamp(2.4rem,6vw,5rem)] leading-[0.95]">{scene.title}</h2>
+      <h2 className={`enter mt-3 font-display leading-[0.95] ${scene.figures ? "text-[clamp(2.2rem,4.6vw,4rem)]" : "text-[clamp(2.4rem,6vw,5rem)]"}`}>{scene.title}</h2>
       {scene.ru && (
         <p lang="ru" className="mt-2 font-display font-cond text-[clamp(1.05rem,2vw,1.5rem)] text-fg-2">
           {scene.ru}
         </p>
       )}
       <p className="mt-4 max-w-[46ch] text-[1.02rem] leading-relaxed text-fg lg:text-lead">{scene.text}</p>
+      {scene.figures && (
+        <dl className="mt-5 grid max-w-[46ch] grid-cols-3 gap-4 border-t border-line pt-4">
+          {scene.figures.map((f) => (
+            <div key={f.label}>
+              <dt className="label text-fg-2">{f.label}</dt>
+              <dd className="mt-1.5 font-display text-[clamp(1.35rem,2.4vw,1.9rem)] leading-none">{f.value}</dd>
+              <dd className="mt-1.5 text-[0.7rem] leading-snug text-fg-2">{f.note}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
       {photo && scene.environment === "monde" && (
         <figure className="mt-5 hidden max-w-[360px] items-start gap-3 lg:flex">
           <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-[3px]">

@@ -1,5 +1,6 @@
 import type { Highlight, Outline, Scene } from "@/lib/voyage/types";
 
+import { kremlinNijniFigures } from "./kremlin-nijni";
 import { kremlinNijni } from "./outlines";
 
 /**
@@ -34,6 +35,7 @@ export const nijniScenes: Scene[] = [
       { center: [43.992, 56.3302], zoom: 13.4, pitch: 52, bearing: 60 },
     ],
     night: [-1, -1],
+    terrain: 1.5,
     media: ["nijni-kremlin-volga"],
     portals: [{ verb: "S'approcher", label: "Monter au kremlin", to: { scene: "nijni-kremlin" } }],
     length: 1.8,
@@ -44,21 +46,26 @@ export const nijniScenes: Scene[] = [
     kicker: "Le kremlin",
     title: "La forteresse sur la colline",
     ru: "Кремль",
-    text: "L'enceinte descend jusqu'à la Volga. Une excursion guidée suit le chemin de ronde sur environ 900 m, de la tour Dmitrievskaïa à la tour de l'Horloge.",
+    text: "Une muraille de brique sous un toit de bois dévale la colline vers la Volga. Une visite guidée suit son chemin de ronde sur 900 m environ, de la tour Dmitrievskaïa à la tour de l'Horloge.",
     camera: [
       { center: [43.992, 56.3302], zoom: 13.4, pitch: 52, bearing: 60 },
-      { center: [44.0035, 56.3288], zoom: 15.6, pitch: 60, bearing: 30 },
+      { center: [44.003, 56.3296], zoom: 15.7, pitch: 72, bearing: 178 },
+      { center: [44.0068, 56.3297], zoom: 16.5, pitch: 74, bearing: 222 },
+      { center: [44.0039, 56.3287], zoom: 16.2, pitch: 75, bearing: 318 },
+      { center: [43.9995, 56.3292], zoom: 15.6, pitch: 73, bearing: 292 },
     ],
     highlights: ["kremlin-nijni", "sirotkine"],
-    outlines: ["kremlin-nijni"],
+    labels: ["kremlin-nijni"],
+    figures: kremlinNijniFigures,
     night: [-1, -1],
+    terrain: 1.5,
     placeId: "kremlin-nijni",
     media: ["nijni-kremlin-tours"],
     portals: [
       { verb: "Suivre le fleuve", label: "Marcher La Grande Verste", to: { href: "/destinations/nijni-novgorod/la-grande-verste" } },
       { verb: "Voir", label: "La fiche du kremlin", to: { href: "/lieux/kremlin-nijni" } },
     ],
-    length: 1.8,
+    length: 3.4,
   },
   {
     id: "nijni-strelka",
@@ -68,11 +75,13 @@ export const nijniScenes: Scene[] = [
     ru: "Стрелка",
     text: "Sur la pointe, la cathédrale Alexandre-Nevski, le stade de la Coupe du monde 2018 et, depuis septembre 2026, la VOLGA Arena, patinoire du Torpedo.",
     camera: [
-      { center: [43.985, 56.331], zoom: 14.2, pitch: 55, bearing: 0 },
-      { center: [43.9672, 56.3352], zoom: 15.6, pitch: 64, bearing: -40 },
+      { center: [43.9995, 56.3292], zoom: 15.6, pitch: 73, bearing: 292 },
+      { center: [43.985, 56.331], zoom: 14.6, pitch: 62, bearing: 320 },
+      { center: [43.9672, 56.3352], zoom: 15.6, pitch: 66, bearing: -40 },
     ],
     highlights: ["nevski", "stade", "volga-arena"],
     night: [-1, -1],
+    terrain: 1.5,
     placeId: "cathedrale-nevski",
     media: ["nijni-cathedrale-nevski", "nijni-hockey-mise-en-jeu"],
     portals: [
@@ -93,6 +102,7 @@ export const nijniScenes: Scene[] = [
     ],
     highlights: ["stele", "petchersky"],
     night: [-1, -1],
+    terrain: 1.5,
     placeId: "parc-victoire-nijni",
     media: ["nijni-parc-victoire-stele", "nijni-monastere-petchersky"],
     portals: [
@@ -113,6 +123,7 @@ export const nijniScenes: Scene[] = [
       { center: [44.0106, 56.2742], zoom: 14.4, pitch: 55, bearing: 180 },
     ],
     night: [-1, -1],
+    terrain: 1.5,
     placeId: "chtcholokovski",
     media: ["nijni-lacs-ponton", "nijni-lacs-roseaux"],
     portals: [{ verb: "Voir", label: "Chtcholokovski Khoutor", to: { href: "/lieux/chtcholokovski" } }],

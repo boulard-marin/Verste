@@ -498,4 +498,13 @@ Voir [06-v2.2-monde-interactif.md](06-v2.2-monde-interactif.md), section E :
 - configurateur jour par jour (`lib/itinerary`, 32 tests) ;
 - audit responsive et confidentialité.
 
-Push GitHub toujours en attente des droits du compte local.
+Dépôt : poussé sur `boulard-marin/Verste` (la branche `main` suit `verste/main`).
+
+### V2.3 · Nijni en relief · 30/09/2026
+
+Voir [06-v2.2-monde-interactif.md](06-v2.2-monde-interactif.md), section F :
+- relief réel (Terrain Tiles, exagéré ×1,5 et signalé à l'écran), ciel et lumière d'aube venant de l'est ;
+- kremlin de Nijni en maquette stylisée sur la falaise (`lib/voyage/fortress.ts`) : muraille découpée en travées qui suivent la pente, chemin de ronde couvert, 13 tours OSM avec toits en pyramide ;
+- nouvelle scène « La muraille descend vers la Volga » sur l'accueil, scène kremlin allongée sur la page Nijni, noms des tours, chiffres calculés ;
+- correctif : les bâtiments OSM en plusieurs parties ne s'allument plus hors du monument ;
+- 37 tests, build de production.

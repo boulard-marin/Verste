@@ -46,6 +46,12 @@ export type Scene = {
   objects?: { id: string; rise: [number, number] }[];
   /** Light at the start and the end of the scene: -1 dawn, 0 default, 1 deep night. */
   night?: [number, number];
+  /** Relief exaggeration (Nizhny sits on a bluff above the Volga). */
+  terrain?: number;
+  /** Fortresses whose tower names are shown (the Nizhny kremlin). */
+  labels?: string[];
+  /** Computed figures shown with the scene, each with its method. */
+  figures?: { value: string; label: string; note: string }[];
   media?: string[];
   /** Time labels for a timed photo sequence (Poklonnaïa: 18 h 36 → 19 h 38). */
   mediaTimes?: string[];
