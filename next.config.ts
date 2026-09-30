@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
   // A stray package-lock.json in the user's home folder would otherwise be
   // picked up as the workspace root.
   turbopack: { root: process.cwd() },
+  images: { formats: ["image/avif", "image/webp"] },
   experimental: {
     // The project lives in a OneDrive folder: a persistent compiler cache
     // would be re-uploaded on every change. The project is small enough for

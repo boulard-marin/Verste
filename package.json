@@ -9,7 +9,9 @@
     "lint": "eslint",
     "test": "node --test \"lib/**/*.test.ts\"",
     "media:process": "node scripts/media/process.ts",
-    "media:check": "node scripts/media/check.ts"
+    "media:check": "node scripts/media/check.ts",
+    "predev": "node scripts/vendor-maplibre.mjs",
+    "prebuild": "node scripts/vendor-maplibre.mjs"
   },
   "dependencies": {
     "d3-geo": "^3.1.1",

@@ -354,3 +354,100 @@
     stroke-dashoffset: 0;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Russia Travel Map — markers and MapLibre controls in the VERSTE palette.
+   Markers are DOM buttons created by components/map/RussiaTravelMap.tsx.
+   -------------------------------------------------------------------------- */
+
+@layer components {
+  .verste-place {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem;
+    color: #eef2f8;
+    cursor: pointer;
+    background: none;
+    border: 0;
+  }
+  .verste-place-dot {
+    display: block;
+    width: 10px;
+    height: 10px;
+    background: #d5dfea;
+    box-shadow: 0 0 0 3px rgb(12 15 20 / 0.75);
+    transition: transform var(--duration-fast) var(--ease-verste), background-color var(--duration-fast);
+  }
+  .verste-place[data-group="sport"] .verste-place-dot { background: #8fb3d9; }
+  .verste-place[data-group="nature"] .verste-place-dot { background: #9fc3a4; }
+  .verste-place[data-group="table"] .verste-place-dot { background: #e0c48a; }
+  .verste-place-label {
+    display: none;
+    padding: 0.2rem 0.45rem;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    background: rgb(12 15 20 / 0.82);
+    border-radius: 3px;
+  }
+  .verste-place.show-label .verste-place-label,
+  .verste-place:hover .verste-place-label,
+  .verste-place:focus-visible .verste-place-label { display: block; }
+  .verste-place:hover .verste-place-dot,
+  .verste-place.is-selected .verste-place-dot { transform: scale(1.35); background: var(--color-carmine-signal); }
+  .verste-place:focus-visible { outline: 2px solid var(--color-carmine-signal); outline-offset: 2px; border-radius: 4px; }
+
+  .verste-city {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.25rem;
+    color: #eef2f8;
+    text-align: left;
+    cursor: pointer;
+    background: none;
+    border: 0;
+  }
+  .verste-city-post {
+    width: 3px;
+    height: 34px;
+    background: repeating-linear-gradient(to bottom, #eef2f8 0 6px, var(--color-carmine-signal) 6px 12px);
+    box-shadow: 0 0 0 2px rgb(12 15 20 / 0.7);
+  }
+  .verste-city-names { display: flex; flex-direction: column; text-shadow: 0 1px 8px rgb(0 0 0 / 0.9); }
+  .verste-city-ru {
+    font-family: var(--font-display);
+    font-variation-settings: "wdth" 70;
+    font-size: 1.15rem;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .verste-city-fr { margin-top: 0.2rem; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: #a9b8cc; }
+  .verste-city.is-soon { cursor: default; opacity: 0.55; }
+  .verste-city.is-soon .verste-city-post { background: #a9b8cc; }
+  .verste-city:focus-visible { outline: 2px solid var(--color-carmine-signal); outline-offset: 3px; }
+
+  .verste-stop {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #0c0f14;
+    background: var(--color-carmine-signal);
+    border: 2px solid #0c0f14;
+    border-radius: 999px;
+  }
+
+  .maplibregl-ctrl-group { background: rgb(12 15 20 / 0.85) !important; border: 1px solid rgb(213 223 234 / 0.14); box-shadow: none !important; }
+  .maplibregl-ctrl-group button + button { border-top-color: rgb(213 223 234 / 0.14) !important; }
+  .maplibregl-ctrl-group button .maplibregl-ctrl-icon { filter: invert(1) brightness(0.9); }
+  .maplibregl-ctrl-attrib { background: rgb(12 15 20 / 0.75) !important; color: #a9b8cc; }
+  .maplibregl-ctrl-attrib a { color: #c9d5e6; }
+  .maplibregl-ctrl-attrib-button { filter: invert(1); }
+}

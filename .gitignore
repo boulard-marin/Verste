@@ -46,3 +46,6 @@ next-env.d.ts
 
 # Founder originals (GPS in metadata): never committed
 /media-src/
+
+# Copied from node_modules by scripts/vendor-maplibre.mjs
+/public/vendor/
