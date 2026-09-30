@@ -467,6 +467,33 @@
   .verste-hotspot:hover { border-color: rgb(213 223 234 / 0.6); }
   .verste-hotspot:focus-visible { outline: 2px solid var(--color-carmine-signal); outline-offset: 2px; }
 
+  /* The plane of the opening flight: a light silhouette above its shadow. */
+  .verste-plane,
+  .verste-plane-shadow { pointer-events: none; }
+  .verste-plane svg,
+  .verste-plane-shadow svg { display: block; width: 46px; height: 46px; transform: scale(var(--scale, 1)); }
+  .verste-plane svg { fill: #eef2f8; filter: drop-shadow(0 0 10px rgb(238 242 248 / 0.28)); }
+  .verste-plane-shadow svg { fill: #000; opacity: var(--shade, 0.45); filter: blur(2.5px); }
+  .verste-plane.is-hidden,
+  .verste-plane-shadow.is-hidden { visibility: hidden; }
+  @media (max-width: 1023px) {
+    .verste-plane svg,
+    .verste-plane-shadow svg { width: 36px; height: 36px; }
+  }
+
+  /* Marks: airports and cities, set in the brand's typography. */
+  .verste-mark { display: flex; align-items: center; gap: 0.6rem; pointer-events: none; }
+  .verste-mark.is-hidden { visibility: hidden; }
+  .verste-mark-dot { width: 11px; height: 11px; flex-shrink: 0; border: 2px solid #eef2f8; border-radius: 999px; background: #0c0f14; }
+  .verste-mark-text { display: flex; flex-direction: column; line-height: 1.05; text-shadow: 0 1px 14px rgb(12 15 20 / 0.95); }
+  .verste-mark-name { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; font-stretch: 62.5%; letter-spacing: 0.05em; color: #eef2f8; text-transform: uppercase; }
+  .verste-mark-ru { font-family: var(--font-display); font-size: 0.9rem; font-stretch: 78%; color: #c9d5e6; }
+  .verste-mark-sub { margin-top: 0.25rem; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.14em; color: #a9b8cc; text-transform: uppercase; }
+  @media (max-width: 1023px) {
+    .verste-mark-name { font-size: 1.1rem; }
+    .verste-mark-sub { display: none; }
+  }
+
   /* Tower names of a 3D kremlin: a thin mast from the tower to its name. */
   .verste-tower {
     display: flex;

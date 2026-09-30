@@ -39,7 +39,7 @@ export const nav: NavItem[] = [
 
 export const ctas = {
   build: { label: "Construire mon voyage", href: "/configurateur" },
-  explore: { label: "Entrer dans le voyage", href: "/#trajet" },
+  explore: { label: "Entrer dans le voyage", href: "/#voyage" },
 } as const;
 
 export const officialAdvice = {

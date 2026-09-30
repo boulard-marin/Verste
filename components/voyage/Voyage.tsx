@@ -7,13 +7,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { track } from "@/lib/analytics";
+import { formatKm } from "@/lib/format";
 import type { CameraView } from "@/lib/map/views";
 import { prefersReducedMotion, supportsWebGL } from "@/lib/map/views";
 import { scrollToY } from "@/lib/scroll";
 import type { LonLat } from "@/lib/travel/types";
 import { useTrip } from "@/lib/trip";
+import { flightState, routeProgress, type Legs } from "@/lib/voyage/flight";
 import type { Metro } from "@/lib/voyage/metro";
-import type { Highlight, MetroLine, Outline, Portal, Scene } from "@/lib/voyage/types";
+import type { Highlight, Mark, MetroLine, Outline, Portal, Scene } from "@/lib/voyage/types";
 import type { World } from "@/lib/voyage/world";
 
 import { EscalatorSequence } from "./EscalatorSequence";
@@ -46,6 +49,10 @@ type Props = {
   objects?: boolean;
   /** Stylised 3D fortresses on the relief (data/voyage/fortresses.ts), by id. */
   fortresses?: string;
+  /** Legs flown by the plane of the opening flight, by id (data/voyage/flight.ts). */
+  legs?: Legs;
+  /** Airports and cities drawn on the world. */
+  marks?: Mark[];
 };
 
 // Metro scene: the real escalator first, then the stylised station.
@@ -80,7 +87,7 @@ function cameraAt(keys: CameraView[], t: number): CameraView {
  * across surface scenes; the metro and the train replace it. Each scene has
  * an anchor (/#metro) so every moment can be linked and the back button works.
  */
-export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni Novgorod", scenes, highlights, outlines, line, train, escalator, objects = true, fortresses = "" }: Props) {
+export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni Novgorod", scenes, highlights, outlines, line, train, escalator, objects = true, fortresses = "", legs, marks }: Props) {
   const section = useRef<HTMLElement>(null);
   const mapBox = useRef<HTMLDivElement>(null);
   const metroCanvas = useRef<HTMLCanvasElement>(null);
@@ -91,6 +98,7 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
   const [worldFailed, setWorldFailed] = useState(false);
   const [view, setView] = useState({ i: 0, local: 0 });
   const trip = useTrip();
+  const landed = useRef(false);
 
   const lengths = useMemo(() => scenes.map((s) => s.length), [scenes]);
   const total = useMemo(() => lengths.reduce((a, b) => a + b, 0), [lengths]);
@@ -114,7 +122,16 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
       const world = worldRef.current;
       const reduced = prefersReducedMotion();
       if (world && scene.environment === "monde" && scene.camera) {
-        world.setCamera(cameraAt(scene.camera, reduced ? 1 : local));
+        const state = scene.vehicle && legs ? flightState(scene.vehicle, reduced ? 1 : local, legs) : null;
+        const camera = cameraAt(scene.camera, reduced ? 1 : local);
+        world.setCamera(state && scene.vehicle?.follow ? { ...camera, center: state.at } : camera);
+        world.setVehicle(state);
+        if (legs) world.setRoute(routeProgress(scenes, i, state, legs));
+        world.setMarks(scene.marks ?? []);
+        if (state && scene.vehicle?.leg === "ist-svo" && state.t > 0.97 && !landed.current) {
+          landed.current = true;
+          track("route_completed");
+        }
         world.setHighlights(scene.highlights ?? []);
         world.setOutlines(scene.outlines ?? []);
         const [n0, n1] = scene.night ?? [0, 0];
@@ -129,7 +146,7 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
         metro.render(clamp01((local - ESCALATOR_END) / (1 - ESCALATOR_END)));
       }
     },
-    [scenes],
+    [scenes, legs],
   );
 
   const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end end"] });
@@ -160,7 +177,7 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
     const ids = fortresses ? fortresses.split(",") : [];
     Promise.all([import("@/lib/voyage/world"), ids.length ? import("@/data/voyage/fortresses") : null])
       .then(([{ createWorld }, data]) =>
-        createWorld(mapBox.current!, { highlights, outlines, start: first, objects, fortresses: ids.flatMap((id) => (data?.fortresses[id] ? [data.fortresses[id]] : [])) }),
+        createWorld(mapBox.current!, { highlights, outlines, start: first, objects, marks, fortresses: ids.flatMap((id) => (data?.fortresses[id] ? [data.fortresses[id]] : [])) }),
       )
       .then((world) => {
         if (cancelled) return world.destroy();
@@ -178,7 +195,7 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
       worldRef.current?.destroy();
       worldRef.current = null;
     };
-  }, [near, scenes, highlights, outlines, objects, fortresses, locate, drive, scrollYProgress]);
+  }, [near, scenes, highlights, outlines, objects, fortresses, marks, locate, drive, scrollYProgress]);
 
   // The metro is built when its scene is next door.
   const metroNear = metroIndex >= 0 && Math.abs(view.i - metroIndex) <= 1;
@@ -282,12 +299,31 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
           </p>
         )}
 
+        {/* The flight: distance flown, and how the line is drawn */}
+        {env === "monde" && scene.vehicle && legs?.[scene.vehicle.leg] && (
+          <FlightCounter state={flightState(scene.vehicle, view.local, legs)} basis={legs[scene.vehicle.leg]!.basis} />
+        )}
+
         {scene.id === "poklonnaia" && <TimedPhotos scene={scene} local={view.local} />}
         {env === "metro" && line && <MetroUI line={line} local={metroLocal} p3d={metro3d} onBoard={() => goTo("metro", 0.56)} media={scene.resolved} />}
 
         <JourneyIndex scenes={scenes} current={view.i} onGo={goTo} light={env === "fin"} />
       </div>
     </section>
+  );
+}
+
+function FlightCounter({ state, basis }: { state: ReturnType<typeof flightState>; basis: string }) {
+  if (!state) return null;
+  return (
+    <div className="pointer-events-none absolute z-10 max-lg:top-[4.75rem] max-lg:left-4 max-lg:flex max-lg:items-baseline max-lg:gap-3 lg:right-16 lg:bottom-10 lg:text-right">
+      <p className="font-mono text-[clamp(1.15rem,3.4vw,3.2rem)] leading-none tabular text-fg">{formatKm(state.km)}</p>
+      <p className="label text-fg-2 lg:mt-2">
+        <span className="max-lg:hidden">À vol d&apos;oiseau depuis Paris</span>
+        <span className="lg:hidden">à vol d&apos;oiseau</span>
+      </p>
+      <p className="label mt-1 text-fg-2/80 max-lg:hidden">{basis}</p>
+    </div>
   );
 }
 

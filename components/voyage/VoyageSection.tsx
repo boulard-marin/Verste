@@ -1,4 +1,5 @@
 import { getJourney } from "@/data/travel/journeys";
+import { flightLegs, flightMarks } from "@/data/voyage/flight";
 import { highlights, metroLine1, outlines, scenes } from "@/data/voyage/scenes";
 import { photoOf } from "@/lib/map/data";
 import { lineKm } from "@/lib/travel/geo";
@@ -37,6 +38,9 @@ export function VoyageSection() {
       train={{ path: rail.path, stations, duration: `${rail.duration?.value ?? ""} (à recouper sur rzd.ru)` }}
       escalator={sequence}
       fortresses="kremlin-nijni"
+      label="Le voyage, de Paris à Nijni Novgorod"
+      legs={flightLegs}
+      marks={flightMarks}
     />
   );
 }

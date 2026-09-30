@@ -13,11 +13,14 @@ export const OPENFREEMAP_GLYPHS = "https://tiles.openfreemap.org/fonts/{fontstac
 export const TERRAIN_TILES = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png";
 export const TERRAIN_ATTRIBUTION = "Relief : Terrain Tiles (Mapzen, AWS)";
 
+/** The globe's atmosphere: visible from space, gone once the camera is over a city. */
+const ATMOSPHERE: ExpressionSpecification = ["interpolate", ["linear"], ["zoom"], 0, 1, 5, 0.85, 8, 0];
+
 /** Sky and horizon, by light: the default night blue, deep night, dawn over the Volga. */
 export const skies = {
-  night: { "sky-color": "#08101f", "horizon-color": "#1d3b6e", "fog-color": "#0f141c", "sky-horizon-blend": 0.55, "horizon-fog-blend": 0.5, "fog-ground-blend": 0.75, "atmosphere-blend": 0 },
-  deep: { "sky-color": "#05070b", "horizon-color": "#15223a", "fog-color": "#07090d", "sky-horizon-blend": 0.5, "horizon-fog-blend": 0.45, "fog-ground-blend": 0.8, "atmosphere-blend": 0 },
-  dawn: { "sky-color": "#3f5f8f", "horizon-color": "#f0c9a0", "fog-color": "#27344a", "sky-horizon-blend": 0.7, "horizon-fog-blend": 0.6, "fog-ground-blend": 0.65, "atmosphere-blend": 0 },
+  night: { "sky-color": "#08101f", "horizon-color": "#1d3b6e", "fog-color": "#0f141c", "sky-horizon-blend": 0.55, "horizon-fog-blend": 0.5, "fog-ground-blend": 0.75, "atmosphere-blend": ATMOSPHERE },
+  deep: { "sky-color": "#05070b", "horizon-color": "#15223a", "fog-color": "#07090d", "sky-horizon-blend": 0.5, "horizon-fog-blend": 0.45, "fog-ground-blend": 0.8, "atmosphere-blend": ATMOSPHERE },
+  dawn: { "sky-color": "#3f5f8f", "horizon-color": "#f0c9a0", "fog-color": "#27344a", "sky-horizon-blend": 0.7, "horizon-fog-blend": 0.6, "fog-ground-blend": 0.65, "atmosphere-blend": ATMOSPHERE },
 } as const;
 
 /**
@@ -64,6 +67,8 @@ export function buildNightStyle(): StyleSpecification {
     version: 8,
     name: "VERSTE nuit",
     glyphs: OPENFREEMAP_GLYPHS,
+    // A globe from space (the opening flight, the whole of Russia), flat Mercator from zoom 12.
+    projection: { type: "globe" },
     sky: skies.night,
     light: { ...lights.night, position: [...lights.night.position] },
     sources: {
@@ -78,14 +83,15 @@ export function buildNightStyle(): StyleSpecification {
         source: "openmaptiles",
         "source-layer": "landcover",
         filter: ["match", ["get", "class"], ["wood", "forest"], true, false],
-        paint: { "fill-color": mapColors.wood, "fill-opacity": 0.9 },
+        // Faded in from zoom 6: from space the land stays one atlas tone, not a camouflage.
+        paint: { "fill-color": mapColors.wood, "fill-opacity": ["interpolate", ["linear"], ["zoom"], 6, 0, 9, 0.9] },
       },
       {
         id: "park",
         type: "fill",
         source: "openmaptiles",
         "source-layer": "park",
-        paint: { "fill-color": mapColors.park, "fill-opacity": 0.8 },
+        paint: { "fill-color": mapColors.park, "fill-opacity": ["interpolate", ["linear"], ["zoom"], 8, 0, 10, 0.8] },
       },
       {
         id: "hillshade",

@@ -3,10 +3,11 @@ import type { ExpressionSpecification, GeoJSONFeature, GeoJSONSource, Map as Map
 import { loadMapLibre } from "@/lib/map/load";
 import { buildNightStyle, lights, mapColors, skies } from "@/lib/map/style";
 import type { CameraView } from "@/lib/map/views";
+import { sliceAlong } from "@/lib/travel/geo";
 import type { LonLat } from "@/lib/travel/types";
 
 import { buildFortress, distanceToWall, towerAnchor, type Fortress } from "./fortress";
-import type { Highlight, Outline } from "./types";
+import type { Highlight, Mark, Outline } from "./types";
 
 /**
  * The persistent world of the journey: one MapLibre map for every surface
@@ -26,9 +27,22 @@ export type World = {
   setRise(objectId: string, t: number): void;
   /** Shows the tower names of these fortresses. */
   setLabels(fortressIds: string[]): void;
+  /** The plane (or nothing): where it is, where it points, how high it flies (0–1). */
+  setVehicle(v: VehicleState | null): void;
+  /** The red thread of the journey: each leg drawn up to its progress; planned legs dotted. */
+  setRoute(legs: RouteLeg[]): void;
+  /** Shows these marks (airports, cities), hides the others. */
+  setMarks(ids: string[]): void;
   resize(): void;
   destroy(): void;
 };
+
+export type VehicleState = { at: LonLat; heading: number; altitude: number };
+export type RouteLeg = { path: LonLat[]; t: number; showPlanned: boolean };
+
+/** A small plane seen from above, nose up. Pure outline of the brand: light body, no logo. */
+const PLANE_PATH =
+  "M32 4c1.9 0 3 2.6 3 6v13.2l20.5 11.6c.8.5 1.3 1.3 1.3 2.2v2.3l-21.8-6.3v11.5l6.6 4.9c.4.3.6.7.6 1.2V53L32 50.6 21.8 53v-2.4c0-.5.2-.9.6-1.2l6.6-4.9V33l-21.8 6.3V37c0-.9.5-1.7 1.3-2.2L29 23.2V10c0-3.4 1.1-6 3-6z";
 
 const R = 6371008.8;
 const rad = Math.PI / 180;
@@ -74,7 +88,7 @@ const LIT_GLASS: ExpressionSpecification = ["match", ["%", ["id"], 3], 0, "#f2c9
 
 export async function createWorld(
   container: HTMLElement,
-  opts: { highlights: Highlight[]; outlines: Outline[]; start: CameraView; interactive?: boolean; objects?: boolean; fortresses?: Fortress[] },
+  opts: { highlights: Highlight[]; outlines: Outline[]; start: CameraView; interactive?: boolean; objects?: boolean; fortresses?: Fortress[]; marks?: Mark[] },
 ): Promise<World> {
   const ml = await loadMapLibre();
   const map = new ml.Map({
@@ -112,6 +126,72 @@ export async function createWorld(
     layout: { "line-join": "round" },
     paint: { "line-color": "#e8485a", "line-width": ["interpolate", ["linear"], ["zoom"], 11, 1, 16, 2.5] },
   });
+
+  // ── The red thread and the plane ───────────────────────────────────────
+  map.addSource("journey", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+  map.addLayer({
+    id: "journey-planned",
+    type: "line",
+    source: "journey",
+    filter: ["==", ["get", "kind"], "planned"],
+    layout: { "line-cap": "round" },
+    paint: { "line-color": "#eef2f8", "line-opacity": 0.42, "line-width": 1.3, "line-dasharray": [0.6, 2.6] },
+  });
+  map.addLayer({
+    id: "journey-flown",
+    type: "line",
+    source: "journey",
+    filter: ["==", ["get", "kind"], "flown"],
+    layout: { "line-cap": "round", "line-join": "round" },
+    paint: { "line-color": "#e8485a", "line-width": ["interpolate", ["linear"], ["zoom"], 3, 2.2, 10, 3.2] },
+  });
+  let routeKey = "";
+
+  const planeEl = document.createElement("div");
+  planeEl.className = "verste-plane is-hidden";
+  planeEl.setAttribute("aria-hidden", "true");
+  planeEl.innerHTML = `<svg viewBox="0 0 64 64"><path d="${PLANE_PATH}"/></svg>`;
+  const shadowEl = document.createElement("div");
+  shadowEl.className = "verste-plane-shadow is-hidden";
+  shadowEl.setAttribute("aria-hidden", "true");
+  shadowEl.innerHTML = planeEl.innerHTML;
+  const markerOptions = { rotationAlignment: "map" as const, pitchAlignment: "map" as const };
+  const shadow = new ml.Marker({ element: shadowEl, ...markerOptions }).setLngLat([0, 0]).addTo(map);
+  const plane = new ml.Marker({ element: planeEl, ...markerOptions }).setLngLat([0, 0]).addTo(map);
+  let vehicleOn = false;
+
+  // ── Marks: airports and cities, in the brand's typography ──────────────
+  const marks = new Map<string, HTMLElement>();
+  for (const m of opts.marks ?? []) {
+    const el = document.createElement("div");
+    el.className = `verste-mark is-${m.kind} is-hidden`;
+    el.setAttribute("aria-hidden", "true");
+    const dot = document.createElement("span");
+    dot.className = "verste-mark-dot";
+    const text = document.createElement("span");
+    text.className = "verste-mark-text";
+    const name = document.createElement("span");
+    name.className = "verste-mark-name";
+    name.textContent = m.name;
+    text.append(name);
+    if (m.ru) {
+      const ru = document.createElement("span");
+      ru.className = "verste-mark-ru";
+      ru.lang = "ru";
+      ru.textContent = m.ru;
+      text.append(ru);
+    }
+    if (m.sub) {
+      const sub = document.createElement("span");
+      sub.className = "verste-mark-sub";
+      sub.textContent = m.sub;
+      text.append(sub);
+    }
+    el.append(dot, text);
+    new ml.Marker({ element: el, anchor: "left", offset: [-6, 0] }).setLngLat([m.at[0], m.at[1]]).addTo(map);
+    marks.set(m.id, el);
+  }
+  let marksKey = "";
 
   // ── 3D objects (three.js, loaded with the first object) ────────────────
   const risers: Record<string, (t: number) => void> = {};
@@ -293,9 +373,13 @@ export async function createWorld(
   return {
     map,
     setCamera(v) {
-      // On phones the scene text covers the lower half: the camera looks at the upper part.
-      const narrow = container.clientWidth < 1024;
-      const padding = { top: narrow ? 56 : 0, bottom: narrow ? Math.round(container.clientHeight * 0.42) : 0, left: 0, right: 0 };
+      // The scene text covers the lower half on phones and the left column on
+      // large screens: the camera looks at the free part of the screen.
+      const w = container.clientWidth;
+      const narrow = w < 1024;
+      const padding = narrow
+        ? { top: 56, bottom: Math.round(container.clientHeight * 0.42), left: 0, right: 0 }
+        : { top: 0, bottom: 0, left: Math.round(Math.min(520, w * 0.44) * 0.8), right: 0 };
       map.jumpTo({ center: [v.center[0], v.center[1]], zoom: v.zoom, pitch: v.pitch ?? 0, bearing: v.bearing ?? 0, padding });
       if (shownLabels) placeLabels();
     },
@@ -327,6 +411,48 @@ export async function createWorld(
     },
     setRise(id, t) {
       risers[id]?.(t);
+    },
+    setVehicle(v) {
+      if (!v) {
+        if (vehicleOn) {
+          vehicleOn = false;
+          planeEl.classList.add("is-hidden");
+          shadowEl.classList.add("is-hidden");
+        }
+        return;
+      }
+      if (!vehicleOn) {
+        vehicleOn = true;
+        planeEl.classList.remove("is-hidden");
+        shadowEl.classList.remove("is-hidden");
+      }
+      // The plane climbs above its shadow (screen space) and grows a little.
+      const lift = Math.round(v.altitude * 46);
+      plane.setLngLat([v.at[0], v.at[1]]).setRotation(v.heading).setOffset([0, -lift]);
+      shadow.setLngLat([v.at[0], v.at[1]]).setRotation(v.heading);
+      planeEl.style.setProperty("--scale", String(0.78 + 0.42 * v.altitude));
+      shadowEl.style.setProperty("--scale", String(0.78 + 0.1 * v.altitude));
+      shadowEl.style.setProperty("--shade", String(0.5 - 0.3 * v.altitude));
+    },
+    setRoute(legs) {
+      const key = legs.map((l) => `${l.t.toFixed(4)}${l.showPlanned ? "p" : ""}`).join("|");
+      if (key === routeKey) return;
+      routeKey = key;
+      const features: GeoJSON.Feature[] = [];
+      for (const l of legs) {
+        if (l.showPlanned) features.push({ type: "Feature", properties: { kind: "planned" }, geometry: { type: "LineString", coordinates: l.path.map((q) => [q[0], q[1]]) } });
+        if (l.t > 0) {
+          const flown = sliceAlong(l.path, l.t);
+          if (flown.length > 1) features.push({ type: "Feature", properties: { kind: "flown" }, geometry: { type: "LineString", coordinates: flown.map((q) => [q[0], q[1]]) } });
+        }
+      }
+      (map.getSource("journey") as GeoJSONSource | undefined)?.setData({ type: "FeatureCollection", features });
+    },
+    setMarks(ids) {
+      const key = ids.join();
+      if (key === marksKey) return;
+      marksKey = key;
+      for (const [id, el] of marks) el.classList.toggle("is-hidden", !ids.includes(id));
     },
     setLabels(ids) {
       const key = ids.join();

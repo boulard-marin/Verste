@@ -1,10 +1,14 @@
 import type { Highlight, MetroLine, Outline, Scene } from "@/lib/voyage/types";
 
-import { kremlinNijniFigures } from "./kremlin-nijni";
-import { kremlinMoscou, kremlinNijni } from "./outlines";
+import { formatKm } from "../../lib/format.ts";
+
+import { flightLegs, flightTotalKm } from "./flight.ts";
+import { kremlinNijniFigures } from "./kremlin-nijni.ts";
+import { kremlinMoscou, kremlinNijni } from "./outlines.ts";
 
 /**
- * LE VOYAGE — Moscou → Nijni Novgorod, as the visitor lives it.
+ * LE VOYAGE — Paris → Moscou → Nijni Novgorod, as the visitor lives it:
+ * the flight over the globe, then the city.
  * Day to night in Moscow, the train at dawn, the Volga in the morning light:
  * « De la nuit à l'aube ». Texts state facts only; figures come from
  * data/travel (sourced, dated) or are computed on screen.
@@ -48,19 +52,79 @@ export const metroLine1: MetroLine = {
   ],
 };
 
+const legKm = (id: keyof typeof flightLegs) => formatKm(flightLegs[id].km);
+
 export const scenes: Scene[] = [
+  // ── The flight: the plane flies as the visitor scrolls ──────────────────
+  {
+    id: "paris",
+    environment: "monde",
+    kicker: "Départ · Paris-Charles-de-Gaulle",
+    title: "Paris",
+    text: "Il n'y a plus de vol direct vers la Russie. Il y a toujours un chemin.",
+    camera: [
+      { center: [2.5479, 49.0097], zoom: 5.2, pitch: 30, bearing: 20 },
+      { center: [15, 46], zoom: 3.5, pitch: 44, bearing: 55 },
+      { center: [28.75, 41.28], zoom: 5.4, pitch: 42, bearing: 70 },
+    ],
+    vehicle: { kind: "avion", leg: "cdg-ist", fly: [0.16, 0.96], follow: true },
+    marks: ["paris", "istanbul", "moscou"],
+    figures: [{ value: legKm("cdg-ist"), label: "Paris → Istanbul", note: "à vol d'oiseau, calculé" }],
+    media: ["trajet-hublot"],
+    portals: [],
+    length: 1.9,
+  },
+  {
+    id: "istanbul",
+    environment: "monde",
+    kicker: "Escale",
+    title: "Istanbul",
+    text: "Une escale parmi d'autres : Belgrade, Erevan, Dubaï.",
+    camera: [
+      { center: [28.75, 41.28], zoom: 5.4, pitch: 42, bearing: 70 },
+      { center: [28.75, 41.28], zoom: 6.6, pitch: 50, bearing: 24 },
+    ],
+    vehicle: { kind: "avion", leg: "ist-svo", park: 0, turnFrom: "cdg-ist", follow: true },
+    marks: ["paris", "istanbul", "moscou"],
+    media: ["trajet-hublot"],
+    portals: [],
+    length: 0.9,
+  },
+  {
+    id: "cap-au-nord",
+    environment: "monde",
+    kicker: "Cap au nord",
+    title: "Vers Moscou",
+    text: "La mer Noire, puis les plaines. Le paysage change d'échelle.",
+    camera: [
+      { center: [28.75, 41.28], zoom: 6.6, pitch: 50, bearing: 24 },
+      { center: [37, 48], zoom: 3.9, pitch: 46, bearing: 12 },
+      { center: [37.41, 55.97], zoom: 7.4, pitch: 44, bearing: 0 },
+    ],
+    vehicle: { kind: "avion", leg: "ist-svo", fly: [0.04, 0.95], follow: true },
+    marks: ["istanbul", "moscou"],
+    figures: [
+      { value: legKm("ist-svo"), label: "Istanbul → Moscou", note: "à vol d'oiseau, calculé" },
+      { value: formatKm(flightTotalKm), label: "Depuis Paris", note: "tracé du vol stylisé" },
+    ],
+    media: ["trajet-hublot"],
+    portals: [],
+    length: 1.9,
+  },
   {
     id: "moscou",
     environment: "monde",
     kicker: "Jour 1 · l'arrivée",
     title: "Moscou",
     ru: "Москва",
-    text: "La ligne rouge se pose. En bas, la Moskova dessine ses boucles et la ville s'organise en anneaux autour d'un seul point.",
+    text: "La ligne rouge se pose à Cheremetievo. En bas, la Moskova dessine ses boucles et la ville s'organise en anneaux autour d'un seul point.",
     camera: [
-      { center: [37.62, 55.75], zoom: 5.6, pitch: 0, bearing: 0 },
-      { center: [37.617, 55.752], zoom: 9.4, pitch: 10, bearing: -4 },
+      { center: [37.41, 55.97], zoom: 7.4, pitch: 44, bearing: 0 },
+      { center: [37.5, 55.86], zoom: 9.6, pitch: 30, bearing: -6 },
       { center: [37.6175, 55.7525], zoom: 11.6, pitch: 32, bearing: -10 },
     ],
+    vehicle: { kind: "avion", leg: "ist-svo", park: 1 },
+    marks: ["moscou"],
     media: ["moscou-arrivee-moscow-city"],
     portals: [{ verb: "S'approcher", label: "S'approcher du Kremlin", to: { scene: "kremlin" } }],
     length: 2,

@@ -31,6 +31,26 @@ export type Highlight = {
 
 export type Outline = { id: string; ring: LonLat[] };
 
+/** A named point drawn on the world (airports, cities), shown by the scenes that list it. */
+export type Mark = { id: string; at: LonLat; name: string; ru?: string; sub?: string; kind: "airport" | "city" };
+
+/**
+ * A vehicle crossing the world while the scene plays: the plane of the
+ * opening flight. It flies its leg during `fly` (local progress window),
+ * waits on the ground outside it, or stays parked for the whole scene.
+ */
+export type SceneVehicle = {
+  kind: "avion";
+  leg: string;
+  fly?: [number, number];
+  /** Parked for the whole scene at the start (0) or the end (1) of the leg. */
+  park?: 0 | 1;
+  /** Turns on the ground from the end heading of this leg (the stopover). */
+  turnFrom?: string;
+  /** The camera centre follows the vehicle. */
+  follow?: boolean;
+};
+
 export type Scene = {
   id: string;
   environment: Environment;
@@ -50,6 +70,9 @@ export type Scene = {
   terrain?: number;
   /** Fortresses whose tower names are shown (the Nizhny kremlin). */
   labels?: string[];
+  vehicle?: SceneVehicle;
+  /** Marks (airports, cities) shown on the world during the scene. */
+  marks?: string[];
   /** Computed figures shown with the scene, each with its method. */
   figures?: { value: string; label: string; note: string }[];
   media?: string[];

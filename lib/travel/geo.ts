@@ -78,6 +78,33 @@ export function greatCircle(a: LonLat, b: LonLat, steps = 64): LonLat[] {
   return out;
 }
 
+/** Initial great-circle bearing from a to b, in degrees clockwise from north. */
+export function bearingDeg(a: LonLat, b: LonLat): number {
+  const [l1, p1, l2, p2] = [a[0] * rad, a[1] * rad, b[0] * rad, b[1] * rad];
+  const y = Math.sin(l2 - l1) * Math.cos(p2);
+  const x = Math.cos(p1) * Math.sin(p2) - Math.sin(p1) * Math.cos(p2) * Math.cos(l2 - l1);
+  return ((Math.atan2(y, x) / rad) + 360) % 360;
+}
+
+/**
+ * A smooth curve through control points (uniform Catmull-Rom, in
+ * lon/lat). For stylised routes only: never presented as a real track.
+ */
+export function smoothPath(points: readonly LonLat[], stepsPerSegment = 24): LonLat[] {
+  if (points.length < 3) return [...points];
+  const out: LonLat[] = [];
+  for (let i = 0; i < points.length - 1; i++) {
+    const p0 = points[Math.max(0, i - 1)]!, p1 = points[i]!, p2 = points[i + 1]!, p3 = points[Math.min(points.length - 1, i + 2)]!;
+    for (let k = 0; k < stepsPerSegment; k++) {
+      const t = k / stepsPerSegment, t2 = t * t, t3 = t2 * t;
+      const f = (a: number, b: number, c: number, d: number) => 0.5 * (2 * b + (-a + c) * t + (2 * a - 5 * b + 4 * c - d) * t2 + (-a + 3 * b - 3 * c + d) * t3);
+      out.push([f(p0[0], p1[0], p2[0], p3[0]), f(p0[1], p1[1], p2[1], p3[1])]);
+    }
+  }
+  out.push(points[points.length - 1]!);
+  return out;
+}
+
 export function bbox(points: readonly LonLat[]): [LonLat, LonLat] {
   let [minX, minY, maxX, maxY] = [Infinity, Infinity, -Infinity, -Infinity];
   for (const [x, y] of points) {

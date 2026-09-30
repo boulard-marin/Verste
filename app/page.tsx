@@ -6,7 +6,6 @@ import { HeroScene } from "@/components/home/HeroScene";
 import { OffersScene } from "@/components/home/OffersScene";
 import { PositioningScene } from "@/components/home/PositioningScene";
 import { TodayScene } from "@/components/home/TodayScene";
-import { RouteScene } from "@/components/itinerary/RouteScene";
 import { SurfaceBridge } from "@/components/ui/SurfaceBridge";
 import { VoyageSection } from "@/components/voyage/VoyageSection";
 
@@ -20,9 +19,8 @@ export default function HomePage() {
     <>
       {/* Entrer — nuit */}
       <HeroScene />
-      <RouteScene />
 
-      {/* Traverser — Moscou, le métro, le train, Nijni à l'aube */}
+      {/* Traverser — le vol, Moscou, le métro, le train, Nijni à l'aube */}
       <VoyageSection />
 
       {/* Avant de partir — le cadre, puis ce que nous préparons */}
