@@ -107,6 +107,12 @@ export default async function PlacePage({ params }: PageProps<"/lieux/[id]">) {
             {place.ru}
           </p>
           <p className="mt-8 max-w-[52ch] text-lead text-fg">{place.summary}</p>
+          {mapCities.find((c) => c.id === place.cityId)?.status === "destination" && (
+            <p className="label mt-4 flex items-center gap-2 text-fg-2">
+              <span aria-hidden="true" className="size-2.5 rounded-full border-2 border-current" />
+              Destination VERSTE · préparée sur sources, pas encore vécue sur le terrain
+            </p>
+          )}
 
           <div className="mt-8 flex flex-wrap gap-3">
             <AddToTripButton placeId={place.id} />

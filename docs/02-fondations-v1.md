@@ -508,3 +508,15 @@ Voir [06-v2.2-monde-interactif.md](06-v2.2-monde-interactif.md), section F :
 - nouvelle scène « La muraille descend vers la Volga » sur l'accueil, scène kremlin allongée sur la page Nijni, noms des tours, chiffres calculés ;
 - correctif : les bâtiments OSM en plusieurs parties ne s'allument plus hors du monument ;
 - 37 tests, build de production.
+
+### V3 · Une expérience de voyage vivante · 30/09/2026
+
+Voir [07-v3-experience-vivante.md](07-v3-experience-vivante.md) :
+- fondateur réel (sans placeholders), logo V3, premier écran hiérarchisé ;
+- l'avion sur le globe (Paris → Istanbul → Moscou, piloté par le défilement) ;
+- Kremlin de Moscou en 3D, hub à explorer (hotspots), Saint-Basile en huit temps ;
+- métro de la surface au nouveau quartier, station après station ;
+- Russia Travel Map refaite : Saint-Pétersbourg et Kazan, voyage animé depuis Moscou, palettes par ville, météo du moment ;
+- configurateur qui compose le voyage sous les yeux ;
+- suite du voyage à Nijni (La Grande Verste, hockey, forêt) et « D'autres Russie » ;
+- audit 390 / 768 / 1280 / 1440 : aucun débordement ; 59 tests.

@@ -2,7 +2,7 @@
 
 # VERSTE
 
-Site de préparation de voyages en Russie (travel planner indépendant). Sources de vérité : `docs/01-dossier-fondateur.html` (stratégie), `docs/02-fondations-v1.md` (marque, design system, plan V1, journal d'implémentation), `docs/03-audit.md` (audits), `docs/04-v2-experience-immersive.md` (cadrage V2), `docs/05-inventaire-medias.md` (médias) et `docs/06-v2.2-monde-interactif.md` (architecture Scène / Portail / Destination / Trajet). Mettre à jour le journal du §10 à chaque incrément.
+Site de préparation de voyages en Russie (travel planner indépendant). Sources de vérité : `docs/01-dossier-fondateur.html` (stratégie), `docs/02-fondations-v1.md` (marque, design system, plan V1, journal d'implémentation), `docs/03-audit.md` (audits), `docs/04-v2-experience-immersive.md` (cadrage V2), `docs/05-inventaire-medias.md` (médias), `docs/06-v2.2-monde-interactif.md` (monde interactif) et `docs/07-v3-experience-vivante.md` (V3 : architecture Scène / Portail, décisions bibliothèques et API). Mettre à jour le journal du §10 à chaque incrément.
 
 ## Règles non négociables
 
@@ -11,7 +11,9 @@ Site de préparation de voyages en Russie (travel planner indépendant). Sources
 - Ne jamais promettre WhatsApp (bloqué en Russie depuis février 2026) ; l'assistance et le carnet doivent tolérer une connexion dégradée.
 - Aucun témoignage, chiffre ou fait biographique inventé. Tout média déclare `kind: "verste" | "illustrative"` dans `data/media.ts`.
 - Aucun média publié ne garde ses métadonnées : les originaux du fondateur contiennent le GPS de son logement. Les originaux ne sont jamais commités (`media-src/` ignoré) ; un lieu ne se déduit jamais d'un EXIF.
-- Toute distance affichée est calculée (`lib/geo.ts`, `lib/travel/geo.ts`) et libellée.
+- Toute distance affichée est calculée (`lib/geo.ts`, `lib/travel/geo.ts`) et libellée. Tout tracé se déclare réel, indicatif ou schématique (le vol Istanbul → Moscou est stylisé).
+- Villes vécues sur le terrain (Moscou, Nijni) et destinations préparées sur sources (Saint-Pétersbourg, Kazan) ne se mélangent jamais : pas de note de terrain sur une ville préparée.
+- Les textes des hotspots viennent des fiches de lieux (`data/travel`), jamais réécrits. Les API tierces dynamiques (météo) passent par une route serveur revalidée : le navigateur ne contacte aucun tiers.
 - Données personnelles : ne jamais envoyer d'e-mail, de nom, d'adresse ni aucune donnée personnelle à une API externe (géocodage, tuiles, recherche, analytics) ; une requête de géocodage ne contient que la recherche géographique, avec un User-Agent générique. Aucune donnée personnelle dans les URL, les logs ou les événements d'analytics.
 
 ## Design system
