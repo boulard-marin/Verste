@@ -193,7 +193,7 @@ Retenu : des modèles dérivés d'OpenStreetMap (ODbL) et procéduraux. C'est l�
    - Distance entre les villes : à vol d'oiseau, calculée.
    - Horaire 754А relevé le 30/09/2026, à confirmer.
    - Le soir tombe et la ville passe en nuits blanches (`tone`) : ciel pâle, Neva argentée.
-2. **L'arrivée** par la perspective Nevski, vers la flèche de l'Amirauté.
+2. **L'arrivée** par la perspective Nevski. La scène s'arrête au canal Griboïedov, face à l'avenue qui file jusqu'à la flèche de l'Amirauté ; la suivante tourne vers le Sauveur.
 3. **Le Sauveur-sur-le-Sang-Versé**, au bout du canal Griboïedov : toit en tente de 81 m, quatre bulbes émaillés aux motifs de la source, clocher doré, trois absides. Neuf bulbes.
 4. **La place du Palais** :
    - la colonne Alexandre : 47,5 m, fût de 25,6 m ;
@@ -222,7 +222,7 @@ Sur grand écran, les scènes `gallery` les montrent en grand dans la colonne de
 
 **Contrôles.**
 - 62 tests (Sapsan : au sol, de gare à gare, kilomètres du tracé, seul son tracé prévu en pointillé).
-- Aucun débordement à 390, 1280 et 1440 px.
+- Aucun débordement à 390, 768, 1280 et 1440 px (accueil, carte, fiches de Saint-Pétersbourg). Sur tablette, vignette, compteur et mentions passent sous l'en-tête plus haut (80 px).
 - `media:check` sans métadonnée de lieu.
 - Scènes vérifiées une à une dans le navigateur.
 

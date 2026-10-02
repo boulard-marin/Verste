@@ -594,6 +594,8 @@ export const scenes: Scene[] = [
       { center: [30.36243, 59.92872], zoom: 10.2, pitch: 44, bearing: -40 },
       { center: [30.3565, 59.9302], zoom: 14.4, pitch: 60, bearing: -74 },
       { center: [30.3385, 59.9334], zoom: 15.3, pitch: 66, bearing: -77 },
+      // At the Griboyedov canal, the avenue runs on to the Admiralty spire.
+      { center: [30.3215, 59.9358], zoom: 15.8, pitch: 72, bearing: -77 },
     ],
     tone: [1, 1],
     modelNote: SPB_MODELS,
@@ -611,7 +613,7 @@ export const scenes: Scene[] = [
     ru: "Спас на Крови",
     text: "Au bout du canal, l'église bâtie là où Alexandre II fut mortellement blessé, en 1881. Neuf bulbes : le toit en tente central culmine à 81 m, quatre bulbes émaillés l'entourent, le clocher porte un bulbe doré.",
     camera: [
-      { center: [30.3385, 59.9334], zoom: 15.3, pitch: 66, bearing: -77 },
+      { center: [30.3215, 59.9358], zoom: 15.8, pitch: 72, bearing: -77 },
       { center: [30.3255, 59.9368], zoom: 16.2, pitch: 62, bearing: 15 },
       { center: [30.32896, 59.94027], zoom: 17, pitch: 64, bearing: 20 },
       { center: [30.32926, 59.94004], zoom: 17.2, pitch: 66, bearing: 95 },

@@ -391,7 +391,7 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
 
         {/* The relief is exaggerated and the models are stylised: say so. */}
         {env === "monde" && (scene.terrain || scene.modelNote) && worldReady && !worldFailed && (
-          <p className={`label pointer-events-none absolute right-4 bottom-9 z-10 text-fg-2 max-lg:top-20 max-lg:bottom-auto max-lg:max-w-[46vw] ${scene.gallery ? "max-lg:right-auto max-lg:left-4" : "max-lg:text-right"}`}>
+          <p className={`label pointer-events-none absolute right-4 bottom-9 z-10 text-fg-2 max-lg:top-20 max-lg:bottom-auto max-lg:max-w-[46vw] md:max-lg:top-24 ${scene.gallery ? "max-lg:right-auto max-lg:left-4" : "max-lg:text-right"}`}>
             {scene.terrain ? `Relief exagéré ×${String(scene.terrain).replace(".", ",")}${scene.labels ? " · maquette stylisée" : ""}` : scene.modelNote}
           </p>
         )}
@@ -459,7 +459,7 @@ function FlightCounter({ state, basis, kind }: { state: ReturnType<typeof flight
   if (!state) return null;
   const [long, short] = kind === "train" ? ["Depuis Moscou, sur le tracé", "sur le tracé"] : ["À vol d'oiseau depuis Paris", "à vol d'oiseau"];
   return (
-    <div className="pointer-events-none absolute z-10 max-lg:top-[4.75rem] max-lg:left-4 max-lg:flex max-lg:items-baseline max-lg:gap-3 lg:right-16 lg:bottom-10 lg:text-right">
+    <div className="pointer-events-none absolute z-10 max-lg:top-[4.75rem] max-lg:left-4 max-lg:flex max-lg:items-baseline max-lg:gap-3 md:max-lg:top-24 lg:right-16 lg:bottom-10 lg:text-right">
       <p className="font-mono text-[clamp(1.15rem,3.4vw,3.2rem)] leading-none tabular text-fg">{formatKm(state.km)}</p>
       <p className="label text-fg-2 lg:mt-2">
         <span className="max-lg:hidden">{long}</span>
@@ -502,7 +502,7 @@ function PhoneGallery({ media, local }: { media: VoyageMedia[]; local: number })
   const k = galleryIndex(media.length, local);
   const m = media[k]!;
   return (
-    <figure className={`pointer-events-none absolute top-[4.5rem] right-3 z-10 w-[min(42vw,200px)] transition-opacity duration-base lg:hidden ${local < 0.5 ? "opacity-100" : "opacity-0"}`}>
+    <figure className={`pointer-events-none absolute top-[4.5rem] right-3 z-10 w-[min(42vw,200px)] md:top-24 transition-opacity duration-base lg:hidden ${local < 0.5 ? "opacity-100" : "opacity-0"}`}>
       <div className="relative aspect-[4/3] overflow-hidden rounded-[4px] border border-line">
         <GalleryFrames media={media} k={k} sizes="200px" />
       </div>
