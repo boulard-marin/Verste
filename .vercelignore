@@ -1,0 +1,13 @@
+# Never uploaded to Vercel: the founder's originals carry the GPS of his lodging.
+/media-src/
+
+# Local only
+/.claude/
+/.next/
+/node_modules/
+/.env*
+!/.env.example
+*.tsbuildinfo
+
+# Not needed to build the site
+/docs/
