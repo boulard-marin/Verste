@@ -24,6 +24,8 @@ export const skies = {
   night: { "sky-color": "#08101f", "horizon-color": "#1d3b6e", "fog-color": "#0f141c", "sky-horizon-blend": 0.55, "horizon-fog-blend": 0.5, "fog-ground-blend": 0.75, "atmosphere-blend": ATMOSPHERE },
   deep: { "sky-color": "#05070b", "horizon-color": "#15223a", "fog-color": "#07090d", "sky-horizon-blend": 0.5, "horizon-fog-blend": 0.45, "fog-ground-blend": 0.8, "atmosphere-blend": ATMOSPHERE },
   dawn: { "sky-color": "#3f5f8f", "horizon-color": "#f0c9a0", "fog-color": "#27344a", "sky-horizon-blend": 0.7, "horizon-fog-blend": 0.6, "fog-ground-blend": 0.65, "atmosphere-blend": ATMOSPHERE },
+  /** The white nights of Saint Petersburg: a pale sky, a pink horizon to the north. */
+  white: { "sky-color": "#7488aa", "horizon-color": "#f3d3c4", "fog-color": "#5a6780", "sky-horizon-blend": 0.75, "horizon-fog-blend": 0.6, "fog-ground-blend": 0.6, "atmosphere-blend": ATMOSPHERE },
 } as const;
 
 /**
@@ -34,6 +36,8 @@ export const skies = {
 export const lights = {
   night: { anchor: "map", color: "#fff1dc", intensity: 0.42, position: [1.3, 215, 38] },
   dawn: { anchor: "map", color: "#ffd2a1", intensity: 0.5, position: [1.25, 95, 64] },
+  /** White nights: the sun just under the northern horizon, a soft cool light from the north. */
+  white: { anchor: "map", color: "#f1ecff", intensity: 0.55, position: [1.3, 340, 52] },
 } as const satisfies Record<string, NonNullable<StyleSpecification["light"]>>;
 
 export const mapColors = {

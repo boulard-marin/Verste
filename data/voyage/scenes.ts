@@ -1,8 +1,10 @@
 import type { Highlight, Mark, MetroLine, Outline, Scene } from "@/lib/voyage/types";
 
 import { formatKm } from "../../lib/format.ts";
-import { formatDistance, lineKm } from "../../lib/travel/geo.ts";
+import { formatMinutes, sunTime } from "../../lib/sun.ts";
+import { formatDistance, haversineKm, lineKm } from "../../lib/travel/geo.ts";
 import { grandeVersteGeometry } from "../travel/grande-verste-geometry.ts";
+import { getJourney } from "../travel/journeys.ts";
 
 import { flightLegs, flightTotalKm } from "./flight.ts";
 import { kremlinNijniFigures } from "./kremlin-nijni.ts";
@@ -12,8 +14,10 @@ import { kremlinMoscou, kremlinNijni } from "./outlines.ts";
  * LE VOYAGE — Paris → Moscou → Nijni Novgorod, as the visitor lives it:
  * the flight over the globe, then the city.
  * Day to night in Moscow, the train at dawn, the Volga in the morning light:
- * « De la nuit à l'aube ». Texts state facts only; figures come from
- * data/travel (sourced, dated) or are computed on screen.
+ * « De la nuit à l'aube ». Then the Sapsan to Saint Petersburg, a VERSTE
+ * destination prepared from sources (never presented as lived), under the
+ * white nights. Texts state facts only; figures come from data/travel
+ * (sourced, dated) or are computed on screen.
  */
 
 const WARM = "#e9d7b4";
@@ -24,12 +28,16 @@ export const highlights: Highlight[] = [
   { id: "kremlin", center: [37.6175, 55.7517], radiusM: 700, within: kremlinMoscou, minHeight: 8, color: "#c98a6e" },
   { id: "bolchoi", center: [37.6186, 55.76025], radiusM: 45, color: WARM },
   { id: "mgu", center: [37.53076, 55.70293], radiusM: 190, minHeight: 20, color: WARM },
-  { id: "cosmos", center: [37.63968, 55.82244], radiusM: 16, color: TITANIUM },
+  // The stylobate and the museum under the monument (the monument itself is a 3D object).
+  { id: "cosmos", center: [37.639729, 55.822725], radiusM: 75, color: "#b7b1a6" },
   { id: "musee-victoire", center: [37.505, 55.7308], radiusM: 90, color: WARM },
   { id: "moscow-city", center: [37.5385, 55.7486], radiusM: 650, minHeight: 90, color: "#f2c983" },
   { id: "nevski", center: [43.97118, 56.3336], radiusM: 40, color: OCHRE },
   { id: "kremlin-nijni", center: [44.0025, 56.32833], radiusM: 500, within: kremlinNijni, color: "#c98a6e" },
   { id: "volga-arena", center: [43.96694, 56.33472], radiusM: 90, minHeight: 8, color: TITANIUM },
+  // Saint Petersburg: the OSM `aquamarine` of the Winter Palace is toned down to its real green.
+  { id: "palais-hiver", center: [30.314022, 59.940357], radiusM: 120, color: "#9cc7b2", osm: 0.25 },
+  { id: "isaac", center: [30.306146, 59.934089], radiusM: 60, color: "#c2bcb0" },
 ];
 
 export const outlines: Outline[] = [
@@ -70,6 +78,15 @@ export const metroLine1: MetroLine = {
 };
 
 const legKm = (id: keyof typeof flightLegs) => formatKm(flightLegs[id].km);
+
+// Saint Petersburg: the Sapsan's timetable (sourced, to confirm) and the white nights (computed).
+const sapsan = getJourney("train-moscou-spb").duration!;
+const sapsanTime = sapsan.value.match(/\d+ h \d+/)![0];
+const frDate = (iso: string) => iso.split("-").reverse().join("/");
+const SPB_SUN = { lon: 30.3141, lat: 59.9386 };
+const sunset = sunTime("2026-06-21", SPB_SUN.lon, SPB_SUN.lat, "set")!;
+const sunrise = sunTime("2026-06-22", SPB_SUN.lon, SPB_SUN.lat, "rise")!;
+const SPB_MODELS = "Maquettes 3D stylisées · hauteurs : Wikipédia";
 
 export const scenes: Scene[] = [
   // ── The flight: the plane flies as the visitor scrolls ──────────────────
@@ -239,7 +256,6 @@ export const scenes: Scene[] = [
       { center: [37.62306, 55.75249], zoom: 17.9, pitch: 66, bearing: 38 },
       { center: [37.62306, 55.75249], zoom: 18.4, pitch: 0, bearing: 0 },
     ],
-    objects: [{ id: "saint-basile", rise: [0, 0] }],
     placeId: "saint-basile",
     media: ["moscou-saint-basile-heure-doree"],
     portals: [{ verb: "Ressortir", label: "Ressortir vers le Bolchoï", to: { scene: "bolchoi" } }],
@@ -257,7 +273,6 @@ export const scenes: Scene[] = [
       { center: [37.6202, 55.7555], zoom: 15.4, pitch: 50, bearing: -20 },
       { center: [37.6186, 55.7596], zoom: 17, pitch: 62, bearing: -8 },
     ],
-    objects: [{ id: "saint-basile", rise: [0, 0] }],
     highlights: ["bolchoi"],
     placeId: "bolchoi",
     media: ["moscou-bolchoi"],
@@ -340,13 +355,21 @@ export const scenes: Scene[] = [
     kicker: "Jour 3 · l'espace",
     title: "VDNKh",
     ru: "ВДНХ",
-    text: "Au pied du monument aux Conquérants de l'espace, le musée de la Cosmonautique. Plus loin, les pavillons des républiques, les fontaines, la fusée Vostok.",
+    text: "Un sillage de titane poli, haut de 107 m, une fusée à son sommet : le monument aux Conquérants de l'espace, et à son pied le musée de la Cosmonautique. Plus loin, les pavillons, les fontaines, la fusée Vostok.",
     camera: [
       { center: [37.6405, 55.8205], zoom: 15.4, pitch: 45, bearing: -20 },
-      { center: [37.6397, 55.8223], zoom: 17, pitch: 70, bearing: -35 },
+      { center: [37.6396, 55.8226], zoom: 16.8, pitch: 62, bearing: 60 },
+      { center: [37.63968, 55.82262], zoom: 17.05, pitch: 66, bearing: 95 },
       { center: [37.6285, 55.8305], zoom: 15.6, pitch: 55, bearing: -60 },
     ],
     highlights: ["cosmos"],
+    // The launch, replayed: the trail is drawn upwards, the rocket rides its tip.
+    objects: [{ id: "cosmos", rise: [0.08, 0.62] }],
+    figures: [
+      { value: "107 m", label: "Le monument", note: "Wikipédia (ru), lu le 02/10/2026" },
+      { value: "11 m", label: "La fusée", note: "au sommet du sillage, même source" },
+    ],
+    modelNote: "Maquette 3D d'après OpenStreetMap",
     placeId: "vdnkh",
     media: ["moscou-vdnkh-vostok-fontaines", "moscou-vdnkh-arche-coucher", "moscou-vdnkh-pavillon-central"],
     portals: [
@@ -530,12 +553,160 @@ export const scenes: Scene[] = [
     marks: ["city-moscou", "city-nijni", "city-spb", "city-kazan"],
     night: [-1, 0],
     portals: [
+      { verb: "Continuer", label: "Vers Saint-Pétersbourg", to: { scene: "vers-saint-petersbourg" } },
       { verb: "Découvrir", label: "La Russia Travel Map", to: { href: "/carte" } },
-      { verb: "Voir", label: "Saint-Pétersbourg", to: { href: "/carte?ville=saint-petersbourg" } },
       { verb: "Voir", label: "Kazan", to: { href: "/carte?ville=kazan" } },
     ],
     length: 2,
   },
+  // ── Saint Petersburg: a VERSTE destination, prepared from sources ───────
+  {
+    id: "vers-saint-petersbourg",
+    environment: "monde",
+    kicker: "Destination VERSTE · le Sapsan",
+    title: "Vers Saint-Pétersbourg",
+    ru: "Сапсан",
+    text: "De la gare Leningradski, à Moscou, jusqu'à la gare de Moscou, sur la perspective Nevski : un peu moins de quatre heures de train vers le nord-ouest. Le soir tombe, et ne tombera pas tout à fait.",
+    camera: [
+      { center: [40, 57.6], zoom: 4.2, pitch: 20, bearing: 0 },
+      { center: [36.6, 56.5], zoom: 6, pitch: 42, bearing: -30 },
+      { center: [33.4, 58.2], zoom: 6.4, pitch: 48, bearing: -42 },
+      { center: [30.36243, 59.92872], zoom: 10.2, pitch: 44, bearing: -40 },
+    ],
+    vehicle: { kind: "train", leg: "msk-spb", fly: [0.1, 0.9], follow: true },
+    marks: ["city-moscou", "city-spb"],
+    tone: [0, 1],
+    figures: [
+      { value: sapsanTime, label: "Sapsan 754А", note: `relevé le ${frDate(sapsan.verification.checkedAt)}, à confirmer` },
+      { value: formatKm(haversineKm(cityMarks[0]!.at, cityMarks[2]!.at)), label: "Moscou → Saint-Pétersbourg", note: "à vol d'oiseau, calculé" },
+    ],
+    portals: [{ verb: "Voir", label: "Le trajet sur la carte", to: { href: "/carte?ville=saint-petersbourg" } }],
+    length: 2.4,
+  },
+  {
+    id: "saint-petersbourg",
+    environment: "monde",
+    kicker: "Destination VERSTE · préparée sur sources",
+    title: "Saint-Pétersbourg",
+    ru: "Санкт-Петербург",
+    text: "Fondée en 1703 dans le delta de la Neva. De la gare, la perspective Nevski file vers l'ouest jusqu'à la flèche dorée de l'Amirauté.",
+    camera: [
+      { center: [30.36243, 59.92872], zoom: 10.2, pitch: 44, bearing: -40 },
+      { center: [30.3565, 59.9302], zoom: 14.4, pitch: 60, bearing: -74 },
+      { center: [30.3385, 59.9334], zoom: 15.3, pitch: 66, bearing: -77 },
+    ],
+    tone: [1, 1],
+    modelNote: SPB_MODELS,
+    placeId: "perspective-nevski",
+    media: ["spb-pierre-et-paul-aerien"],
+    gallery: true,
+    portals: [{ verb: "Découvrir", label: "Saint-Pétersbourg sur la carte", to: { href: "/carte?ville=saint-petersbourg" } }],
+    length: 2,
+  },
+  {
+    id: "sauveur",
+    environment: "monde",
+    kicker: "Destination VERSTE · le canal Griboïedov",
+    title: "Le Sauveur-sur-le-Sang-Versé",
+    ru: "Спас на Крови",
+    text: "Au bout du canal, l'église bâtie là où Alexandre II fut mortellement blessé, en 1881. Neuf bulbes : le toit en tente central culmine à 81 m, quatre bulbes émaillés l'entourent, le clocher porte un bulbe doré.",
+    camera: [
+      { center: [30.3385, 59.9334], zoom: 15.3, pitch: 66, bearing: -77 },
+      { center: [30.3255, 59.9368], zoom: 16.2, pitch: 62, bearing: 15 },
+      { center: [30.32896, 59.94027], zoom: 17, pitch: 64, bearing: 20 },
+      { center: [30.32926, 59.94004], zoom: 17.2, pitch: 66, bearing: 95 },
+    ],
+    tone: [1, 1],
+    modelNote: SPB_MODELS,
+    placeId: "sauveur-sur-le-sang-verse",
+    media: ["spb-canal-griboiedov", "spb-sauveur-coupoles"],
+    gallery: true,
+    portals: [{ verb: "Voir", label: "La fiche du Sauveur", to: { href: "/lieux/sauveur-sur-le-sang-verse" } }],
+    length: 2.6,
+  },
+  {
+    id: "palais-d-hiver",
+    environment: "monde",
+    kicker: "Destination VERSTE · la place du Palais",
+    title: "La place du Palais",
+    ru: "Дворцовая площадь",
+    text: "Au centre, la colonne Alexandre : 47,5 m avec son ange, et un fût d'un seul bloc de granit rose de 25,6 m. Au nord, le palais d'Hiver, qui abrite l'Ermitage ; au sud, l'arc de l'état-major.",
+    camera: [
+      { center: [30.32926, 59.94004], zoom: 17.2, pitch: 66, bearing: 95 },
+      { center: [30.3215, 59.9403], zoom: 15.6, pitch: 58, bearing: -70 },
+      { center: [30.3163, 59.9386], zoom: 16.7, pitch: 64, bearing: -20 },
+      { center: [30.31557, 59.93917], zoom: 17.5, pitch: 68, bearing: -45 },
+      { center: [30.31547, 59.93909], zoom: 17.8, pitch: 70, bearing: -75 },
+    ],
+    highlights: ["palais-hiver"],
+    tone: [1, 1],
+    hotspots: [
+      { id: "ermitage", placeId: "ermitage", at: [30.3139, 59.9403], view: { center: [30.3144, 59.9396], zoom: 16.8, pitch: 62, bearing: -15 } },
+      { id: "colonne", placeId: "colonne-alexandre", at: [30.31582, 59.93904], view: { center: [30.31582, 59.93896], zoom: 18.6, pitch: 72, bearing: 30 } },
+    ],
+    modelNote: SPB_MODELS,
+    placeId: "place-du-palais",
+    media: ["spb-arc-etat-major", "spb-palais-hiver-neva"],
+    gallery: true,
+    portals: [{ verb: "Voir", label: "Le palais d'Hiver et l'Ermitage", to: { href: "/lieux/ermitage" } }],
+    length: 3,
+  },
+  {
+    id: "la-neva",
+    environment: "monde",
+    kicker: "Destination VERSTE · les nuits blanches",
+    title: "Deux flèches d'or",
+    ru: "Белые ночи",
+    text: "Sur l'autre rive, la flèche de la cathédrale Pierre-et-Paul porte un ange à 122,5 m. En face, celle de l'Amirauté, à 72 m, porte un petit navire. Fin juin, le soleil ne quitte le ciel que quelques heures.",
+    camera: [
+      { center: [30.31547, 59.93909], zoom: 17.8, pitch: 70, bearing: -75 },
+      { center: [30.3146, 59.9433], zoom: 15.4, pitch: 62, bearing: 0 },
+      { center: [30.31631, 59.95044], zoom: 16.3, pitch: 64, bearing: 22 },
+      { center: [30.3125, 59.9455], zoom: 15.6, pitch: 64, bearing: 200 },
+    ],
+    tone: [1, 1],
+    hotspots: [
+      { id: "pierre-et-paul", placeId: "forteresse-pierre-et-paul", at: [30.31604, 59.9501], view: { center: [30.3163, 59.9495], zoom: 17.3, pitch: 70, bearing: 30 } },
+      { id: "amiraute", placeId: "amiraute", at: [30.30859, 59.93749], view: { center: [30.3086, 59.9384], zoom: 17.2, pitch: 70, bearing: 200 } },
+    ],
+    figures: [
+      { value: formatMinutes(sunset), label: "Coucher, 21 juin", note: "calculé, heure de Moscou" },
+      { value: formatMinutes(sunrise), label: "Lever, 22 juin", note: "calculé" },
+      { value: formatMinutes(sunrise + 1440 - sunset), label: "Sans soleil", note: "calculé" },
+    ],
+    modelNote: SPB_MODELS,
+    placeId: "forteresse-pierre-et-paul",
+    media: ["spb-nuit-blanche-neva", "spb-ponts-leves"],
+    gallery: true,
+    portals: [{ verb: "Voir", label: "La forteresse Pierre-et-Paul", to: { href: "/lieux/forteresse-pierre-et-paul" } }],
+    length: 3,
+  },
+  {
+    id: "saint-isaac",
+    environment: "monde",
+    kicker: "Destination VERSTE · la coupole",
+    title: "Saint-Isaac",
+    ru: "Исаакиевский собор",
+    text: "La coupole dorée culmine à 101,5 m. À 43 m, une colonnade de 24 colonnes fait le tour du tambour : elle se visite, et toute la ville s'étend au-dessous.",
+    camera: [
+      { center: [30.3125, 59.9455], zoom: 15.6, pitch: 64, bearing: 200 },
+      { center: [30.30845, 59.93715], zoom: 16.4, pitch: 64, bearing: 200 },
+      { center: [30.3061, 59.9338], zoom: 16.8, pitch: 64, bearing: 180 },
+      { center: [30.30665, 59.934], zoom: 17, pitch: 66, bearing: 110 },
+    ],
+    highlights: ["isaac"],
+    tone: [1, 1],
+    modelNote: SPB_MODELS,
+    placeId: "isaac",
+    media: ["spb-isaac-coupole"],
+    gallery: true,
+    portals: [
+      { verb: "Voir", label: "La fiche de Saint-Isaac", to: { href: "/lieux/isaac" } },
+      { verb: "Découvrir", label: "Saint-Pétersbourg sur la carte", to: { href: "/carte?ville=saint-petersbourg" } },
+    ],
+    length: 2.4,
+  },
+
   {
     id: "votre-voyage",
     environment: "fin",

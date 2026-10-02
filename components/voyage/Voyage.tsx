@@ -124,6 +124,12 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
   const total = useMemo(() => lengths.reduce((a, b) => a + b, 0), [lengths]);
   const starts = useMemo(() => lengths.reduce<number[]>((acc, l, i) => [...acc, i === 0 ? 0 : acc[i - 1]! + lengths[i - 1]!], []), [lengths]);
   const metroIndex = scenes.findIndex((s) => s.environment === "metro");
+  /** The scene in which each 3D object appears: absent before it, standing after it. */
+  const appears = useMemo(() => {
+    const m = new Map<string, number>();
+    scenes.forEach((s, i) => s.objects?.forEach((o) => !m.has(o.id) && m.set(o.id, i)));
+    return m;
+  }, [scenes]);
 
   const locate = useCallback(
     (p: number) => {
@@ -145,9 +151,12 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
         const state = scene.vehicle && legs ? flightState(scene.vehicle, reduced ? 1 : local, legs) : null;
         const camera = cameraAt(scene.camera, reduced ? 1 : local);
         if (!focusRef.current && performance.now() > returningUntil.current) {
-          world.setCamera(state && scene.vehicle?.follow ? { ...camera, center: state.at } : camera);
+          // The camera eases onto the vehicle it follows, from where the previous scene left it.
+          const w = state && scene.vehicle?.follow ? (reduced ? 1 : smooth(clamp01(local / 0.12))) : 0;
+          const center: LonLat = [camera.center[0] + ((state?.at[0] ?? 0) - camera.center[0]) * w, camera.center[1] + ((state?.at[1] ?? 0) - camera.center[1]) * w];
+          world.setCamera(w > 0 ? { ...camera, center } : camera);
         }
-        world.setVehicle(state);
+        world.setVehicle(state && { ...state, kind: scene.vehicle?.kind });
         if (legs) world.setRoute(routeProgress(scenes, i, state, legs));
         world.setMarks(scene.marks ?? []);
         world.setLines(scene.lines ?? []);
@@ -160,17 +169,22 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
         world.setOutlines(scene.outlines ?? []);
         const [n0, n1] = scene.night ?? [0, 0];
         world.setNight(n0 + (n1 - n0) * local);
+        const [w0, w1] = scene.tone ?? [0, 0];
+        world.setTone(w0 + (w1 - w0) * local);
         world.setTerrain(scene.terrain ?? null);
         world.setLabels(scene.labels ?? []);
-        const basil = scene.objects?.find((o) => o.id === "saint-basile");
-        world.setRise("saint-basile", basil ? (reduced ? 1 : smooth(phase(local, basil.rise[0], basil.rise[1]))) : 0);
+        for (const id of world.objectIds) {
+          const own = scene.objects?.find((o) => o.id === id);
+          const from = appears.get(id);
+          world.setRise(id, own ? (reduced ? 1 : smooth(phase(local, own.rise[0], own.rise[1]))) : from === undefined || i > from ? 1 : 0);
+        }
       }
       const metro = metroRef.current;
       if (metro && scene.environment === "metro" && local >= ESCALATOR_END - 0.05) {
         metro.render(clamp01((local - ESCALATOR_END) / (1 - ESCALATOR_END)));
       }
     },
-    [scenes, legs],
+    [scenes, legs, appears],
   );
 
   const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end end"] });
@@ -376,17 +390,19 @@ export function Voyage({ id = "voyage", label = "Le voyage, de Moscou à Nijni N
         )}
 
         {/* The relief is exaggerated and the models are stylised: say so. */}
-        {env === "monde" && scene.terrain && worldReady && !worldFailed && (
-          <p className="label pointer-events-none absolute right-4 bottom-9 z-10 text-fg-2 max-lg:top-20 max-lg:bottom-auto">
-            Relief exagéré ×{String(scene.terrain).replace(".", ",")}
-            {scene.labels ? " · maquette stylisée" : ""}
+        {env === "monde" && (scene.terrain || scene.modelNote) && worldReady && !worldFailed && (
+          <p className={`label pointer-events-none absolute right-4 bottom-9 z-10 text-fg-2 max-lg:top-20 max-lg:bottom-auto max-lg:max-w-[46vw] ${scene.gallery ? "max-lg:right-auto max-lg:left-4" : "max-lg:text-right"}`}>
+            {scene.terrain ? `Relief exagéré ×${String(scene.terrain).replace(".", ",")}${scene.labels ? " · maquette stylisée" : ""}` : scene.modelNote}
           </p>
         )}
 
-        {/* The flight: distance flown, and how the line is drawn */}
+        {/* The flight (or the train): distance travelled, and how the line is drawn */}
         {env === "monde" && scene.vehicle && legs?.[scene.vehicle.leg] && (
-          <FlightCounter state={flightState(scene.vehicle, view.local, legs)} basis={legs[scene.vehicle.leg]!.basis} />
+          <FlightCounter state={flightState(scene.vehicle, view.local, legs)} basis={legs[scene.vehicle.leg]!.basis} kind={scene.vehicle.kind} />
         )}
+
+        {/* A destination without field photos: its free images, one after the other (phones) */}
+        {env === "monde" && scene.gallery && scene.resolved.length > 0 && !focus && <PhoneGallery media={scene.resolved} local={view.local} />}
 
         {scene.id === "poklonnaia" && <TimedPhotos scene={scene} local={view.local} />}
         {env === "metro" && line && <MetroUI line={line} local={metroLocal} p3d={metro3d} onBoard={() => goTo("metro", 0.56)} media={scene.resolved} />}
@@ -439,17 +455,59 @@ function SpotCard({ spot, onBack, onPortal }: { spot: VoyageHotspot; onBack: () 
   );
 }
 
-function FlightCounter({ state, basis }: { state: ReturnType<typeof flightState>; basis: string }) {
+function FlightCounter({ state, basis, kind }: { state: ReturnType<typeof flightState>; basis: string; kind: "avion" | "train" }) {
   if (!state) return null;
+  const [long, short] = kind === "train" ? ["Depuis Moscou, sur le tracé", "sur le tracé"] : ["À vol d'oiseau depuis Paris", "à vol d'oiseau"];
   return (
     <div className="pointer-events-none absolute z-10 max-lg:top-[4.75rem] max-lg:left-4 max-lg:flex max-lg:items-baseline max-lg:gap-3 lg:right-16 lg:bottom-10 lg:text-right">
       <p className="font-mono text-[clamp(1.15rem,3.4vw,3.2rem)] leading-none tabular text-fg">{formatKm(state.km)}</p>
       <p className="label text-fg-2 lg:mt-2">
-        <span className="max-lg:hidden">À vol d&apos;oiseau depuis Paris</span>
-        <span className="lg:hidden">à vol d&apos;oiseau</span>
+        <span className="max-lg:hidden">{long}</span>
+        <span className="lg:hidden">{short}</span>
       </p>
       <p className="label mt-1 text-fg-2/80 max-lg:hidden">{basis}</p>
     </div>
+  );
+}
+
+/** Which photo of a gallery is shown at this point of the scene. */
+const galleryIndex = (n: number, local: number) => Math.min(n - 1, Math.floor(clamp01(local * 1.02) * n));
+
+function GalleryFrames({ media, k, sizes }: { media: VoyageMedia[]; k: number; sizes: string }) {
+  return media.map((r, j) => (
+    <Image key={r.src} src={r.src} alt={j === k ? r.alt : ""} fill sizes={sizes} placeholder="blur" blurDataURL={r.blurDataURL} className={`object-cover transition-opacity duration-slow ${j === k ? "opacity-100" : "opacity-0"}`} />
+  ));
+}
+
+/** Large screens: the scene's free images, in the text column, credited. */
+function Gallery({ media, local, small }: { media: VoyageMedia[]; local: number; small: boolean }) {
+  const k = galleryIndex(media.length, local);
+  const m = media[k]!;
+  return (
+    <figure className="mt-5 hidden w-full max-w-[380px] lg:block">
+      <div className={`relative overflow-hidden rounded-[4px] border border-line ${small ? "h-[clamp(72px,12svh,150px)]" : "h-[clamp(96px,16svh,230px)]"}`}>
+        <GalleryFrames media={media} k={k} sizes="380px" />
+      </div>
+      <figcaption className="mt-2 text-[0.74rem] leading-snug text-fg-2">
+        <span className="label mr-2 text-fg">Image libre</span>
+        {m.caption}
+        {m.credit && <span className="block opacity-80">{m.credit}</span>}
+      </figcaption>
+    </figure>
+  );
+}
+
+/** Phones: a small framed photo above the world, gone once the camera reaches the monument. */
+function PhoneGallery({ media, local }: { media: VoyageMedia[]; local: number }) {
+  const k = galleryIndex(media.length, local);
+  const m = media[k]!;
+  return (
+    <figure className={`pointer-events-none absolute top-[4.5rem] right-3 z-10 w-[min(42vw,200px)] transition-opacity duration-base lg:hidden ${local < 0.5 ? "opacity-100" : "opacity-0"}`}>
+      <div className="relative aspect-[4/3] overflow-hidden rounded-[4px] border border-line">
+        <GalleryFrames media={media} k={k} sizes="200px" />
+      </div>
+      {m.credit && <figcaption className="mt-1 text-right text-[0.6rem] leading-tight text-fg-2 [text-shadow:0_1px_8px_rgb(12_15_20)]">Image libre · {m.credit}</figcaption>}
+    </figure>
   );
 }
 
@@ -481,7 +539,8 @@ function PortalButton({ portal, primary, onPortal }: { portal: Portal; primary: 
 
 function SceneText({ scene, local, onPortal }: { scene: VoyageScene; local: number; onPortal: (id: string, at?: number) => void }) {
   const visible = scene.environment !== "metro" && scene.environment !== "train" ? true : local < 0.12;
-  const photo = scene.id === "poklonnaia" ? undefined : scene.resolved[0];
+  const photo = scene.id === "poklonnaia" || scene.gallery ? undefined : scene.resolved[0];
+  const compact = Boolean(scene.figures || scene.gallery);
   return (
     <div
       className={`absolute inset-x-0 bottom-0 z-10 px-5 pb-[max(3.25rem,env(safe-area-inset-bottom))] transition-opacity duration-base lg:top-0 lg:right-auto lg:flex lg:w-[min(520px,44vw)] lg:flex-col lg:justify-center-safe lg:px-10 lg:pt-24 lg:pb-10 ${
@@ -489,7 +548,7 @@ function SceneText({ scene, local, onPortal }: { scene: VoyageScene; local: numb
       }`}
     >
       <p className="label text-fg-2">{scene.kicker}</p>
-      <h2 className={`enter mt-3 font-display leading-[0.95] ${scene.figures ? "text-[clamp(2.2rem,4.6vw,4rem)]" : "text-[clamp(2.4rem,6vw,5rem)]"}`}>{scene.title}</h2>
+      <h2 className={`enter mt-3 font-display leading-[0.95] ${compact ? "text-[clamp(2.2rem,4.6vw,4rem)]" : "text-[clamp(2.4rem,6vw,5rem)]"}`}>{scene.title}</h2>
       {scene.ru && (
         <p lang="ru" className="mt-2 font-display font-cond text-[clamp(1.05rem,2vw,1.5rem)] text-fg-2">
           {scene.ru}
@@ -508,7 +567,7 @@ function SceneText({ scene, local, onPortal }: { scene: VoyageScene; local: numb
         </dl>
       )}
       {photo && scene.environment === "monde" && (
-        <figure className="mt-5 hidden max-w-[360px] items-start gap-3 lg:flex">
+        <figure className={`mt-5 hidden max-w-[360px] items-start gap-3 lg:flex ${scene.figures ? "[@media(max-height:859px)]:hidden!" : ""}`}>
           <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-[3px]">
             {photo.video ? (
               <video src={photo.video} poster={photo.src} muted loop playsInline autoPlay aria-label={photo.alt} className="size-full object-cover motion-reduce:hidden" />
@@ -523,6 +582,7 @@ function SceneText({ scene, local, onPortal }: { scene: VoyageScene; local: numb
           </figcaption>
         </figure>
       )}
+      {scene.gallery && scene.environment === "monde" && scene.resolved.length > 0 && <Gallery media={scene.resolved} local={local} small={Boolean(scene.figures)} />}
       {scene.portals.length > 0 && (
         <div className="mt-6 flex flex-wrap gap-3">
           {scene.portals.map((p, i) => (

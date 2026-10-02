@@ -12,8 +12,9 @@ export function verified<T>(value: T, sources: Source[], note?: string): Verifie
   return { value, verification: { status: "verifie", checkedAt: CHECKED, sources, ...(note ? { note } : {}) } };
 }
 
-export function toConfirm<T>(value: T, sources: Source[], note?: string): Verified<T> {
-  return { value, verification: { status: "a-verifier", checkedAt: CHECKED, sources, ...(note ? { note } : {}) } };
+/** A fact read from secondary sources, to confirm on official sites; `readOn` defaults to the last pass. */
+export function toConfirm<T>(value: T, sources: Source[], note?: string, readOn: ISODate = CHECKED): Verified<T> {
+  return { value, verification: { status: "a-verifier", checkedAt: readOn, sources, ...(note ? { note } : {}) } };
 }
 
 export function observed<T>(value: T, note?: string): Verified<T> {

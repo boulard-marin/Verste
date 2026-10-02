@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
 import { flightLegs, flightTotalKm } from "../../data/voyage/flight.ts";
+import { sapsanLeg, trainLegs } from "../../data/voyage/sapsan.ts";
 import { scenes } from "../../data/voyage/scenes.ts";
 import { haversineKm } from "../travel/geo.ts";
 import { flightState, routeProgress } from "./flight.ts";
@@ -49,5 +50,33 @@ describe("the opening flight", () => {
     assert.ok(legs.every((l) => l.showPlanned));
     const kremlin = scenes.findIndex((s) => s.id === "kremlin");
     assert.deepEqual(routeProgress(scenes, kremlin, null, flightLegs).map((l) => [l.t, l.showPlanned]), [[1, false], [1, false]]);
+  });
+});
+
+describe("the Sapsan to Saint Petersburg", () => {
+  const legs = { ...flightLegs, ...trainLegs };
+  const LENINGRADSKI = [37.65531, 55.77625] as const;
+  const MOSKOVSKI = [30.36243, 59.92872] as const;
+  const scene = scenes.find((s) => s.id === "vers-saint-petersbourg")!;
+
+  it("runs on the ground, from station to station, heading north-west", () => {
+    const start = flightState(scene.vehicle!, 0, legs)!, mid = flightState(scene.vehicle!, 0.5, legs)!, end = flightState(scene.vehicle!, 1, legs)!;
+    assert.ok(near(start.at, LENINGRADSKI) && near(end.at, MOSKOVSKI));
+    assert.ok([start, mid, end].every((s) => s.altitude === 0), "a train never climbs");
+    assert.ok(mid.heading > 270 && mid.heading < 360, `heading ${mid.heading}`);
+  });
+
+  it("counts kilometres on the schematic drawing, labelled as such", () => {
+    assert.ok(sapsanLeg.km > haversineKm(LENINGRADSKI, MOSKOVSKI), "the drawing is longer than the great circle");
+    assert.match(sapsanLeg.basis, /schématique/);
+  });
+
+  it("dots only its own planned route, and keeps the flight drawn", () => {
+    const i = scenes.indexOf(scene);
+    const p = routeProgress(scenes, i, flightState(scene.vehicle!, 0.5, legs), legs);
+    assert.deepEqual(p.map((l) => l.showPlanned), [false, false, true]);
+    assert.deepEqual(p.slice(0, 2).map((l) => l.t), [1, 1]);
+    const istanbul = scenes.findIndex((s) => s.id === "istanbul");
+    assert.deepEqual(routeProgress(scenes, istanbul, null, legs).map((l) => [l.t, l.showPlanned]), [[1, true], [0, true], [0, false]]);
   });
 });

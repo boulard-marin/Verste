@@ -11,7 +11,7 @@
   "source": "https://commons.wikimedia.org/wiki/File:Komsomolskaya_(Koltsevaya_Line)_(19779073948).jpg",
   "title": "Komsomolskaya (Koltsevaya Line) (19779073948).jpg",
   "description": "Komsomolskaya (Russian: Комсомо́льская) is a Moscow Metro station in the Krasnoselsky District, Central Administrative Okrug, Moscow. It is on the Koltsevaya Line, between Prospekt Mira and Kurskaya stations. The station is noted for its being located under the busiest Moscow transport hub, Komsomol",
-  "date": "Taken on 6",
+  "date": "2014-10-06",
   "retrievedOn": "2026-09-30"
  },
  "metro-maiakovskaia": {
@@ -26,7 +26,7 @@
   "source": "https://commons.wikimedia.org/wiki/File:Mayakovskaya_metro_station_(Stalinist_architecture)_(19778548410).jpg",
   "title": "Mayakovskaya metro station (Stalinist architecture) (19778548410).jpg",
   "description": "Mayakovskaya (Russian: Маяковская), is a Moscow Metro station on the Zamoskvoretskaya Line, in the Tverskoy District of central Moscow. Considered to be one of the most beautiful in the system, it is a fine example of pre-World War II Stalinist Architecture and one of the most famous Metro stations ",
-  "date": "Taken on 6",
+  "date": "2014-10-06",
   "retrievedOn": "2026-09-30"
  },
  "metro-novoslobodskaia": {
@@ -41,7 +41,7 @@
   "source": "https://commons.wikimedia.org/wiki/File:The_stained_glass_masterpiece_that_is_Novoslobodskaya_metro_(53139777847).jpg",
   "title": "The stained glass masterpiece that is Novoslobodskaya metro (53139777847).jpg",
   "description": "Novoslobodskaya Station of Moscow Metro",
-  "date": "Taken on 2",
+  "date": "2023-08-24",
   "retrievedOn": "2026-09-30"
  },
  "metro-novoslobodskaia-vitrail": {
@@ -71,7 +71,7 @@
   "source": "https://commons.wikimedia.org/wiki/File:Mosaic_at_Belorusskaya_(Koltsevaya_Line)_metro_station_(19940972656).jpg",
   "title": "Mosaic at Belorusskaya (Koltsevaya Line) metro station (19940972656).jpg",
   "description": "Belorusskaya (Russian: Белору́сская) is a station on the Moscow Metro's Koltsevaya Line. It is named after the nearby Belorussky Rail Terminal. It opened in 1952, serving briefly as the terminus of the line before the circle was completed in 1954. Designed by Ivan Taranov, Z. Abramova, A. Markova, a",
-  "date": "Taken on 6",
+  "date": "2014-10-06",
   "retrievedOn": "2026-09-30"
  },
  "moscou-etangs-patriarche": {
@@ -236,7 +236,7 @@
   "source": "https://commons.wikimedia.org/wiki/File:Saint_Petersburg_Hermitage_from_Neva_04.jpg",
   "title": "Saint Petersburg Hermitage from Neva 04.jpg",
   "description": "The Hermitage Museum in Saint Petersburg as seen from the river [:en:Neva River|Neva]].",
-  "date": "Taken on 1",
+  "date": "2018-07-18",
   "retrievedOn": "2026-09-30"
  },
  "spb-canal-griboiedov": {
@@ -281,7 +281,112 @@
   "source": "https://commons.wikimedia.org/wiki/File:Bauman_Street_in_Kazan,_Bogoyavlenskyi_Tower_in_background_-_panoramio.jpg",
   "title": "Bauman Street in Kazan, Bogoyavlenskyi Tower in background - panoramio.jpg",
   "description": "Bauman Street in Kazan, Bogoyavlenskyi Tower in background",
-  "date": "Taken on 1",
+  "date": "2011-04-11",
   "retrievedOn": "2026-09-30"
+ },
+ "spb-pierre-et-paul-aerien": {
+  "src": "/media/libre/spb-pierre-et-paul-aerien.jpg",
+  "width": 2400,
+  "height": 1373,
+  "blurDataURL": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAACwAQCdASoQAAkAA4BaJQAAS63/pvgAAM1UhhU5/9WISyHw4/fKbaamb/vBL9BF+aAmqitIdr4wLaNAM0Cj7KAA",
+  "author": "Godot13",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "attributionRequired": true,
+  "source": "https://commons.wikimedia.org/wiki/File:RUS-2016-Aerial-SPB-Peter_and_Paul_Fortress_02.jpg",
+  "title": "RUS-2016-Aerial-SPB-Peter and Paul Fortress 02.jpg",
+  "description": "Aerial view of Peter and Paul Fortress on Zayachy Island, Saint Petersburg, Russia. To the north, across the Kronverksky Strait is the Kronverk, including the Artillery Museum.",
+  "date": "2016-07-14",
+  "retrievedOn": "2026-10-02"
+ },
+ "spb-nuit-blanche-neva": {
+  "src": "/media/libre/spb-nuit-blanche-neva.jpg",
+  "width": 2400,
+  "height": 1531,
+  "blurDataURL": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAADQAQCdASoQAAoAA4BaJZwAAp+/ve9vzAD+1xaemD3eacuv0waYJ/LluHb/zyXIfSTj3Sw+BiUpeZ2hJAAD3QAAkgAAAA==",
+  "author": "Kora27",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "attributionRequired": true,
+  "source": "https://commons.wikimedia.org/wiki/File:%D0%A1%D1%83%D0%BC%D0%B5%D1%80%D0%BA%D0%B8_%D0%91%D0%B5%D0%BB%D0%BE%D0%B9_%D0%BD%D0%BE%D1%87%D0%B8,_%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3_2H1A7127WI.jpg",
+  "title": "Сумерки Белой ночи, Санкт-Петербург 2H1A7127WI.jpg",
+  "description": "Сумерки Белой ночи, Санкт-Петербург. Нева, Петропавловская крепость.",
+  "date": "2021-06-24",
+  "retrievedOn": "2026-10-02"
+ },
+ "spb-arc-etat-major": {
+  "src": "/media/libre/spb-arc-etat-major.jpg",
+  "width": 2400,
+  "height": 2102,
+  "blurDataURL": "data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAADQAgCdASoQAA4AA4BaJZgCdH8IIAIHsy7QYj58+FAAAP6YTN7rQWZyJ4D3cVRSLMoExDasdaK0bqxqThxlGcmA8v7mXo9BfPsBNN3hvkrOGV4ueA2s15LFx/e1UxJxZa3csso5K3aUTP6gXNLbsqS8gowOseMa80TQAA==",
+  "author": "Hadi Karimi",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+  "attributionRequired": true,
+  "source": "https://commons.wikimedia.org/wiki/File:Palace_Square_-_panoramio_(4).jpg",
+  "title": "Palace Square - panoramio (4).jpg",
+  "description": "Palace Square",
+  "date": "2015-07-30",
+  "retrievedOn": "2026-10-02"
+ },
+ "spb-isaac-coupole": {
+  "src": "/media/libre/spb-isaac-coupole.jpg",
+  "width": 2117,
+  "height": 2400,
+  "blurDataURL": "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAACwAwCdASoQABIAPu1iqU2ppaOiMAgBMB2JYgC7ABd38u3asT23xAD+tUq9gl+jZK4Kw2Sm70PGj5tLYUVIc6ucd9pf52WtCm6CF5M3aZPVdTg0AiVXh2kJ+umoLjsNtngGvzWdmvaz8Z6b4AA=",
+  "author": "Godot13",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+  "attributionRequired": true,
+  "source": "https://commons.wikimedia.org/wiki/File:Saint_Isaac%27s_Cathedral_(St._Petersburg,_2003).jpg",
+  "title": "Saint Isaac's Cathedral (St. Petersburg, 2003).jpg",
+  "description": "Saint Issac's Cathedral (Исаа́киевский Собо́р), with its famous gilded dome is Russian Orthodox, constructed 1818-1858, in St. Petersburg, Russia.",
+  "date": "2003-08-09",
+  "retrievedOn": "2026-10-02"
+ },
+ "spb-ponts-leves": {
+  "src": "/media/libre/spb-ponts-leves.jpg",
+  "width": 2400,
+  "height": 1600,
+  "blurDataURL": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAABQAgCdASoQAAsAA4BaJZgCdGuAAvp4/rf/IgAA/oISr5yFuVZU3iEn2nLDbFWBIfKU1BaVpNoVnCsG3MHMVvK63FLH+4pS5AA=",
+  "author": "Ludvig14",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "attributionRequired": true,
+  "source": "https://commons.wikimedia.org/wiki/File:SPb_DrawbridgesShow_006_6830.jpg",
+  "title": "SPb DrawbridgesShow 006 6830.jpg",
+  "description": "Ночное шоу \"Развод мостов\" во время белых ночей - Развод Дворцового моста в Санкт-Петербурге",
+  "date": "2019-07-02",
+  "retrievedOn": "2026-10-02"
+ },
+ "spb-sauveur-coupoles": {
+  "src": "/media/libre/spb-sauveur-coupoles.jpg",
+  "width": 2400,
+  "height": 1596,
+  "blurDataURL": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAAAwAgCdASoQAAsAA4BaJZgCdH8AGJ0obgcRMAD+1+gYJoZFDsIvzTzs3SC5XXzeVfV2Elb7ZvKSE2A+ipf7XPtfc32d8545rVbEHysTqNTdrVLo2GTHJLjwOewCsYAA",
+  "author": "Richard Mortel from Riyadh, Saudi Arabia",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "attributionRequired": true,
+  "source": "https://commons.wikimedia.org/wiki/File:Church_of_the_Savior_on_Spilled_Blood,_1883_and_later,_St._Petersburg_(1)_(37044255631).jpg",
+  "title": "Church of the Savior on Spilled Blood, 1883 and later, St. Petersburg (1) (37044255631).jpg",
+  "description": "Church of the Savior on Spilled Blood, 1883 and later, St. Petersburg (1)",
+  "date": "2017-07-20",
+  "retrievedOn": "2026-10-02"
+ },
+ "spb-amiraute-fleches": {
+  "src": "/media/libre/spb-amiraute-fleches.jpg",
+  "width": 2400,
+  "height": 1602,
+  "blurDataURL": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAADwAQCdASoQAAsAA4BaJaACdAEO9N9xXZQA/t5vt8j6VM3uqG4tBUTYsr/rNSGx8OkamQN57ClJ69UsQAA=",
+  "author": "Jorge Láscar from Melbourne, Australia",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "attributionRequired": true,
+  "source": "https://commons.wikimedia.org/wiki/File:Peter_and_Paul_Cathedral_(20960306049).jpg",
+  "title": "Peter and Paul Cathedral (20960306049).jpg",
+  "description": "The Peter and Paul Cathedral (Петропавловский собор) is a Russian Orthodox cathedral located inside the Peter and Paul Fortress in St. Petersburg, Russia. It is the first and oldest landmark in St. Petersburg, built between 1712 and 1733 on Zayachy Island along the Neva River. Both the cathedral and",
+  "date": "2014-10-07",
+  "retrievedOn": "2026-10-02"
  }
 }

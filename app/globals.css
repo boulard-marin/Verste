@@ -481,7 +481,11 @@
   .verste-plane svg { fill: #eef2f8; filter: drop-shadow(0 0 10px rgb(238 242 248 / 0.28)); }
   .verste-plane-shadow svg { fill: #000; opacity: var(--shade, 0.45); filter: blur(2.5px); }
   .verste-plane.is-hidden,
-  .verste-plane-shadow.is-hidden { visibility: hidden; }
+  .verste-plane-shadow.is-hidden,
+  .verste-train.is-hidden { visibility: hidden; }
+  .verste-train { pointer-events: none; }
+  .verste-train svg { display: block; width: 40px; height: 40px; fill: #eef2f8; filter: drop-shadow(0 0 8px rgb(238 242 248 / 0.35)) drop-shadow(0 2px 3px rgb(0 0 0 / 0.5)); }
+  .verste-train .verste-train-windows { fill: #1d2533; }
   @media (max-width: 1023px) {
     .verste-plane svg,
     .verste-plane-shadow svg { width: 36px; height: 36px; }

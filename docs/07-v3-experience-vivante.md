@@ -162,7 +162,71 @@ Retenu : des modèles dérivés d'OpenStreetMap (ODbL) et procéduraux. C'est l�
 - **Métro :** ligne 1 seulement ; les autres lignes sont annoncées « bientôt ».
 - **Configurateur :** la branche alternative est une proposition ; le moteur ne permute pas encore les villes.
 - **À suivre :**
-  - monument aux Conquérants de l'espace (VDNKh) et Poklonnaïa au niveau objet ;
+  - Poklonnaïa au niveau objet ;
   - son en option ;
   - quartiers de Moscou dans la carte ;
   - un séjour de terrain à Saint-Pétersbourg et à Kazan.
+
+## I. V3.1 · VDNKh et Saint-Pétersbourg (02/10/2026)
+
+**VDNKh.** Le monument aux Conquérants de l'espace n'est plus un escalier de boîtes OSM.
+- Ses 37 sections OSM (de 7 à 106 m) sont rééchantillonnées puis lissées en une seule surface : un sillage de titane poli.
+- La fusée de 11 m forme le sommet du sillage.
+- Le lancement est rejoué au défilement : le sillage se dessine de bas en haut, et la fusée monte avec lui.
+- Le stylobate et le musée restent les volumes OSM, éclairés.
+- Hauteur (107 m) et fusée (11 m) : Wikipédia (ru), lue le 02/10/2026.
+
+**Une couche 3D pour tout le monde** (`lib/map/objects-layer.ts`, registre `lib/map/world-objects.ts`).
+- Chaque objet a :
+  - son ancre, sa scène et son échelle Mercator ;
+  - son apparition (`rise` par défaut, lancement pour la fusée) ;
+  - la zone de volumes OSM qu'il remplace : rayon, hauteur minimale, centre propre.
+- Les volumes OSM d'un objet ne disparaissent que tant qu'il est là. Absent avant sa scène (Saint-Basile dans la scène du Kremlin), la ville garde les siens.
+- Un id OSM est remplacé seulement si toutes ses parties le sont, toutes tuiles confondues. Le socle de l'Amirauté partage son id avec l'état-major : il est conservé.
+- Les métaux reflètent un ciel de crépuscule généré (PMREM) : sans lui, l'or et le titane sont noirs.
+- Rien n'est dessiné tant que le globe est courbe.
+
+**Saint-Pétersbourg, destination VERSTE préparée sur sources.** Après « D'autres Russie », le voyage continue.
+1. **Le Sapsan.**
+   - Le train roule sur le tracé schématique par Tver, Bologoïe et Tchoudovo.
+   - Compteur : « sur le tracé ».
+   - Distance entre les villes : à vol d'oiseau, calculée.
+   - Horaire 754А relevé le 30/09/2026, à confirmer.
+   - Le soir tombe et la ville passe en nuits blanches (`tone`) : ciel pâle, Neva argentée.
+2. **L'arrivée** par la perspective Nevski, vers la flèche de l'Amirauté.
+3. **Le Sauveur-sur-le-Sang-Versé**, au bout du canal Griboïedov : toit en tente de 81 m, quatre bulbes émaillés aux motifs de la source, clocher doré, trois absides. Neuf bulbes.
+4. **La place du Palais** :
+   - la colonne Alexandre : 47,5 m, fût de 25,6 m ;
+   - le palais d'Hiver éclairé dans son vert (l'`aquamarine` OSM est adouci) ;
+   - hotspots Ermitage et colonne.
+5. **Deux flèches d'or** :
+   - la cathédrale Pierre-et-Paul : clocher, couronne, flèche de 40 m, ange et croix, 122,5 m ;
+   - l'Amirauté : 28 colonnes, 28 statues, flèche et navire, 72 m ;
+   - coucher et lever du soleil du 21 juin calculés (`lib/sun.ts`) : 22 h 26, 3 h 35, 5 h 09 sans soleil.
+6. **Saint-Isaac** : tambour à 24 colonnes, coupole dorée de 25,8 m, lanterne, croix à 101,5 m. Les quatre clochetons gardent leurs volumes OSM et reçoivent leurs coupoles.
+
+Règles tenues :
+- aucun récit de terrain, kicker « Destination VERSTE » sur chaque scène ;
+- faits datés et sourcés dans les fiches (deux nouvelles : colonne Alexandre, Amirauté) ;
+- maquettes déclarées à l'écran : « Maquettes 3D stylisées · hauteurs : Wikipédia ».
+
+**Images.** Sept images libres de Wikimedia Commons, métadonnées retirées, auteur et licence affichés sous chaque image (sur téléphone aussi) :
+- Pierre-et-Paul vue du ciel et à la nuit blanche ;
+- l'arc de l'état-major ;
+- Saint-Isaac ;
+- le pont du Palais levé ;
+- les bulbes du Sauveur ;
+- les flèches de l'Amirauté.
+
+Sur grand écran, les scènes `gallery` les montrent en grand dans la colonne de texte. Sur téléphone, une vignette s'efface quand la caméra arrive au monument.
+
+**Contrôles.**
+- 62 tests (Sapsan : au sol, de gare à gare, kilomètres du tracé, seul son tracé prévu en pointillé).
+- Aucun débordement à 390, 1280 et 1440 px.
+- `media:check` sans métadonnée de lieu.
+- Scènes vérifiées une à une dans le navigateur.
+
+**Limites.**
+- Le tracé du Sapsan reste schématique.
+- Les maquettes sont des volumes stylisés : pas de façades.
+- L'Ermitage n'est éclairé que dans son bloc OSM principal.

@@ -27,6 +27,8 @@ export type Highlight = {
   within?: LonLat[];
   minHeight?: number;
   color: string;
+  /** Share of the OSM `colour` kept when the part has one (default 0.7). */
+  osm?: number;
 };
 
 export type Outline = { id: string; ring: LonLat[] };
@@ -57,11 +59,12 @@ export type Mark = { id: string; at: LonLat; name: string; ru?: string; sub?: st
 
 /**
  * A vehicle crossing the world while the scene plays: the plane of the
- * opening flight. It flies its leg during `fly` (local progress window),
- * waits on the ground outside it, or stays parked for the whole scene.
+ * opening flight, the Sapsan to Saint Petersburg. It travels its leg during
+ * `fly` (local progress window), waits outside it, or stays parked for the
+ * whole scene.
  */
 export type SceneVehicle = {
-  kind: "avion";
+  kind: "avion" | "train";
   leg: string;
   fly?: [number, number];
   /** Parked for the whole scene at the start (0) or the end (1) of the leg. */
@@ -83,10 +86,16 @@ export type Scene = {
   camera?: CameraView[];
   highlights?: string[];
   outlines?: string[];
-  /** 3D objects shown, with the local progress window in which they rise. */
+  /**
+   * 3D objects that appear during the scene, with the local progress window
+   * of their appearance. Absent before their scene (the OSM volumes show),
+   * standing after it; objects never listed always stand.
+   */
   objects?: { id: string; rise: [number, number] }[];
   /** Light at the start and the end of the scene: -1 dawn, 0 default, 1 deep night. */
   night?: [number, number];
+  /** The white nights of Saint Petersburg at the start and the end of the scene, 0 to 1. */
+  tone?: [number, number];
   /** Relief exaggeration (Nizhny sits on a bluff above the Volga). */
   terrain?: number;
   /** Fortresses whose tower names are shown (the Nizhny kremlin). */
@@ -100,6 +109,10 @@ export type Scene = {
   /** Computed figures shown with the scene, each with its method. */
   figures?: { value: string; label: string; note: string }[];
   media?: string[];
+  /** The photos are the scene's imagery (a destination without field photos): shown large, one after the other. */
+  gallery?: boolean;
+  /** How the 3D objects on screen were made (« Maquettes 3D stylisées … »), shown with the scene. */
+  modelNote?: string;
   /** Time labels for a timed photo sequence (Poklonnaïa: 18 h 36 → 19 h 38). */
   mediaTimes?: string[];
   placeId?: string;

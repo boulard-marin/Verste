@@ -520,3 +520,12 @@ Voir [07-v3-experience-vivante.md](07-v3-experience-vivante.md) :
 - configurateur qui compose le voyage sous les yeux ;
 - suite du voyage à Nijni (La Grande Verste, hockey, forêt) et « D'autres Russie » ;
 - audit 390 / 768 / 1280 / 1440 : aucun débordement ; 59 tests.
+
+### V3.1 · VDNKh et Saint-Pétersbourg · 02/10/2026
+
+Voir [07-v3-experience-vivante.md](07-v3-experience-vivante.md), section I :
+- monument aux Conquérants de l'espace refait : sillage de titane tiré des sections OSM, fusée de 11 m au sommet, lancement rejoué au défilement ;
+- une seule couche 3D pour tous les objets du monde (`lib/map/objects-layer.ts`), reflets du ciel sur les métaux ;
+- le voyage continue en Sapsan jusqu'à Saint-Pétersbourg, sous les nuits blanches : six scènes, cinq maquettes (Pierre-et-Paul, Amirauté, Saint-Isaac, colonne Alexandre, Sauveur-sur-le-Sang-Versé), sept images libres créditées ;
+- destination préparée sur sources : hauteurs lues sur Wikipédia, heures du soleil calculées, aucun récit de terrain ;
+- 62 tests.

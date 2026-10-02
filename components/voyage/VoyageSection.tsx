@@ -1,6 +1,7 @@
 import { findPlace } from "@/data/travel/index";
 import { getJourney } from "@/data/travel/journeys";
 import { flightLegs, flightMarks } from "@/data/voyage/flight";
+import { trainLegs } from "@/data/voyage/sapsan";
 import { grandeVersteGeometry } from "@/data/travel/grande-verste-geometry";
 import { cityMarks, highlights, metroLine1, metroMarks, outlines, scenes } from "@/data/voyage/scenes";
 import { photoOf } from "@/lib/map/data";
@@ -58,8 +59,8 @@ export function VoyageSection() {
       train={{ path: rail.path, stations, duration: `${rail.duration?.value ?? ""} (à recouper sur rzd.ru)` }}
       escalator={sequence}
       fortresses="kremlin-moscou,kremlin-nijni"
-      label="Le voyage, de Paris à Nijni Novgorod"
-      legs={flightLegs}
+      label="Le voyage, de Paris à Nijni Novgorod et Saint-Pétersbourg"
+      legs={{ ...flightLegs, ...trainLegs }}
       marks={[...flightMarks, ...metroMarks, ...cityMarks]}
       lines={[
         { id: "grande-verste", path: grandeVersteGeometry, style: "route" },

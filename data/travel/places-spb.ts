@@ -1,4 +1,4 @@
-import type { Place } from "@/lib/travel/types";
+import type { ISODate, Place } from "@/lib/travel/types";
 
 import { COORDS_WIKI, toConfirm, wiki } from "./proof.ts";
 
@@ -7,6 +7,9 @@ import { COORDS_WIKI, toConfirm, wiki } from "./proof.ts";
  * lived on the ground (the founder's 2026 stay covered Moscow and Nizhny).
  * No field notes, no hours or prices until checked on official sites.
  */
+
+/** Dimensions read on Russian Wikipedia for the journey's Saint Petersburg sequence. */
+const READ: ISODate = "2026-10-02";
 export const spbPlaces: Place[] = [
   {
     id: "ermitage",
@@ -31,7 +34,21 @@ export const spbPlaces: Place[] = [
     coords: [30.31578, 59.93903],
     coordsSource: COORDS_WIKI,
     summary: "La place principale de Saint-Pétersbourg, devant le palais d'Hiver.",
-    media: ["spb-palais-hiver-neva"],
+    facts: [toConfirm("Au centre, la colonne Alexandre ; au sud, l'arc de l'état-major ferme la place.", [wiki("Дворцовая площадь")], undefined, READ)],
+    media: ["spb-arc-etat-major", "spb-palais-hiver-neva"],
+  },
+  {
+    id: "colonne-alexandre",
+    cityId: "saint-petersbourg",
+    ru: "Александровская колонна",
+    fr: "Colonne Alexandre",
+    category: "monument",
+    themes: ["histoire", "architecture"],
+    coords: [30.315815, 59.939043],
+    coordsSource: "OpenStreetMap, centre du monument (02/10/2026)",
+    summary: "La colonne au centre de la place du Palais : un monolithe de granit rose surmonté d'un ange tenant une croix.",
+    facts: [toConfirm("47,5 m avec la statue ; le fût, un seul bloc de granit rose, mesure 25,6 m.", [wiki("Александровская колонна")], undefined, READ)],
+    media: ["spb-arc-etat-major"],
   },
   {
     id: "sauveur-sur-le-sang-verse",
@@ -43,8 +60,11 @@ export const spbPlaces: Place[] = [
     coords: [30.32861, 59.94],
     coordsSource: "Wikipédia (en), coordonnées de l'article",
     summary: "Église-mémorial bâtie au bord du canal Griboïedov, là où l'empereur Alexandre II fut mortellement blessé en 1881.",
-    facts: [toConfirm("Construite sur le lieu de l'attentat du 1er mars 1881 (calendrier julien) contre Alexandre II.", [wiki("Храм Спаса на Крови")])],
-    media: ["spb-canal-griboiedov"],
+    facts: [
+      toConfirm("Construite sur le lieu de l'attentat du 1er mars 1881 (calendrier julien) contre Alexandre II.", [wiki("Храм Спаса на Крови")]),
+      toConfirm("Neuf bulbes : le toit en tente central culmine à 81 m, quatre bulbes émaillés l'entourent, le clocher porte un bulbe doré au-dessus du canal.", [wiki("Храм Спаса на Крови")], undefined, READ),
+    ],
+    media: ["spb-canal-griboiedov", "spb-sauveur-coupoles"],
   },
   {
     id: "forteresse-pierre-et-paul",
@@ -56,8 +76,11 @@ export const spbPlaces: Place[] = [
     coords: [30.317, 59.95],
     coordsSource: COORDS_WIKI,
     summary: "La forteresse sur l'île aux Lièvres, fondée en 1703 : le premier chantier de la ville.",
-    facts: [toConfirm("Fondée en 1703, elle est la plus ancienne construction de la ville.", [wiki("Петропавловская крепость")])],
-    media: [],
+    facts: [
+      toConfirm("Fondée en 1703, elle est la plus ancienne construction de la ville.", [wiki("Петропавловская крепость")]),
+      toConfirm("Au centre, la cathédrale Pierre-et-Paul : sa flèche culmine à 122,5 m, couronnée d'un ange tenant une croix.", [wiki("Петропавловский собор")], undefined, READ),
+    ],
+    media: ["spb-pierre-et-paul-aerien", "spb-nuit-blanche-neva"],
   },
   {
     id: "isaac",
@@ -69,7 +92,21 @@ export const spbPlaces: Place[] = [
     coords: [30.30595, 59.93405],
     coordsSource: COORDS_WIKI,
     summary: "La plus grande église orthodoxe de Saint-Pétersbourg, sur la place Saint-Isaac.",
-    media: [],
+    facts: [toConfirm("Haute de 101,5 m. À 43 m, une colonnade de 24 colonnes fait le tour du tambour de la coupole ; elle est ouverte à la visite.", [wiki("Исаакиевский собор")], undefined, READ)],
+    media: ["spb-isaac-coupole"],
+  },
+  {
+    id: "amiraute",
+    cityId: "saint-petersbourg",
+    ru: "Главное адмиралтейство",
+    fr: "L'Amirauté",
+    category: "monument",
+    themes: ["architecture", "histoire"],
+    coords: [30.308585, 59.937489],
+    coordsSource: "OpenStreetMap, flèche de la tour (02/10/2026)",
+    summary: "À l'origine un chantier naval, au bout de la perspective Nevski : sa flèche dorée porte un petit navire.",
+    facts: [toConfirm("La tour mesure 72 m, dont 23 m de flèche ; le navire de la girouette est l'un des symboles de la ville.", [wiki("Главное адмиралтейство")], undefined, READ)],
+    media: ["spb-amiraute-fleches"],
   },
   {
     id: "perspective-nevski",

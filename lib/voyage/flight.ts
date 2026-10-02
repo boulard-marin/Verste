@@ -4,12 +4,14 @@ import type { LonLat } from "../travel/types.ts";
 import type { Scene, SceneVehicle } from "./types.ts";
 
 /**
- * The plane of the opening flight, as a pure function of scroll: where it
- * is, where it points, how high it flies. Scroll moves the plane itself, not
- * a line that grows. Tested in flight.test.ts.
+ * The plane of the opening flight (and the Sapsan to Saint Petersburg), as a
+ * pure function of scroll: where it is, where it points, how high it flies.
+ * Scroll moves the vehicle itself, not a line that grows. Tested in
+ * flight.test.ts.
  */
 
-export type Leg = { path: LonLat[]; km: number; startKm: number; basis: string };
+/** A leg of the journey. Legs of the same `group` (default: the flight) are planned together. */
+export type Leg = { path: LonLat[]; km: number; startKm: number; basis: string; group?: string };
 export type Legs = Record<string, Leg>;
 
 export type FlightState = { at: LonLat; heading: number; altitude: number; t: number; km: number };
@@ -35,7 +37,7 @@ export function flightState(v: SceneVehicle, local: number, legs: Legs): FlightS
   const parked = v.park !== undefined;
   const t = parked ? v.park! : ease(phase(local, ...(v.fly ?? [0, 1])));
   const at = pointAlong(leg.path, t);
-  const altitude = parked ? 0 : smooth(clamp01(t / CLIMB)) * smooth(clamp01((1 - t) / CLIMB));
+  const altitude = parked || v.kind === "train" ? 0 : smooth(clamp01(t / CLIMB)) * smooth(clamp01((1 - t) / CLIMB));
   // Heading: along the path; at the very end, the direction of arrival.
   const e = 0.012;
   let heading = t > 1 - e ? bearingDeg(pointAlong(leg.path, t - e), at) : bearingDeg(at, pointAlong(leg.path, t + e));
@@ -51,19 +53,21 @@ export function flightState(v: SceneVehicle, local: number, legs: Legs): FlightS
 }
 
 /**
- * Progress of every leg for the scene being played: legs flown by earlier
- * scenes are complete, legs of later scenes not started. The planned route is
- * dotted while a flight scene is on.
+ * Progress of every leg for the scene being played: legs travelled by earlier
+ * scenes are complete, legs of later scenes not started. The planned route of
+ * the vehicle on screen (its group of legs) is dotted while it travels.
  */
 export function routeProgress(scenes: Scene[], current: number, state: FlightState | null, legs: Legs) {
   const flyingScene = new Map<string, number>();
   scenes.forEach((s, i) => {
     if (s.vehicle && s.vehicle.park === undefined && !flyingScene.has(s.vehicle.leg)) flyingScene.set(s.vehicle.leg, i);
   });
-  const showPlanned = Boolean(scenes[current]?.vehicle && scenes[current]?.vehicle?.park === undefined) || scenes[current]?.vehicle?.turnFrom !== undefined;
+  const vehicle = scenes[current]?.vehicle;
+  const moving = Boolean(vehicle && (vehicle.park === undefined || vehicle.turnFrom !== undefined));
+  const group = (id: string) => legs[id]?.group ?? "vol";
   return Object.entries(legs).map(([id, leg]) => {
     const at = flyingScene.get(id);
     const t = at === undefined ? 0 : current > at ? 1 : current < at ? 0 : (state?.t ?? 0);
-    return { path: leg.path, t, showPlanned };
+    return { path: leg.path, t, showPlanned: moving && group(id) === group(vehicle!.leg) };
   });
 }
